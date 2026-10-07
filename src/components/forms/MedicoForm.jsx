@@ -14,7 +14,9 @@ import {
   Mail,
   Phone,
   Video,
-  FileCheck
+  FileCheck,
+  CheckCircle2,
+  Sparkles
 } from 'lucide-react';
 
 export default function MedicoForm() {
@@ -66,11 +68,11 @@ export default function MedicoForm() {
   const turnos = ['Manhã', 'Tarde', 'Noite', 'Integral'];
 
   const textosDisp = {
-    1: 'Disponibilidade 1 • Sob demanda pontual',
-    2: 'Disponibilidade 2 • Carga horária parcial (1 a 2 turnos)',
-    3: 'Disponibilidade 3 • Carga regular (3 a 4 turnos)',
-    4: 'Disponibilidade 4 • Turno integral padrão',
-    5: 'Disponibilidade 5 • Dedicação exclusiva e plantão'
+    1: 'Nível 1 • Sob demanda pontual',
+    2: 'Nível 2 • Carga horária parcial (1 a 2 turnos)',
+    3: 'Nível 3 • Carga regular padrão (3 a 4 turnos)',
+    4: 'Nível 4 • Turno integral padrão',
+    5: 'Nível 5 • Dedicação exclusiva e plantão contínuo'
   };
 
   const handleTelChange = (e) => {
@@ -147,7 +149,10 @@ export default function MedicoForm() {
       <div className="form-container">
         {/* Cabeçalho */}
         <div className="form-header">
-          <div className="form-header-badge">Cadastro #2 • 17 Campos</div>
+          <div className="form-header-badge">
+            <span className="badge-dot"></span>
+            <span>Cadastro 02 • 17 Campos Exigidos</span>
+          </div>
           <h2>Cadastro de Profissional de Saúde</h2>
           <p>Credenciamento completo de especialistas, registros de conselho, escala de plantão, agenda e qualificações.</p>
         </div>
@@ -156,8 +161,10 @@ export default function MedicoForm() {
           {/* SEÇÃO 1: Credenciamento e Formação (6 campos) */}
           <div className="form-section-card">
             <div className="form-section-title">
-              <Award size={18} className="text-emerald-600" />
-              <div>
+              <div className="section-icon-box bg-emerald-subtle text-emerald-600">
+                <Award size={19} />
+              </div>
+              <div className="section-title-text">
                 <h3>1. Credenciamento & Especialidade Clínica</h3>
                 <span>Registro profissional e titulação acadêmica</span>
               </div>
@@ -178,7 +185,7 @@ export default function MedicoForm() {
                   onChange={(e) => setFormData(prev => ({ ...prev, nome: e.target.value }))}
                   required
                 />
-                <small className="form-help">Nome de apresentação na escala e prontuário.</small>
+                <small className="form-help">Nome de apresentação na escala e no cabeçalho dos receituários.</small>
               </div>
 
               {/* Campo 2: Titulação */}
@@ -196,7 +203,7 @@ export default function MedicoForm() {
                     <option key={t} value={t}>{t}</option>
                   ))}
                 </select>
-                <small className="form-help">Forma de tratamento acadêmico.</small>
+                <small className="form-help">Forma de tratamento acadêmico protocolar.</small>
               </div>
             </div>
 
@@ -209,13 +216,13 @@ export default function MedicoForm() {
                 <input
                   type="text"
                   id="medRegistro"
-                  className="form-control"
+                  className="form-control font-mono"
                   placeholder="Ex: CRM 123456"
                   value={formData.registro}
                   onChange={(e) => setFormData(prev => ({ ...prev, registro: e.target.value }))}
                   required
                 />
-                <small className="form-help">Número oficial de inscrição ativa.</small>
+                <small className="form-help">Número oficial de inscrição ativa no órgão regulador.</small>
               </div>
 
               {/* Campo 4: UF do Conselho */}
@@ -234,7 +241,7 @@ export default function MedicoForm() {
                     <option key={uf} value={uf}>{uf} - Conselho Regional</option>
                   ))}
                 </select>
-                <small className="form-help">Estado da federação de emissão do registro.</small>
+                <small className="form-help">Estado da federação responsável pela expedição do registro.</small>
               </div>
             </div>
 
@@ -256,7 +263,7 @@ export default function MedicoForm() {
                     <option key={esp} value={esp}>{esp}</option>
                   ))}
                 </select>
-                <small className="form-help">Área de atuação na clínica.</small>
+                <small className="form-help">Área de residência médica ou título de especialista registrado.</small>
               </div>
 
               {/* Campo 6: Segunda Especialidade */}
@@ -272,16 +279,18 @@ export default function MedicoForm() {
                   value={formData.subespecialidade}
                   onChange={(e) => setFormData(prev => ({ ...prev, subespecialidade: e.target.value }))}
                 />
-                <small className="form-help">Área de pós-graduação ou fellowship complementar.</small>
+                <small className="form-help">Área de pós-graduação, fellowship ou especialização avançada.</small>
               </div>
             </div>
           </div>
 
-          {/* SEÇÃO 2: Contatos e Agenda (6 campos) */}
+          {/* SEÇÃO 2: Contatos e Agenda (7 campos) */}
           <div className="form-section-card">
             <div className="form-section-title">
-              <Calendar size={18} className="text-blue-600" />
-              <div>
+              <div className="section-icon-box bg-blue-subtle text-blue-600">
+                <Calendar size={19} />
+              </div>
+              <div className="section-title-text">
                 <h3>2. Contato Profissional & Parametrização de Agenda</h3>
                 <span>Canais internos, escala semanal, turnos e cor no calendário</span>
               </div>
@@ -302,7 +311,7 @@ export default function MedicoForm() {
                   onChange={(e) => setFormData(prev => ({ ...prev, email: e.target.value }))}
                   required
                 />
-                <small className="form-help">Para recebimento de avisos de novas consultas.</small>
+                <small className="form-help">Endereço eletrônico corporativo para envio de relatórios e escala.</small>
               </div>
 
               {/* Campo 8: Telefone / Ramal */}
@@ -313,13 +322,13 @@ export default function MedicoForm() {
                 <input
                   type="tel"
                   id="medTelefone"
-                  className="form-control"
+                  className="form-control font-mono"
                   placeholder="(11) 3000-0000"
                   maxLength={15}
                   value={formData.telefone}
                   onChange={handleTelChange}
                 />
-                <small className="form-help">Contato direto para a recepção e enfermagem.</small>
+                <small className="form-help">Contato direto da linha interna para a recepção e enfermagem.</small>
               </div>
             </div>
 
@@ -332,13 +341,13 @@ export default function MedicoForm() {
                 <input
                   type="number"
                   id="medExperiencia"
-                  className="form-control"
+                  className="form-control font-mono"
                   min="0"
                   max="60"
                   value={formData.experiencia}
                   onChange={(e) => setFormData(prev => ({ ...prev, experiencia: parseInt(e.target.value) || 0 }))}
                 />
-                <small className="form-help">Anos de prática clínica ativa.</small>
+                <small className="form-help">Anos completos de prática médica após graduação.</small>
               </div>
 
               {/* Campo 10: Disponibilidade Slider */}
@@ -360,7 +369,7 @@ export default function MedicoForm() {
                     {textosDisp[formData.disponibilidade]}
                   </div>
                 </div>
-                <small className="form-help">Ajuste de 1 (pontual) a 5 (plantão contínuo).</small>
+                <small className="form-help">Nível de prontidão para escalas extraordinárias.</small>
               </div>
             </div>
 
@@ -380,7 +389,7 @@ export default function MedicoForm() {
                   />
                   <div className="color-info-text">
                     <span className="font-mono text-sm font-semibold">{formData.corAgenda}</span>
-                    <span className="text-xs text-slate-500">Cor exibida nas marcações da agenda</span>
+                    <span className="text-xs text-slate-500">Cor de destaque nos blocos da agenda clínica</span>
                   </div>
                 </div>
               </div>
@@ -430,15 +439,17 @@ export default function MedicoForm() {
                   );
                 })}
               </div>
-              <small className="form-help">Selecione todos os dias em que o especialista atende na clínica.</small>
+              <small className="form-help">Selecione todos os dias em que o especialista atende presencialmente.</small>
             </div>
           </div>
 
-          {/* SEÇÃO 3: Faturamento, Telemedicina e Bio (5 campos) */}
+          {/* SEÇÃO 3: Faturamento, Telemedicina e Bio (4 campos) */}
           <div className="form-section-card">
             <div className="form-section-title">
-              <DollarSign size={18} className="text-amber-600" />
-              <div>
+              <div className="section-icon-box bg-amber-subtle text-amber-600">
+                <DollarSign size={19} />
+              </div>
+              <div className="section-title-text">
                 <h3>3. Honorários, Modalidades & Perfil</h3>
                 <span>Valor de consulta, atendimento remoto e biografia curricular</span>
               </div>
@@ -455,7 +466,7 @@ export default function MedicoForm() {
                   <input
                     type="number"
                     id="medValorConsulta"
-                    className="form-control"
+                    className="form-control font-mono"
                     min="50"
                     step="10"
                     placeholder="250.00"
@@ -503,16 +514,19 @@ export default function MedicoForm() {
                   className="file-input-hidden"
                   onChange={handleFileChange}
                 />
-                <label htmlFor="medDocRegistro" className="file-dropzone-label">
+                <label htmlFor="medDocRegistro" className={`file-dropzone-label ${fileName ? 'has-file' : ''}`}>
                   <div className="file-icon-box">
-                    <Upload size={20} />
+                    {fileName ? <FileCheck size={22} className="text-emerald-600" /> : <Upload size={22} />}
                   </div>
                   <div className="file-text-box">
                     <span className="file-title">
                       {fileName ? fileName : 'Clique para anexar diploma ou comprovante do conselho'}
                     </span>
-                    <span className="file-subtitle">Formatos aceitos: PDF, JPG, PNG (máx. 10MB)</span>
+                    <span className="file-subtitle">Formatos aceitos: PDF, JPG, PNG (limite máximo de até 10MB)</span>
                   </div>
+                  {fileName && (
+                    <span className="file-selected-badge">Documento Anexado</span>
+                  )}
                 </label>
               </div>
             </div>
@@ -530,7 +544,7 @@ export default function MedicoForm() {
                 value={formData.biografia}
                 onChange={(e) => setFormData(prev => ({ ...prev, biografia: e.target.value }))}
               />
-              <small className="form-help">Apresentação curricular exibida na ficha do profissional.</small>
+              <small className="form-help">Apresentação curricular exibida no prontuário e ficha do profissional.</small>
             </div>
           </div>
 
@@ -538,11 +552,11 @@ export default function MedicoForm() {
           <div className="form-actions-bar">
             <button type="submit" className="btn-primary">
               <Save size={18} />
-              Salvar Cadastro de Especialista (17 Campos)
+              <span>Salvar Cadastro de Especialista (17 Campos)</span>
             </button>
             <button type="button" onClick={handleReset} className="btn-secondary">
               <RotateCcw size={16} />
-              Limpar Formulário
+              <span>Limpar Formulário</span>
             </button>
           </div>
         </form>

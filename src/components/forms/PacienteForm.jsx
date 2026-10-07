@@ -15,7 +15,9 @@ import {
   FileText,
   MapPin,
   HeartPulse,
-  AlertTriangle
+  AlertTriangle,
+  CheckCircle2,
+  FileCheck
 } from 'lucide-react';
 
 export default function PacienteForm() {
@@ -134,9 +136,12 @@ export default function PacienteForm() {
   return (
     <div className="tab-pane active">
       <div className="form-container">
-        {/* Cabeçalho */}
+        {/* Cabeçalho do Formulário */}
         <div className="form-header">
-          <div className="form-header-badge">Cadastro #1 • 17 Campos</div>
+          <div className="form-header-badge">
+            <span className="badge-dot"></span>
+            <span>Cadastro 01 • 17 Campos Exigidos</span>
+          </div>
           <h2>Ficha Cadastral do Paciente</h2>
           <p>Preencha os dados completos de identificação, contato de emergência, cobertura de saúde e prontuário.</p>
         </div>
@@ -145,10 +150,12 @@ export default function PacienteForm() {
           {/* SEÇÃO 1: Identificação Civil (6 campos) */}
           <div className="form-section-card">
             <div className="form-section-title">
-              <User size={18} className="text-blue-600" />
-              <div>
+              <div className="section-icon-box bg-blue-subtle text-blue-600">
+                <User size={19} />
+              </div>
+              <div className="section-title-text">
                 <h3>1. Identificação Civil e Pessoal</h3>
-                <span>Dados do paciente e registros civis oficiais</span>
+                <span>Dados de registro oficial do paciente</span>
               </div>
             </div>
 
@@ -167,13 +174,13 @@ export default function PacienteForm() {
                   onChange={(e) => setFormData(prev => ({ ...prev, nome: e.target.value }))}
                   required
                 />
-                <small className="form-help">Nome civil completo conforme documento de identidade.</small>
+                <small className="form-help">Nome civil completo conforme documento oficial com foto.</small>
               </div>
 
               {/* Campo 2: Nome Social */}
               <div className="form-group">
                 <label htmlFor="pacNomeSocial" className="form-label">
-                  Nome Social / Como prefere ser chamado(a)
+                  Nome Social / Tratamento Preferencial
                 </label>
                 <input
                   type="text"
@@ -183,7 +190,7 @@ export default function PacienteForm() {
                   value={formData.nomeSocial}
                   onChange={(e) => setFormData(prev => ({ ...prev, nomeSocial: e.target.value }))}
                 />
-                <small className="form-help">Forma de tratamento preferencial no atendimento.</small>
+                <small className="form-help">Forma como o paciente prefere ser chamado na recepção e consultório.</small>
               </div>
             </div>
 
@@ -196,14 +203,14 @@ export default function PacienteForm() {
                 <input
                   type="text"
                   id="pacCpf"
-                  className="form-control"
+                  className="form-control font-mono"
                   placeholder="000.000.000-00"
                   maxLength={14}
                   value={formData.cpf}
                   onChange={handleCpfChange}
                   required
                 />
-                <small className="form-help">Cadastro de Pessoa Física (11 dígitos).</small>
+                <small className="form-help">Cadastro de Pessoa Física (11 dígitos formatados com máscara).</small>
               </div>
 
               {/* Campo 4: Data de Nascimento */}
@@ -219,7 +226,7 @@ export default function PacienteForm() {
                   onChange={(e) => setFormData(prev => ({ ...prev, dataNasc: e.target.value }))}
                   required
                 />
-                <small className="form-help">Utilizado para cálculo da faixa etária no prontuário.</small>
+                <small className="form-help">Utilizado para cálculo automático da faixa etária no prontuário.</small>
               </div>
             </div>
 
@@ -263,7 +270,7 @@ export default function PacienteForm() {
                     <option key={ec} value={ec}>{ec}</option>
                   ))}
                 </select>
-                <small className="form-help">Registro civil do paciente.</small>
+                <small className="form-help">Registro civil para fins de cadastro hospitalar e internação.</small>
               </div>
             </div>
           </div>
@@ -271,10 +278,12 @@ export default function PacienteForm() {
           {/* SEÇÃO 2: Contatos e Endereço (5 campos) */}
           <div className="form-section-card">
             <div className="form-section-title">
-              <Mail size={18} className="text-emerald-600" />
-              <div>
+              <div className="section-icon-box bg-emerald-subtle text-emerald-600">
+                <Mail size={19} />
+              </div>
+              <div className="section-title-text">
                 <h3>2. Contatos & Endereço Residencial</h3>
-                <span>Canais de comunicação e contato para emergências</span>
+                <span>Canais de comunicação e contato em caso de emergência</span>
               </div>
             </div>
 
@@ -293,7 +302,7 @@ export default function PacienteForm() {
                   onChange={(e) => setFormData(prev => ({ ...prev, email: e.target.value }))}
                   required
                 />
-                <small className="form-help">Para envio de receitas, laudos e lembretes.</small>
+                <small className="form-help">Canal para envio de receitas digitais, laudos e lembretes.</small>
               </div>
 
               {/* Campo 8: Telefone / WhatsApp */}
@@ -304,14 +313,14 @@ export default function PacienteForm() {
                 <input
                   type="tel"
                   id="pacTelefone"
-                  className="form-control"
+                  className="form-control font-mono"
                   placeholder="(11) 90000-0000"
                   maxLength={15}
                   value={formData.telefone}
                   onChange={handleTelChange}
                   required
                 />
-                <small className="form-help">Contato prioritário para confirmação de agendamentos.</small>
+                <small className="form-help">Contato prioritário para confirmação e avisos de consulta.</small>
               </div>
             </div>
 
@@ -324,16 +333,16 @@ export default function PacienteForm() {
                 <input
                   type="tel"
                   id="pacTelEmergencia"
-                  className="form-control"
+                  className="form-control font-mono"
                   placeholder="(11) 98888-7777"
                   maxLength={15}
                   value={formData.telEmergencia}
                   onChange={handleTelEmergenciaChange}
                 />
-                <small className="form-help">Contato secundário em casos de urgência.</small>
+                <small className="form-help">Número secundário acionado apenas em casos de intercorrência.</small>
               </div>
 
-              {/* Campo 10: Contato de Emergência (Nome/Parentesco) */}
+              {/* Campo 10: Contato de Emergência */}
               <div className="form-group">
                 <label htmlFor="pacContatoEmergencia" className="form-label">
                   Nome e Parentesco do Contato de Emergência
@@ -346,12 +355,12 @@ export default function PacienteForm() {
                   value={formData.contatoEmergencia}
                   onChange={(e) => setFormData(prev => ({ ...prev, contatoEmergencia: e.target.value }))}
                 />
-                <small className="form-help">Pessoa responsável em situações emergenciais.</small>
+                <small className="form-help">Identificação da pessoa responsável em situações críticas.</small>
               </div>
             </div>
 
             {/* Campo 11: Endereço */}
-            <div className="form-group mt-2">
+            <div className="form-group mt-3">
               <label htmlFor="pacEndereco" className="form-label">
                 Endereço Residencial Completo
               </label>
@@ -363,15 +372,17 @@ export default function PacienteForm() {
                 value={formData.endereco}
                 onChange={(e) => setFormData(prev => ({ ...prev, endereco: e.target.value }))}
               />
-              <small className="form-help">Logradouro, número, complemento, bairro e cidade.</small>
+              <small className="form-help">Logradouro, número, complemento, bairro, cidade e UF.</small>
             </div>
           </div>
 
           {/* SEÇÃO 3: Cobertura, Saúde e Prontuário (6 campos) */}
           <div className="form-section-card">
             <div className="form-section-title">
-              <ShieldCheck size={18} className="text-purple-600" />
-              <div>
+              <div className="section-icon-box bg-purple-subtle text-purple-600">
+                <ShieldCheck size={19} />
+              </div>
+              <div className="section-title-text">
                 <h3>3. Cobertura de Saúde & Informações Clínicas</h3>
                 <span>Plano de saúde, alergias, tipo sanguíneo e restrições</span>
               </div>
@@ -399,7 +410,7 @@ export default function PacienteForm() {
                   <option value="O+">O Positivo (O+)</option>
                   <option value="O-">O Negativo (O-)</option>
                 </select>
-                <small className="form-help">Fator sanguíneo registrado para segurança cirúrgica.</small>
+                <small className="form-help">Registro fundamental para segurança anestésica e cirúrgica.</small>
               </div>
 
               {/* Campo 13: Possui Convênio? (Toggle Switch) */}
@@ -419,7 +430,7 @@ export default function PacienteForm() {
                   </label>
                   <div className="toggle-text-block">
                     <strong>{formData.temConvenio ? 'Convênio Ativo' : 'Atendimento Particular'}</strong>
-                    <span>{formData.temConvenio ? 'Cobertura via operadora' : 'Faturamento particular na recepção'}</span>
+                    <span>{formData.temConvenio ? 'Cobertura via operadora de saúde' : 'Faturamento particular na recepção'}</span>
                   </div>
                 </div>
               </div>
@@ -434,12 +445,12 @@ export default function PacienteForm() {
                 <input
                   type="text"
                   id="pacNumCarteirinha"
-                  className="form-control"
+                  className="form-control font-mono"
                   placeholder="Ex: UNIMED-992014-00"
                   value={formData.numCarteirinha}
                   onChange={(e) => setFormData(prev => ({ ...prev, numCarteirinha: e.target.value }))}
                 />
-                <small className="form-help">Código de autorização impresso na carteirinha física ou digital.</small>
+                <small className="form-help">Código de identificação constante na carteirinha física ou digital.</small>
               </div>
             )}
 
@@ -483,16 +494,19 @@ export default function PacienteForm() {
                   className="file-input-hidden"
                   onChange={handleFileChange}
                 />
-                <label htmlFor="pacFotoDoc" className="file-dropzone-label">
+                <label htmlFor="pacFotoDoc" className={`file-dropzone-label ${fileName ? 'has-file' : ''}`}>
                   <div className="file-icon-box">
-                    <Upload size={20} />
+                    {fileName ? <FileCheck size={22} className="text-emerald-600" /> : <Upload size={22} />}
                   </div>
                   <div className="file-text-box">
                     <span className="file-title">
-                      {fileName ? fileName : 'Clique para selecionar o documento'}
+                      {fileName ? fileName : 'Clique para selecionar o documento com foto'}
                     </span>
-                    <span className="file-subtitle">Formatos aceitos: PDF, PNG, JPG (até 10MB)</span>
+                    <span className="file-subtitle">Formatos aceitos: PDF, PNG, JPG (limite máximo de até 10MB)</span>
                   </div>
+                  {fileName && (
+                    <span className="file-selected-badge">Arquivo Pronto</span>
+                  )}
                 </label>
               </div>
             </div>
@@ -510,19 +524,19 @@ export default function PacienteForm() {
                 value={formData.observacoesGerais}
                 onChange={(e) => setFormData(prev => ({ ...prev, observacoesGerais: e.target.value }))}
               />
-              <small className="form-help">Anotações clínicas gerais visíveis no prontuário.</small>
+              <small className="form-help">Anotações clínicas gerais visíveis para toda a equipe médica.</small>
             </div>
           </div>
 
-          {/* Barra de Ações */}
+          {/* Barra de Ações do Formulário */}
           <div className="form-actions-bar">
             <button type="submit" className="btn-primary">
               <Save size={18} />
-              Salvar Cadastro de Paciente (17 Campos)
+              <span>Salvar Cadastro de Paciente (17 Campos)</span>
             </button>
             <button type="button" onClick={handleReset} className="btn-secondary">
               <RotateCcw size={16} />
-              Limpar Formulário
+              <span>Limpar Formulário</span>
             </button>
           </div>
         </form>

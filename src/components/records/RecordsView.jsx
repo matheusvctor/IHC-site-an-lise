@@ -10,7 +10,11 @@ import {
   CalendarPlus,
   Users,
   Calendar,
-  AlertCircle
+  AlertCircle,
+  FileText,
+  Filter,
+  CheckCircle2,
+  X
 } from 'lucide-react';
 
 export default function RecordsView() {
@@ -47,7 +51,7 @@ export default function RecordsView() {
     a.data.includes(searchTerm)
   );
 
-  // Helper para obter iniciais
+  // Helper para obter iniciais elegantes
   const getInitials = (name) => {
     if (!name) return '??';
     const parts = name.replace(/^(Dr\.|Dra\.)\s*/i, '').trim().split(' ');
@@ -61,8 +65,12 @@ export default function RecordsView() {
         {/* Cabeçalho da Lista */}
         <div className="records-header">
           <div className="records-title-group">
+            <div className="records-badge">
+              <Database size={13} />
+              <span>Memória LocalStorage</span>
+            </div>
             <h2>Banco de Registros Cadastrados</h2>
-            <p>Gerencie dados armazenados localmente com busca instantânea e filtros por categoria.</p>
+            <p>Gerencie dados clínicos armazenados localmente com busca instantânea e filtros por categoria.</p>
           </div>
 
           <div className="records-controls-row">
@@ -82,12 +90,12 @@ export default function RecordsView() {
                   onClick={() => setSearchTerm('')}
                   aria-label="Limpar busca"
                 >
-                  &times;
+                  <X size={14} />
                 </button>
               )}
             </div>
 
-            {/* Sub-abas de Alternância */}
+            {/* Sub-abas de Alternância em Segmented Control */}
             <div className="records-filter-tabs">
               <button
                 className={`subtab-btn ${activeSubtab === 'pacientes' ? 'active' : ''}`}
@@ -140,17 +148,17 @@ export default function RecordsView() {
                     <tr>
                       <td colSpan="7" className="empty-state">
                         <div className="empty-state-box">
-                          <AlertCircle size={36} className="text-slate-300 mx-auto mb-2" />
+                          <AlertCircle size={38} className="text-slate-300 mx-auto mb-2" />
                           <p className="font-semibold text-slate-700">Nenhum paciente localizado</p>
                           <span className="text-sm text-slate-500">
-                            {searchTerm ? 'Tente buscar com outro termo.' : 'Adicione o primeiro paciente preenchendo a ficha cadastral.'}
+                            {searchTerm ? 'Tente refazer a busca com outro termo.' : 'Adicione o primeiro paciente preenchendo a ficha cadastral.'}
                           </span>
                           {!searchTerm && (
                             <button
                               onClick={() => setActiveTab('cad-paciente')}
                               className="btn-primary mt-3 inline-flex items-center gap-1.5"
                             >
-                              <UserPlus size={15} /> Cadastrar Paciente
+                              <UserPlus size={15} /> <span>Cadastrar Paciente</span>
                             </button>
                           )}
                         </div>
@@ -166,7 +174,7 @@ export default function RecordsView() {
                             </div>
                             <div className="user-name-block">
                               <span className="font-bold text-slate-900">{p.nome}</span>
-                              <span className="text-xs text-slate-500">{p.sexo}</span>
+                              <span className="text-xs text-slate-500">{p.nomeSocial ? `(${p.nomeSocial}) • ` : ''}{p.sexo}</span>
                             </div>
                           </div>
                         </td>
@@ -193,7 +201,7 @@ export default function RecordsView() {
                             <button
                               className="table-btn-action"
                               onClick={() => setSelectedDetail({ type: 'paciente', data: p })}
-                              title="Ver ficha completa"
+                              title="Ver ficha completa do paciente"
                             >
                               <Eye size={14} />
                               <span>Ficha</span>
@@ -243,17 +251,17 @@ export default function RecordsView() {
                     <tr>
                       <td colSpan="7" className="empty-state">
                         <div className="empty-state-box">
-                          <AlertCircle size={36} className="text-slate-300 mx-auto mb-2" />
+                          <AlertCircle size={38} className="text-slate-300 mx-auto mb-2" />
                           <p className="font-semibold text-slate-700">Nenhum profissional localizado</p>
                           <span className="text-sm text-slate-500">
-                            {searchTerm ? 'Tente buscar por outro termo.' : 'Cadastre um especialista para liberar a marcação de consultas.'}
+                            {searchTerm ? 'Tente refazer a busca com outro termo.' : 'Cadastre um especialista para liberar a marcação de consultas.'}
                           </span>
                           {!searchTerm && (
                             <button
                               onClick={() => setActiveTab('cad-medico')}
                               className="btn-primary mt-3 inline-flex items-center gap-1.5"
                             >
-                              <Stethoscope size={15} /> Cadastrar Especialista
+                              <Stethoscope size={15} /> <span>Cadastrar Especialista</span>
                             </button>
                           )}
                         </div>
@@ -292,14 +300,14 @@ export default function RecordsView() {
                           </span>
                         </td>
                         <td>
-                          <strong className="text-slate-900">R$ {m.valorConsulta}</strong>
+                          <strong className="text-slate-900 font-mono">R$ {m.valorConsulta}</strong>
                         </td>
                         <td className="text-right">
                           <div className="actions-cell">
                             <button
                               className="table-btn-action"
                               onClick={() => setSelectedDetail({ type: 'medico', data: m })}
-                              title="Ver dados do médico"
+                              title="Ver ficha completa do médico"
                             >
                               <Eye size={14} />
                               <span>Ficha</span>
@@ -349,7 +357,7 @@ export default function RecordsView() {
                     <tr>
                       <td colSpan="7" className="empty-state">
                         <div className="empty-state-box">
-                          <AlertCircle size={36} className="text-slate-300 mx-auto mb-2" />
+                          <AlertCircle size={38} className="text-slate-300 mx-auto mb-2" />
                           <p className="font-semibold text-slate-700">Nenhum agendamento agendado</p>
                           <span className="text-sm text-slate-500">
                             {searchTerm ? 'Nenhum resultado com esse filtro.' : 'Agende a primeira consulta selecionando paciente e médico.'}
@@ -359,7 +367,7 @@ export default function RecordsView() {
                               onClick={() => setActiveTab('cad-agendamento')}
                               className="btn-primary mt-3 inline-flex items-center gap-1.5"
                             >
-                              <CalendarPlus size={15} /> Agendar Consulta
+                              <CalendarPlus size={15} /> <span>Agendar Consulta</span>
                             </button>
                           )}
                         </div>

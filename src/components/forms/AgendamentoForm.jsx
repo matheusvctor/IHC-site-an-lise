@@ -13,7 +13,11 @@ import {
   Thermometer,
   CreditCard,
   Building,
-  Video
+  Video,
+  FileCheck,
+  CheckCircle2,
+  Calendar,
+  HeartPulse
 } from 'lucide-react';
 
 export default function AgendamentoForm() {
@@ -71,11 +75,11 @@ export default function AgendamentoForm() {
   ];
 
   const getPainBadgeInfo = (val) => {
-    if (val === 0) return { text: 'Nível 0 • Sem dor ou desconforto', className: 'pain-0' };
-    if (val <= 3) return { text: `Nível ${val} • Dor leve e tolerável`, className: 'pain-0' };
-    if (val <= 6) return { text: `Nível ${val} • Dor moderada (interfere em atividades)`, className: 'pain-1' };
-    if (val <= 8) return { text: `Nível ${val} • Dor intensa e incapacitante`, className: 'pain-2' };
-    return { text: `Nível ${val} • Dor extrema / Emergencial`, className: 'pain-2' };
+    if (val === 0) return { text: 'Nível 0 • Ausência de dor', className: 'pain-0', emoji: '🟢' };
+    if (val <= 3) return { text: `Nível ${val} • Dor leve e tolerável`, className: 'pain-0', emoji: '🟢' };
+    if (val <= 6) return { text: `Nível ${val} • Dor moderada (interfere na rotina)`, className: 'pain-1', emoji: '🟡' };
+    if (val <= 8) return { text: `Nível ${val} • Dor intensa e incapacitante`, className: 'pain-2', emoji: '🟠' };
+    return { text: `Nível ${val} • Dor extrema / Emergencial`, className: 'pain-2', emoji: '🔴' };
   };
 
   const handleFileChange = (e) => {
@@ -134,7 +138,10 @@ export default function AgendamentoForm() {
       <div className="form-container">
         {/* Cabeçalho */}
         <div className="form-header">
-          <div className="form-header-badge">Cadastro #3 • 16 Campos</div>
+          <div className="form-header-badge">
+            <span className="badge-dot"></span>
+            <span>Cadastro 03 • 16 Campos Exigidos</span>
+          </div>
           <h2>Agendamento de Consulta & Triagem Clínica</h2>
           <p>Associe paciente e médico, defina data, sala, modalidade, formato e realize a triagem sintomática completa.</p>
         </div>
@@ -143,8 +150,10 @@ export default function AgendamentoForm() {
           {/* SEÇÃO 1: Vinculação, Horários e Sala (6 campos) */}
           <div className="form-section-card">
             <div className="form-section-title">
-              <UserCheck size={18} className="text-blue-600" />
-              <div>
+              <div className="section-icon-box bg-blue-subtle text-blue-600">
+                <UserCheck size={19} />
+              </div>
+              <div className="section-title-text">
                 <h3>1. Participantes, Horários & Local de Atendimento</h3>
                 <span>Selecione paciente, médico, data, hora, duração e consultório</span>
               </div>
@@ -178,7 +187,7 @@ export default function AgendamentoForm() {
                     </button>.
                   </small>
                 ) : (
-                  <small className="form-help">Lista sincronizada dinamicamente com os pacientes do sistema.</small>
+                  <small className="form-help">Lista sincronizada dinamicamente com os pacientes gravados no sistema.</small>
                 )}
               </div>
 
@@ -209,7 +218,7 @@ export default function AgendamentoForm() {
                     </button>.
                   </small>
                 ) : (
-                  <small className="form-help">Especialista que conduzirá a consulta médica.</small>
+                  <small className="form-help">Especialista que conduzirá o atendimento no consultório ou telemedicina.</small>
                 )}
               </div>
             </div>
@@ -228,7 +237,7 @@ export default function AgendamentoForm() {
                   onChange={(e) => setFormData(prev => ({ ...prev, data: e.target.value }))}
                   required
                 />
-                <small className="form-help">Data agendada no calendário clínico.</small>
+                <small className="form-help">Data de reserva da sala na grade da clínica.</small>
               </div>
 
               {/* Campo 4: Hora */}
@@ -244,7 +253,7 @@ export default function AgendamentoForm() {
                   onChange={(e) => setFormData(prev => ({ ...prev, hora: e.target.value }))}
                   required
                 />
-                <small className="form-help">Horário de abertura do atendimento.</small>
+                <small className="form-help">Horário exato agendado para o início da consulta médica.</small>
               </div>
             </div>
 
@@ -257,14 +266,14 @@ export default function AgendamentoForm() {
                 <input
                   type="number"
                   id="agdDuracaoMin"
-                  className="form-control"
+                  className="form-control font-mono"
                   min="15"
                   max="180"
                   step="15"
                   value={formData.duracaoMin}
                   onChange={(e) => setFormData(prev => ({ ...prev, duracaoMin: parseInt(e.target.value) || 30 }))}
                 />
-                <small className="form-help">Tempo de reserva na sala (ex: 30, 45 ou 60 minutos).</small>
+                <small className="form-help">Tempo padrão de permanência na sala (ex: 30, 45 ou 60 minutos).</small>
               </div>
 
               {/* Campo 6: Sala / Consultório (Select) */}
@@ -282,18 +291,20 @@ export default function AgendamentoForm() {
                     <option key={c} value={c}>{c}</option>
                   ))}
                 </select>
-                <small className="form-help">Espaço reservado na estrutura da clínica.</small>
+                <small className="form-help">Instalação física alocada para os procedimentos ou anamnese.</small>
               </div>
             </div>
           </div>
 
-          {/* SEÇÃO 2: Modalidade e Formato (2 campos com layout amplo e espaçoso) */}
+          {/* SEÇÃO 2: Modalidade e Formato (2 campos amplos e confortáveis) */}
           <div className="form-section-card">
             <div className="form-section-title">
-              <Building size={18} className="text-emerald-600" />
-              <div>
+              <div className="section-icon-box bg-emerald-subtle text-emerald-600">
+                <Building size={19} />
+              </div>
+              <div className="section-title-text">
                 <h3>2. Modalidade & Formato de Atendimento</h3>
-                <span>Definição do tipo de sessão e canal (físico presencial ou telemedicina online)</span>
+                <span>Definição do tipo de sessão e canal (presencial ou telemedicina online)</span>
               </div>
             </div>
 
@@ -327,7 +338,7 @@ export default function AgendamentoForm() {
               </div>
             </div>
 
-            {/* Campo 8: Formato (Cards com ícones dedicados e sem aperto de espaço) */}
+            {/* Campo 8: Formato (Cards com ícones dedicados e layout espaçoso) */}
             <div className="form-group mt-4">
               <label className="form-label">
                 Formato da Consulta <span className="required">*</span>
@@ -371,15 +382,17 @@ export default function AgendamentoForm() {
                   </div>
                 </label>
               </div>
-              <small className="form-help">Escolha se o paciente comparecerá à unidade ou será atendido online.</small>
+              <small className="form-help">Escolha se o paciente comparecerá à unidade física ou será atendido online.</small>
             </div>
           </div>
 
           {/* SEÇÃO 3: Triagem Clínica e Sinais Vitais (4 campos) */}
           <div className="form-section-card">
             <div className="form-section-title">
-              <Activity size={18} className="text-purple-600" />
-              <div>
+              <div className="section-icon-box bg-purple-subtle text-purple-600">
+                <HeartPulse size={19} />
+              </div>
+              <div className="section-title-text">
                 <h3>3. Triagem de Enfermagem & Sinais Vitais</h3>
                 <span>Escala analógica de dor, classificação Manchester e aferições</span>
               </div>
@@ -403,11 +416,12 @@ export default function AgendamentoForm() {
                   />
                   <div className="pain-indicator-pill">
                     <span className={`pain-badge ${painInfo.className}`}>
-                      {painInfo.text}
+                      <span className="pain-emoji">{painInfo.emoji}</span>
+                      <span>{painInfo.text}</span>
                     </span>
                   </div>
                 </div>
-                <small className="form-help">Indicador visual da intensidade de dor relatada pelo paciente.</small>
+                <small className="form-help">Indicador visual da intensidade de desconforto expressa pelo paciente.</small>
               </div>
 
               {/* Campo 10: Manchester (Select) */}
@@ -441,12 +455,12 @@ export default function AgendamentoForm() {
                 <input
                   type="text"
                   id="agdPressao"
-                  className="form-control"
+                  className="form-control font-mono"
                   placeholder="Ex: 120/80"
                   value={formData.pressaoArterial}
                   onChange={(e) => setFormData(prev => ({ ...prev, pressaoArterial: e.target.value }))}
                 />
-                <small className="form-help">Aferição prévia realizada na triagem de enfermagem.</small>
+                <small className="form-help">Aferição prévia realizada na triagem pré-consulta pela enfermagem.</small>
               </div>
 
               {/* Campo 12: Temperatura */}
@@ -460,12 +474,12 @@ export default function AgendamentoForm() {
                   min="34"
                   max="43"
                   id="agdTemperatura"
-                  className="form-control"
+                  className="form-control font-mono"
                   placeholder="Ex: 36.5"
                   value={formData.temperatura}
                   onChange={(e) => setFormData(prev => ({ ...prev, temperatura: e.target.value }))}
                 />
-                <small className="form-help">Temperatura axilar em graus Celsius.</small>
+                <small className="form-help">Temperatura axilar aferida com termômetro clínico.</small>
               </div>
             </div>
           </div>
@@ -473,8 +487,10 @@ export default function AgendamentoForm() {
           {/* SEÇÃO 4: Faturamento, Avisos e Queixa (4 campos) */}
           <div className="form-section-card">
             <div className="form-section-title">
-              <CalendarCheck size={18} className="text-amber-600" />
-              <div>
+              <div className="section-icon-box bg-amber-subtle text-amber-600">
+                <CalendarCheck size={19} />
+              </div>
+              <div className="section-title-text">
                 <h3>4. Faturamento, Anexo & Queixa Principal</h3>
                 <span>Forma de pagamento, notificações, laudos prévios e sintomas</span>
               </div>
@@ -496,7 +512,7 @@ export default function AgendamentoForm() {
                     <option key={fp} value={fp}>{fp}</option>
                   ))}
                 </select>
-                <small className="form-help">Modalidade acordada para liquidação do atendimento.</small>
+                <small className="form-help">Modalidade combinada para liquidação do atendimento na recepção.</small>
               </div>
 
               {/* Campo 14: Checkbox Notificação */}
@@ -517,7 +533,7 @@ export default function AgendamentoForm() {
                       <Bell size={18} className="text-emerald-600 flex-shrink-0" />
                       <div>
                         <strong>Enviar confirmação imediata por SMS e WhatsApp</strong>
-                        <p>Dispara mensagem com data, horário, preparo e endereço.</p>
+                        <p>Dispara mensagem instantânea com instruções, preparo e endereço.</p>
                       </div>
                     </label>
                   </div>
@@ -538,9 +554,9 @@ export default function AgendamentoForm() {
                   className="file-input-hidden"
                   onChange={handleFileChange}
                 />
-                <label htmlFor="agdAnexoExame" className="file-dropzone-label">
+                <label htmlFor="agdAnexoExame" className={`file-dropzone-label ${fileName ? 'has-file' : ''}`}>
                   <div className="file-icon-box">
-                    <Upload size={20} />
+                    {fileName ? <FileCheck size={22} className="text-emerald-600" /> : <Upload size={22} />}
                   </div>
                   <div className="file-text-box">
                     <span className="file-title">
@@ -548,6 +564,9 @@ export default function AgendamentoForm() {
                     </span>
                     <span className="file-subtitle">Formatos aceitos: PDF, JPG, PNG (laudos anteriores, raio-x, ecografia)</span>
                   </div>
+                  {fileName && (
+                    <span className="file-selected-badge">Exame Anexado</span>
+                  )}
                 </label>
               </div>
             </div>
@@ -566,7 +585,7 @@ export default function AgendamentoForm() {
                 onChange={(e) => setFormData(prev => ({ ...prev, observacoes: e.target.value }))}
                 required
               />
-              <small className="form-help">Informações clínicas lidas pelo médico antes do início da consulta.</small>
+              <small className="form-help">Informações clínicas lidas pelo médico antes do início do atendimento.</small>
             </div>
           </div>
 
@@ -574,11 +593,11 @@ export default function AgendamentoForm() {
           <div className="form-actions-bar">
             <button type="submit" className="btn-primary">
               <Save size={18} />
-              Confirmar e Agendar Consulta (16 Campos)
+              <span>Confirmar e Agendar Consulta (16 Campos)</span>
             </button>
             <button type="button" onClick={handleReset} className="btn-secondary">
               <RotateCcw size={16} />
-              Limpar Formulário
+              <span>Limpar Formulário</span>
             </button>
           </div>
         </form>

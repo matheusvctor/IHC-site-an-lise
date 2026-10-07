@@ -10,7 +10,10 @@ import {
   Activity,
   RotateCcw,
   X,
-  Sparkles
+  Sparkles,
+  ShieldCheck,
+  ChevronRight,
+  ClipboardList
 } from 'lucide-react';
 
 export default function Sidebar() {
@@ -25,13 +28,23 @@ export default function Sidebar() {
     setIsMobileMenuOpen
   } = useClinic();
 
-  const navItems = [
+  const primaryNavItems = [
     {
       id: 'dashboard',
       label: 'Visão Geral',
       icon: LayoutDashboard,
-      desc: 'Métricas e atalhos'
+      desc: 'Métricas e atalhos rápidos'
     },
+    {
+      id: 'registros',
+      label: 'Banco de Registros',
+      icon: Database,
+      badge: `${pacientes.length + medicos.length + agendamentos.length}`,
+      desc: 'Gerenciamento local'
+    }
+  ];
+
+  const formNavItems = [
     {
       id: 'cad-paciente',
       label: 'Novo Paciente',
@@ -52,20 +65,16 @@ export default function Sidebar() {
       icon: CalendarPlus,
       badge: '16 campos',
       desc: 'Consultas e triagem'
-    },
-    {
-      id: 'registros',
-      label: 'Banco de Registros',
-      icon: Database,
-      badge: `${pacientes.length + medicos.length + agendamentos.length}`,
-      desc: 'Consulta e gestão local'
-    },
+    }
+  ];
+
+  const complianceNavItems = [
     {
       id: 'ihc-info',
       label: 'Mapeamento ISO 9241-17',
       icon: FileSpreadsheet,
       badge: '50 campos',
-      desc: 'Inventário da norma'
+      desc: 'Inventário ergonômico'
     }
   ];
 
@@ -80,13 +89,17 @@ export default function Sidebar() {
       )}
 
       <aside className={`sidebar ${isMobileMenuOpen ? 'mobile-open' : ''}`}>
+        {/* Topo do Menu / Identidade Visual */}
         <div className="sidebar-header">
-          <div className="brand-logo">
+          <div className="brand-logo" onClick={() => setActiveTab('dashboard')} style={{ cursor: 'pointer' }}>
             <div className="logo-icon-box">
-              <Activity size={22} className="text-cyan-400" />
+              <Activity size={22} className="logo-svg" />
             </div>
             <div className="brand-info">
-              <h2>MedFlow</h2>
+              <div className="brand-name-row">
+                <h2>MedFlow</h2>
+                <span className="brand-version-pill">CLINIC OS</span>
+              </div>
               <span className="badge-ihc">IHC • ISO 9241-17</span>
             </div>
           </div>
@@ -94,22 +107,76 @@ export default function Sidebar() {
           <button
             className="mobile-close-btn"
             onClick={() => setIsMobileMenuOpen(false)}
-            aria-label="Fechar menu"
+            aria-label="Fechar menu de navegação"
           >
             <X size={20} />
           </button>
         </div>
 
+        {/* Lista de Navegação Estruturada por Seções */}
         <nav className="sidebar-nav">
-          <div className="nav-section-title">Menu Principal</div>
-          {navItems.map(item => {
+          <div className="nav-section-title">PAINEL & REGISTROS</div>
+          {primaryNavItems.map(item => {
             const Icon = item.icon;
             const isActive = activeTab === item.id;
             return (
               <button
                 key={item.id}
                 className={`nav-item ${isActive ? 'active' : ''}`}
-                onClick={() => setActiveTab(item.id)}
+                onClick={() => {
+                  setActiveTab(item.id);
+                  if (isMobileMenuOpen) setIsMobileMenuOpen(false);
+                }}
+              >
+                <div className="nav-item-icon-wrapper">
+                  <Icon size={18} />
+                </div>
+                <div className="nav-item-text">
+                  <span className="nav-label">{item.label}</span>
+                  <span className="nav-desc">{item.desc}</span>
+                </div>
+                {item.badge && <span className="field-count">{item.badge}</span>}
+              </button>
+            );
+          })}
+
+          <div className="nav-section-title mt-4">FORMULÁRIOS DE CADASTRO (15+ CAMPOS)</div>
+          {formNavItems.map(item => {
+            const Icon = item.icon;
+            const isActive = activeTab === item.id;
+            return (
+              <button
+                key={item.id}
+                className={`nav-item ${isActive ? 'active' : ''}`}
+                onClick={() => {
+                  setActiveTab(item.id);
+                  if (isMobileMenuOpen) setIsMobileMenuOpen(false);
+                }}
+              >
+                <div className="nav-item-icon-wrapper">
+                  <Icon size={18} />
+                </div>
+                <div className="nav-item-text">
+                  <span className="nav-label">{item.label}</span>
+                  <span className="nav-desc">{item.desc}</span>
+                </div>
+                {item.badge && <span className="field-count">{item.badge}</span>}
+              </button>
+            );
+          })}
+
+          <div className="nav-section-title mt-4">AVALIAÇÃO & CONFORMIDADE</div>
+          {complianceNavItems.map(item => {
+            const Icon = item.icon;
+            const isActive = activeTab === item.id;
+            return (
+              <button
+                key={item.id}
+                className={`nav-item ${isActive ? 'active' : ''}`}
+                onClick={() => {
+                  setActiveTab(item.id);
+                  if (isMobileMenuOpen) setIsMobileMenuOpen(false);
+                }}
               >
                 <div className="nav-item-icon-wrapper">
                   <Icon size={18} />
@@ -124,22 +191,30 @@ export default function Sidebar() {
           })}
         </nav>
 
+        {/* Rodapé da Barra Lateral */}
         <div className="sidebar-footer">
           <div className="student-info-card">
             <div className="student-info-header">
-              <Sparkles size={14} className="text-cyan-400" />
-              <span>Requisitos IHC Atendidos</span>
+              <ShieldCheck size={16} className="text-emerald-400" />
+              <span>Conformidade ISO 9241-17</span>
             </div>
-            <p><strong>Disciplina:</strong> IHC</p>
-            <p><strong>Total Geral:</strong> 50 campos (14 tipos)</p>
-            <p><strong>Mínimo:</strong> 15+ campos em CADA formulário</p>
+            <div className="student-info-body">
+              <div className="metric-row">
+                <span className="metric-label">Total de Campos:</span>
+                <span className="metric-value">50 (14 tipos)</span>
+              </div>
+              <div className="metric-row">
+                <span className="metric-label">Por Formulário:</span>
+                <span className="metric-badge">15+ campos</span>
+              </div>
+            </div>
             <button
               onClick={loadDemoData}
-              className="btn-secondary-sm flex items-center justify-center gap-1.5"
+              className="btn-demo-data"
               title="Restaurar dados de teste demonstrativos"
             >
               <RotateCcw size={13} />
-              Carregar Dados Exemplo
+              <span>Carregar Dados Demo</span>
             </button>
           </div>
         </div>
