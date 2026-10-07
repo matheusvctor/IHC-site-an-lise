@@ -68,7 +68,26 @@ export function ClinicProvider({ children }) {
   const [agendamentoDraft, setAgendamentoDraft] = useState(DEFAULT_AGENDAMENTO_FORM);
   const [agendamentoUndo, setAgendamentoUndo] = useState(null);
 
-  const [activeTab, setActiveTab] = useState('dashboard');
+  const [activeTab, setActiveTabState] = useState(() => {
+    const hash = window.location.hash.replace('#', '');
+    return ['cad-paciente', 'cad-medico', 'cad-agendamento', 'registros', 'ihc-info', 'dashboard'].includes(hash) ? hash : 'dashboard';
+  });
+
+  const setActiveTab = (tab) => {
+    setActiveTabState(tab);
+    window.location.hash = tab;
+  };
+
+  useEffect(() => {
+    const handleHash = () => {
+      const hash = window.location.hash.replace('#', '');
+      if (['cad-paciente', 'cad-medico', 'cad-agendamento', 'registros', 'ihc-info', 'dashboard'].includes(hash)) {
+        setActiveTabState(hash);
+      }
+    };
+    window.addEventListener('hashchange', handleHash);
+    return () => window.removeEventListener('hashchange', handleHash);
+  }, []);
   const [activeSubtab, setActiveSubtab] = useState('pacientes');
   const [toasts, setToasts] = useState([]);
   const [selectedDetail, setSelectedDetail] = useState(null);
