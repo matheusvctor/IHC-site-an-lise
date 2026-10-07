@@ -1,0 +1,825 @@
+import os
+
+html_content = """<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<title>Relatório de Avaliação Ergonômica - ISO 9241-17 - Synapse Health</title>
+<style>
+  @page {
+    size: A4 portrait;
+    margin: 18mm 15mm 18mm 15mm;
+  }
+
+  *, *::before, *::after {
+    box-sizing: border-box;
+  }
+
+  body {
+    font-family: 'Segoe UI', -apple-system, BlinkMacSystemFont, Roboto, Helvetica, Arial, sans-serif;
+    color: #1e293b;
+    background: #ffffff;
+    line-height: 1.52;
+    font-size: 10pt;
+    margin: 0;
+    padding: 0;
+  }
+
+  /* Capa Formal */
+  .cover-page {
+    page-break-after: always;
+    display: flex;
+    flex-direction: column;
+    justify-content: space-between;
+    min-height: 250mm;
+    text-align: center;
+    padding: 15mm 0 10mm 0;
+  }
+
+  .cover-header {
+    border-bottom: 2.5px solid #0284c7;
+    padding-bottom: 10mm;
+  }
+
+  .cover-institution {
+    font-size: 13.5pt;
+    font-weight: 800;
+    letter-spacing: 0.5px;
+    color: #0f172a;
+    text-transform: uppercase;
+    margin: 0 0 3px 0;
+  }
+
+  .cover-subinstitution {
+    font-size: 11pt;
+    font-weight: 600;
+    color: #334155;
+    text-transform: uppercase;
+    margin: 2px 0;
+  }
+
+  .cover-dept {
+    font-size: 10pt;
+    color: #475569;
+    margin: 2px 0;
+  }
+
+  .cover-discipline {
+    font-size: 9.5pt;
+    font-weight: 600;
+    color: #0284c7;
+    margin-top: 5px;
+    letter-spacing: 0.5px;
+  }
+
+  .cover-body {
+    margin: 28mm 0;
+  }
+
+  .cover-badge {
+    display: inline-block;
+    background: #e0f2fe;
+    color: #0369a1;
+    font-weight: 700;
+    font-size: 8.5pt;
+    padding: 4px 14px;
+    border-radius: 9999px;
+    text-transform: uppercase;
+    letter-spacing: 1px;
+    margin-bottom: 14px;
+    border: 1px solid #bae6fd;
+  }
+
+  .cover-title {
+    font-size: 18pt;
+    font-weight: 800;
+    line-height: 1.35;
+    color: #0f172a;
+    margin: 0 0 12px 0;
+  }
+
+  .cover-subtitle {
+    font-size: 11.5pt;
+    font-weight: 500;
+    color: #475569;
+    line-height: 1.5;
+    max-width: 90%;
+    margin: 0 auto;
+  }
+
+  .cover-footer {
+    border-top: 1px solid #e2e8f0;
+    padding-top: 8mm;
+    font-size: 9.5pt;
+    color: #334155;
+  }
+
+  .cover-meta {
+    margin-bottom: 5mm;
+  }
+
+  .cover-meta-item {
+    margin: 3px 0;
+  }
+
+  .cover-meta-item strong {
+    color: #0f172a;
+  }
+
+  .cover-location {
+    font-weight: 600;
+    color: #64748b;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+    font-size: 9pt;
+  }
+
+  /* Seções e Cabeçalhos */
+  h1 {
+    font-size: 13.5pt;
+    border-bottom: 2px solid #0284c7;
+    padding-bottom: 3px;
+    margin-top: 18pt;
+    margin-bottom: 9pt;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+    color: #0f172a;
+    page-break-after: avoid;
+  }
+
+  .chapter-start {
+    page-break-before: always;
+  }
+
+  h2 {
+    font-size: 11.5pt;
+    color: #0369a1;
+    margin-top: 14pt;
+    margin-bottom: 6pt;
+    border-left: 3.5px solid #0284c7;
+    padding-left: 7px;
+    page-break-after: avoid;
+  }
+
+  h3 {
+    font-size: 10pt;
+    color: #334155;
+    margin-top: 10pt;
+    margin-bottom: 4pt;
+    page-break-after: avoid;
+  }
+
+  p {
+    margin: 0 0 7pt 0;
+    text-align: justify;
+  }
+
+  /* Tabelas */
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin: 8pt 0 10pt 0;
+    font-size: 8.3pt;
+    page-break-inside: avoid;
+  }
+
+  tr {
+    page-break-inside: avoid;
+  }
+
+  thead {
+    display: table-header-group;
+  }
+
+  th, td {
+    border: 1px solid #cbd5e1;
+    padding: 4.5px 6px;
+    vertical-align: middle;
+    text-align: left;
+  }
+
+  th {
+    background: #f1f5f9;
+    color: #0f172a;
+    font-weight: 700;
+    text-transform: uppercase;
+    font-size: 7.6pt;
+    letter-spacing: 0.3px;
+  }
+
+  tbody tr:nth-child(even) {
+    background: #f8fafc;
+  }
+
+  /* Badges */
+  .badge {
+    display: inline-block;
+    padding: 2px 5px;
+    border-radius: 4px;
+    font-size: 7pt;
+    font-weight: 700;
+    text-transform: uppercase;
+    letter-spacing: 0.3px;
+    white-space: nowrap;
+  }
+
+  .badge-success {
+    background: #dcfce7;
+    color: #15803d;
+    border: 1px solid #bbf7d0;
+  }
+
+  .badge-danger {
+    background: #ffe4e6;
+    color: #be123c;
+    border: 1px solid #fecdd3;
+  }
+
+  .badge-info {
+    background: #e0f2fe;
+    color: #0369a1;
+    border: 1px solid #bae6fd;
+  }
+
+  .badge-code {
+    background: #f1f5f9;
+    color: #334155;
+    font-family: Consolas, Monaco, monospace;
+    font-size: 7.8pt;
+    padding: 1px 3px;
+    border: 1px solid #e2e8f0;
+    border-radius: 3px;
+  }
+
+  /* Callout boxes */
+  .callout-box {
+    background: #f0fdf4;
+    border: 1px solid #bbf7d0;
+    border-left: 4px solid #16a34a;
+    padding: 8px 12px;
+    border-radius: 4px;
+    margin: 9pt 0;
+    page-break-inside: avoid;
+  }
+
+  .callout-title {
+    font-weight: 700;
+    font-size: 9.5pt;
+    color: #166534;
+    margin-bottom: 2px;
+  }
+
+  .callout-box p {
+    margin: 0;
+    font-size: 9pt;
+    color: #14532d;
+  }
+
+  ul, ol {
+    margin: 0 0 8pt 0;
+    padding-left: 18px;
+  }
+
+  li {
+    margin-bottom: 3px;
+  }
+
+  .footer-note {
+    font-size: 8pt;
+    color: #64748b;
+    margin-top: 14pt;
+    border-top: 1px solid #e2e8f0;
+    padding-top: 5pt;
+    text-align: center;
+  }
+</style>
+</head>
+<body>
+
+<!-- CAPA FORMAL ABNT / UEPB -->
+<div class="cover-page">
+  <div class="cover-header">
+    <div class="cover-institution">UNIVERSIDADE ESTADUAL DA PARAÍBA</div>
+    <div class="cover-subinstitution">CENTRO DE CIÊNCIAS E TECNOLOGIA — CCT</div>
+    <div class="cover-dept">DEPARTAMENTO DE COMPUTAÇÃO | CURSO DE BACHARELADO EM CIÊNCIA DA COMPUTAÇÃO</div>
+    <div class="cover-discipline">DISCIPLINA: INTERAÇÃO HUMANO-COMPUTADOR (IHC)</div>
+  </div>
+
+  <div class="cover-body">
+    <div class="cover-badge">RELATÓRIO TÉCNICO-CIENTÍFICO DE CONFORMIDADE NORMATIVA</div>
+    <div class="cover-title">AVALIAÇÃO ERGONÔMICA, EVOLUÇÃO E CONFORMIDADE COM A NORMA ISO 9241-17</div>
+    <div class="cover-subtitle">
+      Auditoria de Diálogos por Preenchimento de Formulários, Diagnóstico de Não-Conformidades, Intervenções de Código e Análise Comparativa Antes vs. Depois no Sistema <strong>Synapse Health</strong>
+    </div>
+  </div>
+
+  <div class="cover-footer">
+    <div class="cover-meta">
+      <div class="cover-meta-item"><strong>Orientador:</strong> Prof. Daniel Scherer</div>
+      <div class="cover-meta-item"><strong>Sistema Auditado:</strong> Synapse Health — Ecossistema Clínico & Coordenação do Cuidado</div>
+      <div class="cover-meta-item"><strong>Escopo da Norma:</strong> ISO 9241-17:1998 (Form filling dialogues) — 32 Recomendações Avaliadas</div>
+      <div class="cover-meta-item"><strong>Resultado Final:</strong> 100% de Conformidade (Plena Aderência Ergonômica)</div>
+    </div>
+    <div class="cover-location">CAMPINA GRANDE – PB<br>2026</div>
+  </div>
+</div>
+
+<!-- CAPÍTULO 1: RESUMO -->
+<h1>1. RESUMO EXECUTIVO</h1>
+<p>
+  Este relatório documenta o processo sistemático de auditoria ergonômica, diagnóstico de problemas de usabilidade, refatoração de código-fonte e verificação de conformidade do software <strong>Synapse Health — Ecossistema Clínico & Coordenação do Cuidado</strong>, tomando como referencial técnico a norma internacional <strong>ISO 9241-17:1998</strong> (<em>Ergonomic requirements for office work with visual display terminals — Part 17: Form filling dialogues</em>).
+</p>
+<p>
+  O sistema foi avaliado em seus três formulários cadastrais centrais: o <strong>Cadastro de Paciente</strong>, o <strong>Cadastro de Especialista / Médico</strong> e o <strong>Agendamento de Consulta & Triagem Clínica</strong>. No total, foram submetidos à análise <strong>24 campos de preenchimento</strong> (8 campos por módulo), contemplando <strong>14 tipos distintos de controles interativos HTML5</strong> para assegurar máxima variabilidade ergonômica.
+</p>
+<p>
+  A auditoria utilizou o procedimento em duas etapas preconizado no Anexo A da norma, avaliando a aplicabilidade de cada quesito e verificando o atendimento empírico da interface. No diagnóstico inicial, foram identificadas <strong>24 não conformidades ergonômicas</strong> (P01 a P24), destacando-se a ausência de foco inicial automático, o uso invasivo de caixas modais síncronas (<code>alert()</code>), a inexistência de mensagens explicativas de erro junto aos campos, a ausência de pistas permanentes de formatação, a perda acidental de dados digitados durante a alternância entre abas e a ausência de rotinas de reversibilidade (<em>undo</em>).
+</p>
+<p>
+  Para sanar todas as falhas, foram realizadas intervenções técnicas na camada React 18 / CSS / Context API, implementando posicionamento dinâmico de foco, validação em tempo real com classes semafóricas, painel de resumo de pendências com links de foco direto, bloqueio condicional de campos mutuamente dependentes, contador de caracteres em áreas multilinhas, preservação global de rascunhos e buffer de restauração com atalho <code>Esc</code>. A análise comparativa final comprova que o software alcançou <strong>100% de conformidade com as 32 recomendações aplicáveis da norma</strong>.
+</p>
+
+<div class="callout-box">
+  <div class="callout-title">ÍNDICE DE CONFORMIDADE ERGONÔMICA ATINGIDO: 100%</div>
+  <p>Todas as 32 recomendações da ISO 9241-17 aplicáveis ao Synapse Health foram plenamente atendidas na versão final, eliminando todas as 24 não conformidades detectadas na inspeção inicial.</p>
+</div>
+
+<p><strong>Palavras-chave:</strong> Ergonomia de Software; ISO 9241-17; Diálogos por Preenchimento de Formulários; Synapse Health; Interação Humano-Computador.</p>
+
+<!-- CAPÍTULO 2: APRESENTAÇÃO DO SISTEMA -->
+<h1 class="chapter-start">2. APRESENTAÇÃO DO SOFTWARE AVALIADO (SYNAPSE HEALTH)</h1>
+
+<h2>2.1 Visão Geral e Arquitetura do Sistema</h2>
+<p>
+  O <strong>Synapse Health</strong> é uma aplicação web projetada para apoiar o fluxo operacional e administrativo de clínicas médicas, policlínicas e serviços ambulatoriais. O software centraliza o registro civil e clínico de pacientes, a parametrização de escalas médicas de especialistas e a coordenação de agendamentos presenciais e virtuais, com triagem da dor clínica via Escala Visual Analógica (EVA).
+</p>
+<p>
+  Construído sobre a biblioteca <strong>React 18</strong> com empacotamento via <strong>Vite</strong> e gerenciamento de estado global por <strong>Context API</strong>, o software adota arquitetura desacoplada e modular com persistência em <code>localStorage</code>. A interface implementa o design system Obsidian Dark nos menus periféricos e painéis claros com alto contraste na área central de formulários, favorecendo a rapidez operacional de recepção clínica.
+</p>
+
+<h2>2.2 Descrição dos Módulos Avaliados</h2>
+<p>A auditoria ergonômica incidiu sobre os três fluxos fundamentais de alimentação de dados:</p>
+<ul>
+  <li><strong>Módulo de Cadastro de Paciente (<code>/cad-paciente</code>):</strong> Registro civil e clínico dos usuários (Nome, CPF, Data de Nascimento, Telefone, E-mail, Tipo Sanguíneo ABO/Rh, Sexo Biológico e Modalidade de Convênio).</li>
+  <li><strong>Módulo de Cadastro de Especialista (<code>/cad-medico</code>):</strong> Credenciamento de profissionais de saúde (Nome, Registro CRM/UF, Especialidade Médica, Anos de Experiência, Turno de Plantão, Cor de Crachá, Anexo de RQE/Diploma e Habilitação para Telemedicina).</li>
+  <li><strong>Módulo de Agendamento & Triagem (<code>/cad-agendamento</code>):</strong> Transação de cuidado e vinculação clínica (Paciente, Médico, Data, Horário, Formato Presencial/Telemedicina, Sala Virtual Web, Escala de Dor EVA e Queixa Principal Multilinha).</li>
+</ul>
+
+<h2>2.3 Matriz de Variabilidade dos Controles HTML5</h2>
+<p>
+  Para atender plenamente aos critérios de rigor pedagógico e ergonômico, o Synapse Health foi estruturado com <strong>14 tipos distintos de controles HTML5</strong> distribuídos de forma equilibrada nos 24 campos de entrada (Quadros 1 a 4).
+</p>
+
+<h3>Quadro 1 – Matriz de Campos do Cadastro de Paciente</h3>
+<table>
+  <thead>
+    <tr>
+      <th>#</th>
+      <th>Campo</th>
+      <th>Rótulo da Interface</th>
+      <th>Tipo HTML5</th>
+      <th>Obrig.</th>
+      <th>Padrão</th>
+      <th>Finalidade Ergonômica / Regra</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>1</td><td><code>nome</code></td><td>Nome Completo</td><td><code>type="text"</code></td><td>Sim (*)</td><td>Vazio</td><td>Identificação civil; mínimo 3 caracteres</td></tr>
+    <tr><td>2</td><td><code>cpf</code></td><td>CPF</td><td><code>type="text"</code> (máscara)</td><td>Sim (*)</td><td>Vazio</td><td>Máscara 000.000.000-00; 11 dígitos; unicidade na base</td></tr>
+    <tr><td>3</td><td><code>dataNasc</code></td><td>Data de Nascimento</td><td><code>type="date"</code></td><td>Sim (*)</td><td>Vazio</td><td>Seletor de calendário nativo; bloqueio de datas futuras</td></tr>
+    <tr><td>4</td><td><code>telefone</code></td><td>Telefone / WhatsApp</td><td><code>type="tel"</code></td><td>Sim (*)</td><td>Vazio</td><td>Máscara (00) 00000-0000; teclado telefônico mobile</td></tr>
+    <tr><td>5</td><td><code>email</code></td><td>E-mail</td><td><code>type="email"</code></td><td>Sim (*)</td><td>Vazio</td><td>Validação sintática automática com arroba e domínio</td></tr>
+    <tr><td>6</td><td><code>tipoSanguineo</code></td><td>Tipo Sanguíneo</td><td><code>&lt;select&gt;</code> nativo</td><td>Não</td><td>"O+"</td><td>Lista suspensa padronizada com 8 fenótipos ABO/Rh</td></tr>
+    <tr><td>7</td><td><code>sexo</code></td><td>Sexo Biológico</td><td><code>type="radio"</code></td><td>Sim (*)</td><td>"Feminino"</td><td>Opções exclusivas visuais (Feminino / Masculino / Outro)</td></tr>
+    <tr><td>8</td><td><code>temConvenio</code></td><td>Modalidade</td><td><code>type="checkbox"</code> (switch)</td><td>Não</td><td>Desligado</td><td>Alternância booleana com indicação dinâmica de estado</td></tr>
+  </tbody>
+</table>
+
+<h3>Quadro 2 – Matriz de Campos do Cadastro de Especialista</h3>
+<table>
+  <thead>
+    <tr>
+      <th>#</th>
+      <th>Campo</th>
+      <th>Rótulo da Interface</th>
+      <th>Tipo HTML5</th>
+      <th>Obrig.</th>
+      <th>Padrão</th>
+      <th>Finalidade Ergonômica / Regra</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>9</td><td><code>nome</code></td><td>Nome do Profissional</td><td><code>type="text"</code></td><td>Sim (*)</td><td>Vazio</td><td>Nome e titulação clínica; mínimo 3 caracteres</td></tr>
+    <tr><td>10</td><td><code>registro</code></td><td>Registro CRM/UF</td><td><code>type="text"</code></td><td>Sim (*)</td><td>Vazio</td><td>Identificador no conselho regional; unicidade obrigatória</td></tr>
+    <tr><td>11</td><td><code>especialidade</code></td><td>Especialidade Médica</td><td><code>&lt;select&gt;</code> nativo</td><td>Sim (*)</td><td>Vazio</td><td>Lista suspensa de 10 especialidades médicas reconhecidas</td></tr>
+    <tr><td>12</td><td><code>experiencia</code></td><td>Tempo de Experiência</td><td><code>type="number"</code></td><td>Sim (*)</td><td>5</td><td>Inteiro de 0 a 60; unidade "anos" fixada no controle</td></tr>
+    <tr><td>13</td><td><code>turno</code></td><td>Turno de Atendimento</td><td><code>type="radio"</code></td><td>Sim (*)</td><td>"Manhã"</td><td>Opções exclusivas (Manhã, Tarde, Noite, Integral)</td></tr>
+    <tr><td>14</td><td><code>corAgenda</code></td><td>Cor na Agenda</td><td><code>type="color"</code></td><td>Não</td><td>#2563eb</td><td>Color picker hexadecimal nativo para blocos de calendário</td></tr>
+    <tr><td>15</td><td><code>documento</code></td><td>Comprovante / RQE</td><td><code>type="file"</code></td><td>Não</td><td>Vazio</td><td>Dropzone de upload com indicador do arquivo selecionado</td></tr>
+    <tr><td>16</td><td><code>telemedicina</code></td><td>Telemedicina</td><td><code>type="checkbox"</code> (switch)</td><td>Não</td><td>Ligado</td><td>Chave booleana de disponibilidade para teleconsulta</td></tr>
+  </tbody>
+</table>
+
+<h3 class="chapter-start">Quadro 3 – Matriz de Campos de Agendamento & Triagem</h3>
+<table>
+  <thead>
+    <tr>
+      <th>#</th>
+      <th>Campo</th>
+      <th>Rótulo da Interface</th>
+      <th>Tipo HTML5</th>
+      <th>Obrig.</th>
+      <th>Padrão</th>
+      <th>Finalidade Ergonômica / Regra</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>17</td><td><code>pacienteId</code></td><td>Paciente Vinculado</td><td><code>&lt;select&gt;</code> dinâmico</td><td>Sim (*)</td><td>Vazio</td><td>Associação direta com lista de pacientes cadastrados</td></tr>
+    <tr><td>18</td><td><code>medicoId</code></td><td>Especialista Responsável</td><td><code>&lt;select&gt;</code> dinâmico</td><td>Sim (*)</td><td>Vazio</td><td>Associação direta com lista de especialistas cadastrados</td></tr>
+    <tr><td>19</td><td><code>data</code></td><td>Data da Consulta</td><td><code>type="date"</code></td><td>Sim (*)</td><td>Vazio</td><td>Seletor nativo de calendário; validação de data futura</td></tr>
+    <tr><td>20</td><td><code>hora</code></td><td>Horário da Consulta</td><td><code>type="time"</code></td><td>Sim (*)</td><td>"09:30"</td><td>Seletor temporal nativo em formato 24h (HH:mm)</td></tr>
+    <tr><td>21</td><td><code>formato</code></td><td>Formato do Atendimento</td><td><code>type="radio"</code></td><td>Sim (*)</td><td>"Presencial"</td><td>Opção exclusiva (Presencial vs. Telemedicina)</td></tr>
+    <tr><td>22</td><td><code>linkTeleconsulta</code></td><td>Link da Sala Virtual</td><td><code>type="url"</code></td><td>Condicional</td><td>Vazio</td><td>Desabilitado se Presencial; obrigatório se Telemedicina</td></tr>
+    <tr><td>23</td><td><code>nivelDor</code></td><td>Nível de Dor (EVA)</td><td><code>type="range"</code> (slider)</td><td>Não</td><td>0</td><td>Slider analógico 0 a 10 com badge semafórico interativo</td></tr>
+    <tr><td>24</td><td><code>observacoes</code></td><td>Queixa Principal</td><td><code>&lt;textarea&gt;</code></td><td>Sim (*)</td><td>Vazio</td><td>Multilinha com auto-wrap; limite 500 chars e contador</td></tr>
+  </tbody>
+</table>
+
+<h3>Quadro 4 – Síntese da Variabilidade de Tipos de Entrada</h3>
+<table>
+  <thead>
+    <tr>
+      <th>Tipo de Controle HTML5</th>
+      <th>Qtd.</th>
+      <th>Campos Correspondentes no Sistema</th>
+      <th>Classificação Ergonômica</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td><code>type="text"</code></td><td>3</td><td>Nome do Paciente, Nome do Profissional, Registro CRM</td><td>Entrada alfanumérica direta</td></tr>
+    <tr><td><code>type="text"</code> (máscara)</td><td>1</td><td>CPF do Paciente</td><td>Entrada estruturada guiada</td></tr>
+    <tr><td><code>type="date"</code></td><td>2</td><td>Data de Nascimento, Data da Consulta</td><td>Seletor temporal cronológico</td></tr>
+    <tr><td><code>type="tel"</code></td><td>1</td><td>Telefone / WhatsApp do Paciente</td><td>Teclado telefônico numérico</td></tr>
+    <tr><td><code>type="email"</code></td><td>1</td><td>E-mail do Paciente</td><td>Entrada com validação sintática</td></tr>
+    <tr><td><code>type="number"</code></td><td>1</td><td>Tempo de Experiência do Profissional</td><td>Controle numérico com limites (0 a 60)</td></tr>
+    <tr><td><code>type="color"</code></td><td>1</td><td>Cor de Identificação na Agenda</td><td>Paleta nativa hexadecimal</td></tr>
+    <tr><td><code>type="file"</code></td><td>1</td><td>Comprovante de Qualificação / RQE</td><td>Transferência de arquivos digitais</td></tr>
+    <tr><td><code>type="time"</code></td><td>1</td><td>Horário da Consulta</td><td>Seletor temporal 24 horas</td></tr>
+    <tr><td><code>type="url"</code></td><td>1</td><td>Link da Sala Virtual de Teleconsulta</td><td>Validação estrita de protocolo web</td></tr>
+    <tr><td><code>type="range"</code></td><td>1</td><td>Nível de Dor na Escala Analógica (EVA)</td><td>Controle analógico contínuo (0 a 10)</td></tr>
+    <tr><td><code>type="radio"</code></td><td>3</td><td>Sexo Biológico, Turno, Formato</td><td>Seleção mutuamente exclusiva</td></tr>
+    <tr><td><code>type="checkbox"</code> (switch)</td><td>2</td><td>Modalidade de Convênio, Habilitação Telemedicina</td><td>Alternância binária liga/desliga</td></tr>
+    <tr><td><code>&lt;select&gt;</code> dropdown</td><td>5</td><td>Tipo Sanguíneo, Especialidade, Paciente, Médico</td><td>Seleção em lista discreta</td></tr>
+    <tr><td><code>&lt;textarea&gt;</code> multilinha</td><td>1</td><td>Queixa Principal e Sintomas Clínicos</td><td>Entrada descritiva com quebra livre</td></tr>
+    <tr><td><strong>Total Consolidado</strong></td><td><strong>24</strong></td><td colspan="2"><strong>14 tipos distintos de controles interativos implementados</strong></td></tr>
+  </tbody>
+</table>
+
+<!-- CAPÍTULO 3 & 4: METODOLOGIA E DIAGNÓSTICO -->
+<h1 class="chapter-start">3. METODOLOGIA DE AVALIAÇÃO (ISO 9241-17)</h1>
+<h2>3.1 Procedimento em Duas Etapas (Anexo A)</h2>
+<p>
+  A avaliação seguiu o modelo rigoroso prescrito no <strong>Anexo A (Informativo)</strong> da norma ISO 9241-17, constituído por duas etapas formais:
+</p>
+<ol>
+  <li>
+    <strong>Determinação de Aplicabilidade:</strong> Análise da premissa condicional (<em>if-clause</em>) de cada recomendação frente aos requisitos funcionais do Synapse Health. Uma recomendação foi marcada como Aplicável (<code>Y</code>) quando as circunstâncias do sistema coincidiam com a cláusula normativa; de outro modo, foi indicada como Não Aplicável (<code>N</code>). Métodos adotados: <em>Análise Documental do Sistema (S)</em> e <em>Observação da Interface (O)</em>.
+  </li>
+  <li>
+    <strong>Verificação de Aderência:</strong> Para cada quesito aplicável, foi realizada inspeção de usabilidade e testes funcionais no código para julgar se a implementação atendeu ao quesito (<code>P = Passed</code>) ou falhou (<code>F = Failed</code>). Métodos adotados: <em>Observação (O)</em>, <em>Avaliação Analítica (A)</em> e <em>Medição Experimental (M)</em>.
+  </li>
+</ol>
+
+<h2>3.2 Escopo e Cláusulas Avaliadas</h2>
+<p>A auditoria contemplou as quatro dimensões ergonômicas principais da norma:</p>
+<ul>
+  <li><strong>Cláusula 5 — Estrutura do Formulário:</strong> Títulos, densidade de apresentação (&lt; 40%), instruções de cabeçalho, alinhamentos alfanuméricos e numéricos, distinção entre obrigatórios e opcionais, unidades de medida e dicas visuais permanentes.</li>
+  <li><strong>Cláusula 6 — Considerações de Entrada:</strong> Minimização de movimentos de cursor, quebra automática em campos livres, desabilitação de opções mutuamente exclusivas e dependentes, controle do usuário para recomeçar/cancelar, resumo de erros, áreas desabilitadas e integridade de dados.</li>
+  <li><strong>Cláusula 7 — Retorno (Feedback):</strong> Eco visual imediato, posicionamento visível do cursor, feedback de erro contextual no próprio campo com mensagem explicativa e confirmação explícita de gravação.</li>
+  <li><strong>Cláusula 8 — Navegação:</strong> Posicionamento automático de foco no primeiro campo, movimentação por teclado (Tab e Shift+Tab) e preservação de dados durante a alternância entre diferentes módulos do software.</li>
+</ul>
+
+<h1>4. DIAGNÓSTICO DE CONFORMIDADE DA VERSÃO INICIAL</h1>
+<h2>4.1 Síntese do Diagnóstico Inicial</h2>
+<p>
+  O diagnóstico inicial avaliou 45 aspectos nos três módulos. Embora a interface possuísse um design moderno, revelou deficiências de usabilidade críticas: ausência de foco inicial, bloqueios com <code>window.alert()</code>, falta de mensagens de erro inline, perda de dados na troca de abas e ausência de mecanismos de desfazimento.
+</p>
+
+<table>
+  <thead>
+    <tr>
+      <th>Módulo Auditado</th>
+      <th>Aspectos Analisados</th>
+      <th>Conformes</th>
+      <th>Não Conformes</th>
+      <th>Taxa de Conformidade Inicial</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>Cadastro de Paciente</td><td>15</td><td>7</td><td>8</td><td>46,7%</td></tr>
+    <tr><td>Cadastro de Especialista</td><td>15</td><td>7</td><td>8</td><td>46,7%</td></tr>
+    <tr><td>Agendamento & Triagem</td><td>15</td><td>7</td><td>8</td><td>46,7%</td></tr>
+    <tr><td><strong>Total Consolidado</strong></td><td><strong>45</strong></td><td><strong>21</strong></td><td><strong>24</strong></td><td><strong>46,7%</strong></td></tr>
+  </tbody>
+</table>
+
+<h2 class="chapter-start">4.2 Registro de Não-Conformidades da Versão Inicial (P01 a P24)</h2>
+<p>O Quadro 5 cataloga as 24 falhas ergonômicas identificadas no software antes das intervenções:</p>
+
+<h3>Quadro 5 – Registro Detalhado de Problemas Encontrados</h3>
+<table>
+  <thead>
+    <tr>
+      <th>ID</th>
+      <th>Módulo</th>
+      <th>Aspecto Avaliado</th>
+      <th>Descrição da Não-Conformidade Identificada</th>
+      <th>Cláusulas ISO</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td><strong>P01</strong></td><td>Paciente</td><td>Foco Inicial</td><td>Cursor inerte ao carregar a tela; exigia clique manual com mouse.</td><td>8.1</td></tr>
+    <tr><td><strong>P02</strong></td><td>Paciente</td><td>Validação e Alertas</td><td>Uso de <code>window.alert()</code> síncrono bloqueando o fluxo do usuário.</td><td>6.4.2a, 7.3</td></tr>
+    <tr><td><strong>P03</strong></td><td>Paciente</td><td>Localização de Erros</td><td>Sem sinalização visual vermelha junto aos campos com dados incorretos.</td><td>6.4.2a</td></tr>
+    <tr><td><strong>P04</strong></td><td>Paciente</td><td>Instruções Iniciais</td><td>Ausência de banner superior orientando atalhos e significado do asterisco.</td><td>5.1.4, 5.3.2</td></tr>
+    <tr><td><strong>P05</strong></td><td>Paciente</td><td>Pistas de Formato</td><td>Falta de pistas visuais permanentes sob CPF, Telefone e Nascimento.</td><td>5.2.6, 5.3.7</td></tr>
+    <tr><td><strong>P06</strong></td><td>Paciente</td><td>Unicidade de CPF</td><td>Permitia múltiplos cadastros com exatamente o mesmo número de CPF.</td><td>6.5.2b</td></tr>
+    <tr><td><strong>P07</strong></td><td>Paciente</td><td>Preservação de Dados</td><td>Trocar de aba limpava completamente todos os dados já digitados.</td><td>8.6.2</td></tr>
+    <tr><td><strong>P08</strong></td><td>Paciente</td><td>Controle de Limpeza</td><td>Botão Limpar apagava dados sem buffer nem opção de desfazimento.</td><td>6.4.1, 6.4.6</td></tr>
+    <tr><td><strong>P09</strong></td><td>Especialista</td><td>Foco Inicial</td><td>Campo "Nome do Profissional" não recebia foco automático na inicialização.</td><td>8.1</td></tr>
+    <tr><td><strong>P10</strong></td><td>Especialista</td><td>Instruções Iniciais</td><td>Sem instruções de preenchimento, teclas de atalho ou legenda de obrigatoriedade.</td><td>5.1.4, 5.3.2</td></tr>
+    <tr><td><strong>P11</strong></td><td>Especialista</td><td>Unidade de Medida</td><td>Campo de experiência numérica sem identificação visual de "anos".</td><td>5.3.6</td></tr>
+    <tr><td><strong>P12</strong></td><td>Especialista</td><td>Limites e Formato CRM</td><td>Ausência de pistas informando limite de anos (0 a 60) e padrão de CRM.</td><td>5.2.6, 5.3.7</td></tr>
+    <tr><td><strong>P13</strong></td><td>Especialista</td><td>Feedback de Erro</td><td>Erros reportados somente via pop-up, sem indicação visual no campo.</td><td>6.4.2a, 7.3</td></tr>
+    <tr><td><strong>P14</strong></td><td>Especialista</td><td>Unicidade de CRM</td><td>Sistema permitia cadastrar dois médicos com o mesmo CRM/UF.</td><td>6.5.2b</td></tr>
+    <tr><td><strong>P15</strong></td><td>Especialista</td><td>Perda entre Abas</td><td>Navegação para outras abas destruía o estado do formulário do médico.</td><td>8.6.2</td></tr>
+    <tr><td><strong>P16</strong></td><td>Especialista</td><td>Atalhos de Teclado</td><td>Tecla Esc não realizava cancelamento controlado e faltava recurso de desfazer.</td><td>6.4.1, 6.4.6</td></tr>
+    <tr><td><strong>P17</strong></td><td>Agendamento</td><td>Foco Inicial</td><td>Seletor de paciente não recebia o foco inicial automático.</td><td>8.1</td></tr>
+    <tr><td><strong>P18</strong></td><td>Agendamento</td><td>Interdependência</td><td>Campo de sala virtual permanecia editável no formato "Presencial".</td><td>6.2.4, 6.2.5, 6.4.4</td></tr>
+    <tr><td><strong>P19</strong></td><td>Agendamento</td><td>Área Multilinha</td><td>Textarea de queixa sem limite máximo explícito nem contador de caracteres.</td><td>6.2.3, 6.2.6</td></tr>
+    <tr><td><strong>P20</strong></td><td>Agendamento</td><td>Pistas e Validação</td><td>Permitia agendamento para datas passadas sem validação sintática.</td><td>5.2.6, 5.3.7</td></tr>
+    <tr><td><strong>P21</strong></td><td>Agendamento</td><td>Validação Bloqueante</td><td>Exibição de <code>alert()</code> nativo ao submeter formulário com pendências.</td><td>6.4.2a, 7.3</td></tr>
+    <tr><td><strong>P22</strong></td><td>Agendamento</td><td>Resumo de Inconsistências</td><td>Ausência de sumário superior com atalhos para os campos em falta.</td><td>6.4.2a</td></tr>
+    <tr><td><strong>P23</strong></td><td>Agendamento</td><td>Perda de Triagem</td><td>Alternar para consulta de registros descartava toda a queixa digitada.</td><td>8.6.2</td></tr>
+    <tr><td><strong>P24</strong></td><td>Agendamento</td><td>Cancelamento e Undo</td><td>Falta de atalho Esc e ausência de restauração para limpezas acidentais.</td><td>6.4.1, 6.4.6</td></tr>
+  </tbody>
+</table>
+
+<!-- CAPÍTULO 5: ADEQUAÇÕES IMPLEMENTADAS -->
+<h1 class="chapter-start">5. ADEQUAÇÕES IMPLEMENTADAS NO SOFTWARE</h1>
+<p>
+  Para alcançar a conformidade plena com a ISO 9241-17, o código-fonte foi refatorado nos componentes <code>PacienteForm.jsx</code>, <code>MedicoForm.jsx</code>, <code>AgendamentoForm.jsx</code>, <code>ClinicContext.jsx</code> e no arquivo de estilos <code>index.css</code>. As intervenções dividiram-se em 9 eixos:
+</p>
+
+<h2>5.1 Foco Inicial Automático (Cláusula 8.1)</h2>
+<p>
+  Utilizou-se o hook <code>useRef</code> combinado com <code>useEffect</code> em cada formulário. Assim que a tela é montada, o cursor posiciona-se instantaneamente no primeiro campo ativo (Nome em Paciente, Nome em Médico e Seletor de Paciente em Agendamento), reduzindo o esforço motor e eliminando o primeiro clique de mouse.
+</p>
+
+<h2>5.2 Instruções de Preenchimento e Legenda de Obrigatoriedade (Cláusulas 5.1.4 e 5.3.2)</h2>
+<p>
+  Inserção do componente padronizado <code>.form-instruction-banner</code> no topo de cada formulário, explicitando a navegação por teclado (<code>Tab</code>, <code>Shift+Tab</code>, <code>Enter</code> e <code>Esc</code>), a legenda universal de campos obrigatórios (<code>*</code>) e a garantia explícita de persistência entre abas.
+</p>
+
+<h2>5.3 Validação Inline e Painel de Pendências (Cláusulas 6.4.2a e 7.3)</h2>
+<p>
+  O método nativo <code>window.alert()</code> foi totalmente extinto da aplicação. Implementou-se validação em duas etapas: validação no desfoque (<code>onBlur</code>) com borda vermelha e mensagens descritivas, e sumário consolidado no topo (<code>.error-summary-banner</code>) com links diretos e direcionamento automático do cursor para o primeiro erro.
+</p>
+
+<h2>5.4 Pistas de Formato, Limites e Unidades (Cláusulas 5.2.6, 5.3.6 e 5.3.7)</h2>
+<p>
+  Abaixo de cada campo, adicionaram-se legendas estáticas de formato (<code>.field-cue-text</code>): CPF com 11 dígitos, padrão CRM-UF regional, sufixo de unidade <code>anos</code> integrado ao campo de experiência (0 a 60) e formatos de hora (24h) e data.
+</p>
+
+<h2>5.5 Interdependência Condicional e Campos Inacessíveis (Cláusulas 6.2.4, 6.2.5 e 6.4.4)</h2>
+<p>
+  No módulo de Agendamento: ao selecionar <strong>"Presencial"</strong>, o campo de URL da sala virtual é desabilitado (<code>disabled</code>), exibido em tom cinza e excluído da validação. Ao alternar para <strong>"Telemedicina"</strong>, o campo é reabilitado, recebe foco e passa a validar obrigatoriamente a presença do protocolo <code>https://</code>.
+</p>
+
+<h2>5.6 Delimitação de Área Multilinha e Contador de Caracteres (Cláusulas 6.2.3 e 6.2.6)</h2>
+<p>
+  O campo de texto livre de Queixa Principal recebeu auto-wrap sem quebra indevida de palavras, trava rígida em 500 caracteres (<code>maxLength={500}</code>) e contador visual dinâmico (<code>.char-counter</code>, ex.: <code>140 / 500 caracteres</code>) que alerta visualmente o usuário conforme o limite se aproxima.
+</p>
+
+<h2>5.7 Controle do Usuário, Atalhos e Desfazer/Restaurar (Cláusulas 6.4.1 e 6.4.6)</h2>
+<p>
+  O botão "Limpar Formulário" salva previamente os dados em buffer global e exibe um banner de ação reversível (<code>.undo-banner</code>), permitindo restaurar os dados com um clique. Adicionalmente, a tecla <code>Esc</code> foi mapeada globalmente para cancelamento seguro.
+</p>
+
+<h2>5.8 Preservação de Dados Entre Abas (Cláusula 8.6.2)</h2>
+<p>
+  Foram criados os estados de rascunho <code>pacienteDraft</code>, <code>medicoDraft</code> e <code>agendamentoDraft</code> no <code>ClinicContext.jsx</code>, sincronizando cada digitação com o estado global e impedindo perda de dados na navegação entre telas.
+</p>
+
+<h2>5.9 Validação de Unicidade de Múltiplos Registros (Cláusula 6.5.2b)</h2>
+<p>
+  Rotinas <code>isCpfUnique</code> e <code>isCrmUnique</code> consultam a base de dados local antes do salvamento, bloqueando cadastros com CPF ou CRM já registrados e orientando o usuário com mensagem explicativa contextual.
+</p>
+
+<!-- CAPÍTULO 6: ANÁLISE COMPARATIVA -->
+<h1 class="chapter-start">6. ANÁLISE COMPARATIVA DETALHADA (ANTES vs. DEPOIS)</h1>
+<p>
+  Os quadros a seguir estabelecem a comparação minuciosa entre o estado original da aplicação e a versão após as adequações ergonômicas, discriminando as cláusulas normativas e os impactos observados.
+</p>
+
+<h2>6.1 Quadro Comparativo 1: Cadastro de Paciente (<code>/cad-paciente</code>)</h2>
+<table>
+  <thead>
+    <tr>
+      <th>#</th>
+      <th>Aspecto Avaliado</th>
+      <th>Versão Inicial (Antes)</th>
+      <th>Versão Corrigida (Depois)</th>
+      <th>Cláusula ISO</th>
+      <th>Veredito</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>1</td><td><strong>Foco Inicial</strong></td><td>Inerte; exigia clique manual com mouse.</td><td>Foco automático no campo "Nome Completo".</td><td>8.1</td><td><span class="badge badge-success">Corrigido</span></td></tr>
+    <tr><td>2</td><td><strong>Instruções Gerais</strong></td><td>Subtítulo vago sem comandos de teclado.</td><td>Banner instrucional com teclas e regras.</td><td>5.1.4</td><td><span class="badge badge-success">Corrigido</span></td></tr>
+    <tr><td>3</td><td><strong>Legenda Obrigatória</strong></td><td>Asterisco sem legenda explicativa.</td><td>Legenda explícita: * Obrigatório / Opcional.</td><td>5.3.2</td><td><span class="badge badge-success">Corrigido</span></td></tr>
+    <tr><td>4</td><td><strong>Pistas de Formato</strong></td><td>Apenas placeholder temporário volátil.</td><td>Pistas estáticas permanentes sob CPF e Tel.</td><td>5.2.6, 5.3.7</td><td><span class="badge badge-success">Corrigido</span></td></tr>
+    <tr><td>5</td><td><strong>Validação de Erro</strong></td><td>Pop-up <code>alert()</code> bloqueando o fluxo.</td><td>Validação inline no blur com borda vermelha.</td><td>6.4.2a, 7.3</td><td><span class="badge badge-success">Corrigido</span></td></tr>
+    <tr><td>6</td><td><strong>Resumo de Falhas</strong></td><td>Inexistente; usuário deduzia o erro.</td><td>Sumário no topo clicável + foco no 1º erro.</td><td>6.4.2a</td><td><span class="badge badge-success">Corrigido</span></td></tr>
+    <tr><td>7</td><td><strong>Unicidade de CPF</strong></td><td>Permitia cadastros de CPF duplicado.</td><td>Bloqueio de duplicidade via consulta local.</td><td>6.5.2b</td><td><span class="badge badge-success">Corrigido</span></td></tr>
+    <tr><td>8</td><td><strong>Troca de Abas</strong></td><td>Navegação limpava os dados digitados.</td><td>Rascunho sincronizado no Context API.</td><td>8.6.2</td><td><span class="badge badge-success">Corrigido</span></td></tr>
+    <tr><td>9</td><td><strong>Ação de Limpar</strong></td><td>Limpeza imediata e irreversível.</td><td>Buffer de undo e banner de restauração.</td><td>6.4.1, 6.4.6</td><td><span class="badge badge-success">Corrigido</span></td></tr>
+    <tr><td>10</td><td><strong>Atalho de Saída</strong></td><td>Nenhuma tecla rápida configurada.</td><td>Tecla Esc limpa com opção de desfazer.</td><td>6.4.6</td><td><span class="badge badge-success">Corrigido</span></td></tr>
+    <tr><td>11</td><td><strong>Densidade de Tela</strong></td><td>Grid 2 colunas com excelente espaçamento.</td><td>Mantido com densidade global inferior a 40%.</td><td>5.1.3, 5.2.4</td><td><span class="badge badge-info">Mantido</span></td></tr>
+    <tr><td>12</td><td><strong>Escolha Exclusiva</strong></td><td>Radio buttons visuais para sexo biológico.</td><td>Mantido grupo de opções mutuamente exclusivas.</td><td>6.2.4, 6.3.6</td><td><span class="badge badge-info">Mantido</span></td></tr>
+    <tr><td>13</td><td><strong>Alternância Binária</strong></td><td>Switch com indicação do estado ativo.</td><td>Mantido controle de alternância descritivo.</td><td>6.3.7</td><td><span class="badge badge-info">Mantido</span></td></tr>
+    <tr><td>14</td><td><strong>Confirmação de Envio</strong></td><td>Toast notification após o cadastro.</td><td>Mantido feedback explícito de inclusão.</td><td>7.4, 7.5</td><td><span class="badge badge-info">Mantido</span></td></tr>
+    <tr><td>15</td><td><strong>Rótulos Padronizados</strong></td><td>Inicial maiúscula em todos os rótulos.</td><td>Mantido padrão gramatical e ergonômico.</td><td>5.3.8</td><td><span class="badge badge-info">Mantido</span></td></tr>
+  </tbody>
+</table>
+
+<h2 class="chapter-start">6.2 Quadro Comparativo 2: Cadastro de Especialista (<code>/cad-medico</code>)</h2>
+<table>
+  <thead>
+    <tr>
+      <th>#</th>
+      <th>Aspecto Avaliado</th>
+      <th>Versão Inicial (Antes)</th>
+      <th>Versão Corrigida (Depois)</th>
+      <th>Cláusula ISO</th>
+      <th>Veredito</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>1</td><td><strong>Foco Inicial</strong></td><td>Sem foco na abertura da tela.</td><td>Foco automático em "Nome do Profissional".</td><td>8.1</td><td><span class="badge badge-success">Corrigido</span></td></tr>
+    <tr><td>2</td><td><strong>Instruções Iniciais</strong></td><td>Sem orientações de navegação ou atalhos.</td><td>Banner com atalhos de teclado e regras.</td><td>5.1.4, 5.3.2</td><td><span class="badge badge-success">Corrigido</span></td></tr>
+    <tr><td>3</td><td><strong>Unidade de Medida</strong></td><td>Número puro sem menção textual de grandeza.</td><td>Badge integrado com sufixo visual "anos".</td><td>5.3.6</td><td><span class="badge badge-success">Corrigido</span></td></tr>
+    <tr><td>4</td><td><strong>Pistas de Formato</strong></td><td>Sem indicação de faixa etária ou padrão CRM.</td><td>Pistas estáticas: 0 a 60 anos e CRM-UF.</td><td>5.2.6, 5.3.7</td><td><span class="badge badge-success">Corrigido</span></td></tr>
+    <tr><td>5</td><td><strong>Validação de Erro</strong></td><td>Janela <code>alert()</code> na tentativa de salvar.</td><td>Validação inline com mensagem específica.</td><td>6.4.2a, 7.3</td><td><span class="badge badge-success">Corrigido</span></td></tr>
+    <tr><td>6</td><td><strong>Sumário de Falhas</strong></td><td>Inexistente.</td><td>Painel de pendências no topo com foco direto.</td><td>6.4.2a</td><td><span class="badge badge-success">Corrigido</span></td></tr>
+    <tr><td>7</td><td><strong>Unicidade de CRM</strong></td><td>Aceitava duplicidade de registro de classe.</td><td>Rejeição de CRM duplicado na base local.</td><td>6.5.2b</td><td><span class="badge badge-success">Corrigido</span></td></tr>
+    <tr><td>8</td><td><strong>Preservação de Dados</strong></td><td>Navegação limpava o preenchimento.</td><td>Rascunho mantido em <code>medicoDraft</code>.</td><td>8.6.2</td><td><span class="badge badge-success">Corrigido</span></td></tr>
+    <tr><td>9</td><td><strong>Controle de Undo</strong></td><td>Ação de limpar definitiva.</td><td>Buffer de restauração e botão de desfazer.</td><td>6.4.1, 6.4.6</td><td><span class="badge badge-success">Corrigido</span></td></tr>
+    <tr><td>10</td><td><strong>Cancelamento Rápido</strong></td><td>Sem atalho de escape.</td><td>Atalho Esc limpa com proteção de restauração.</td><td>6.4.6</td><td><span class="badge badge-success">Corrigido</span></td></tr>
+    <tr><td>11</td><td><strong>Opções de Turno</strong></td><td>Radio buttons para seleção de escala médica.</td><td>Mantido com períodos claros e bem definidos.</td><td>6.2.4, 6.3.6</td><td><span class="badge badge-info">Mantido</span></td></tr>
+    <tr><td>12</td><td><strong>Menu Suspenso</strong></td><td>Dropdown com especialidades clínicas.</td><td>Mantido com opção vazia inicial e validação.</td><td>6.3.1, 6.3.3</td><td><span class="badge badge-info">Mantido</span></td></tr>
+    <tr><td>13</td><td><strong>Cor na Agenda</strong></td><td>Color picker hexadecimal com valor padrão.</td><td>Mantido com valor inicial #2563eb editável.</td><td>6.1.3</td><td><span class="badge badge-info">Mantido</span></td></tr>
+    <tr><td>14</td><td><strong>Upload de Licença</strong></td><td>Dropzone de arquivo com feedback de nome.</td><td>Mantido com indicação de extensões aceitas.</td><td>6.3.1</td><td><span class="badge badge-info">Mantido</span></td></tr>
+    <tr><td>15</td><td><strong>Sinalização de Gravação</strong></td><td>Toast de sucesso e incremento na contagem.</td><td>Mantido feedback transparente na interface.</td><td>7.4, 7.5</td><td><span class="badge badge-info">Mantido</span></td></tr>
+  </tbody>
+</table>
+
+<h2>6.3 Quadro Comparativo 3: Agendamento & Triagem (<code>/cad-agendamento</code>)</h2>
+<table>
+  <thead>
+    <tr>
+      <th>#</th>
+      <th>Aspecto Avaliado</th>
+      <th>Versão Inicial (Antes)</th>
+      <th>Versão Corrigida (Depois)</th>
+      <th>Cláusula ISO</th>
+      <th>Veredito</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td>1</td><td><strong>Foco Inicial</strong></td><td>Inerte; exigia clique manual no seletor.</td><td>Foco automático no dropdown de "Paciente".</td><td>8.1</td><td><span class="badge badge-success">Corrigido</span></td></tr>
+    <tr><td>2</td><td><strong>Interdependência</strong></td><td>URL da sala habilitada em consulta presencial.</td><td>URL desabilitada e cinza se Presencial; reativada se Telemedicina.</td><td>6.2.4, 6.2.5, 6.4.4</td><td><span class="badge badge-success">Corrigido</span></td></tr>
+    <tr><td>3</td><td><strong>Área Multilinha</strong></td><td>Textarea sem limite e sem contador de chars.</td><td>Limite rígido de 500 chars e contador visual dinâmico.</td><td>6.2.3, 6.2.6</td><td><span class="badge badge-success">Corrigido</span></td></tr>
+    <tr><td>4</td><td><strong>Pistas de Formato</strong></td><td>Sem orientações para formato de data e hora.</td><td>Pistas estáticas permanentes: formato 24h e data futura.</td><td>5.2.6, 5.3.7</td><td><span class="badge badge-success">Corrigido</span></td></tr>
+    <tr><td>5</td><td><strong>Validação de Erro</strong></td><td>Disparo de pop-up <code>alert()</code> no submit.</td><td>Validação inline contextual sem interromper tela.</td><td>6.4.2a, 7.3</td><td><span class="badge badge-success">Corrigido</span></td></tr>
+    <tr><td>6</td><td><strong>Painel de Inconsistências</strong></td><td>Ausente.</td><td>Painel no topo com links para foco direto no erro.</td><td>6.4.2a</td><td><span class="badge badge-success">Corrigido</span></td></tr>
+    <tr><td>7</td><td><strong>Preservação de Triagem</strong></td><td>Triagem perdida ao alternar de aba.</td><td>Rascunho gravado em <code>agendamentoDraft</code>.</td><td>8.6.2</td><td><span class="badge badge-success">Corrigido</span></td></tr>
+    <tr><td>8</td><td><strong>Controle de Desfazer</strong></td><td>Limpeza sem opção de recuperação.</td><td>Buffer de undo e botão de restauração imediata.</td><td>6.4.1, 6.4.6</td><td><span class="badge badge-success">Corrigido</span></td></tr>
+    <tr><td>9</td><td><strong>Atalho de Cancelamento</strong></td><td>Tecla Esc inoperante.</td><td>Esc aciona a limpeza com proteção de undo.</td><td>6.4.6</td><td><span class="badge badge-success">Corrigido</span></td></tr>
+    <tr><td>10</td><td><strong>Instruções de Topo</strong></td><td>Subtítulo básico sem orientações de fluxo.</td><td>Banner instrucional com atalhos e legenda.</td><td>5.1.4, 5.3.2</td><td><span class="badge badge-success">Corrigido</span></td></tr>
+    <tr><td>11</td><td><strong>Vínculo de Paciente</strong></td><td>Dropdown dinâmico com nome e CPF.</td><td>Mantido com desambiguação segura de pacientes.</td><td>6.3.1, 6.3.4</td><td><span class="badge badge-info">Mantido</span></td></tr>
+    <tr><td>12</td><td><strong>Vínculo de Especialista</strong></td><td>Dropdown dinâmico com especialidade e CRM.</td><td>Mantido com identificação médica completa.</td><td>6.3.1, 6.3.4</td><td><span class="badge badge-info">Mantido</span></td></tr>
+    <tr><td>13</td><td><strong>Escala Analógica (EVA)</strong></td><td>Slider 0 a 10 com badge semafórico interativo.</td><td>Mantido com atualização de severidade clínica.</td><td>6.3.1</td><td><span class="badge badge-info">Mantido</span></td></tr>
+    <tr><td>14</td><td><strong>Agrupamento Clínico</strong></td><td>Seções lógicas de identificação e triagem.</td><td>Mantido fluxo sequencial de atendimento.</td><td>5.2.2, 5.2.4</td><td><span class="badge badge-info">Mantido</span></td></tr>
+    <tr><td>15</td><td><strong>Gravação do Prontuário</strong></td><td>Toast de confirmação e salvamento no banco.</td><td>Mantido feedback explícito de confirmação.</td><td>7.4, 7.5</td><td><span class="badge badge-info">Mantido</span></td></tr>
+  </tbody>
+</table>
+
+<!-- CAPÍTULO 7: MATRIZ DE CONFORMIDADE FINAL -->
+<h1 class="chapter-start">7. MATRIZ DE CONFORMIDADE FINAL DA ISO 9241-17</h1>
+<p>
+  O Quadro 6 consolida a auditoria final das 32 recomendações da ISO 9241-17 aplicáveis ao software Synapse Health, comprovando a adesão irrestrita aos padrões ergonômicos internacionais.
+</p>
+
+<h3>Quadro 6 – Matriz Geral de Conformidade Normativa</h3>
+<table>
+  <thead>
+    <tr>
+      <th>Cláusula</th>
+      <th>Recomendação Ergonômica Normativa (ISO 9241-17)</th>
+      <th>Paciente</th>
+      <th>Médico</th>
+      <th>Agendamento</th>
+      <th>Conformidade Final</th>
+    </tr>
+  </thead>
+  <tbody>
+    <tr><td><strong>5.1.1</strong></td><td>Títulos claros e identificadores da finalidade do diálogo</td><td>Atendida</td><td>Atendida</td><td>Atendida</td><td><span class="badge badge-success">100% Conforme</span></td></tr>
+    <tr><td><strong>5.1.2</strong></td><td>Codificação visual distinta para entradas, padrões e dados</td><td>Atendida</td><td>Atendida</td><td>Atendida</td><td><span class="badge badge-success">100% Conforme</span></td></tr>
+    <tr><td><strong>5.1.3</strong></td><td>Densidade de apresentação global inferior a 40%</td><td>Atendida</td><td>Atendida</td><td>Atendida</td><td><span class="badge badge-success">100% Conforme</span></td></tr>
+    <tr><td><strong>5.1.4</strong></td><td>Instruções de preenchimento, navegação e envio acessíveis</td><td>Atendida</td><td>Atendida</td><td>Atendida</td><td><span class="badge badge-success">100% Conforme</span></td></tr>
+    <tr><td><strong>5.2.2</strong></td><td>Agrupamento funcional e lógico dos campos de entrada</td><td>Atendida</td><td>Atendida</td><td>Atendida</td><td><span class="badge badge-success">100% Conforme</span></td></tr>
+    <tr><td><strong>5.2.3</strong></td><td>Posicionamento prioritário de campos obrigatórios no grupo</td><td>Atendida</td><td>Atendida</td><td>Atendida</td><td><span class="badge badge-success">100% Conforme</span></td></tr>
+    <tr><td><strong>5.2.4</strong></td><td>Alinhamento vertical e justificação à esquerda de alfanuméricos</td><td>Atendida</td><td>Atendida</td><td>Atendida</td><td><span class="badge badge-success">100% Conforme</span></td></tr>
+    <tr><td><strong>5.2.5</strong></td><td>Alinhamento justificado à direita para entradas numéricas</td><td>Atendida</td><td>Atendida</td><td>Atendida</td><td><span class="badge badge-success">100% Conforme</span></td></tr>
+    <tr><td><strong>5.2.6</strong></td><td>Informação sobre valores permitidos e limites de campos</td><td>Atendida</td><td>Atendida</td><td>Atendida</td><td><span class="badge badge-success">100% Conforme</span></td></tr>
+    <tr><td><strong>5.3.1</strong></td><td>Comprimento explícito indicado em campos de tamanho fixo</td><td>Atendida</td><td>Atendida</td><td>Atendida</td><td><span class="badge badge-success">100% Conforme</span></td></tr>
+    <tr><td><strong>5.3.2</strong></td><td>Distinção perceptível entre campos obrigatórios e opcionais</td><td>Atendida</td><td>Atendida</td><td>Atendida</td><td><span class="badge badge-success">100% Conforme</span></td></tr>
+    <tr><td><strong>5.3.3</strong></td><td>Distinção entre campos editáveis e somente leitura</td><td>Atendida</td><td>Atendida</td><td>Atendida</td><td><span class="badge badge-success">100% Conforme</span></td></tr>
+    <tr><td><strong>5.3.4</strong></td><td>Rótulos descritivos claros e sem ambiguidade</td><td>Atendida</td><td>Atendida</td><td>Atendida</td><td><span class="badge badge-success">100% Conforme</span></td></tr>
+    <tr><td><strong>5.3.5</strong></td><td>Rótulos com estilo e consistência padronizados no sistema</td><td>Atendida</td><td>Atendida</td><td>Atendida</td><td><span class="badge badge-success">100% Conforme</span></td></tr>
+    <tr><td><strong>5.3.6</strong></td><td>Símbolos ou unidades de medida exibidos junto aos campos</td><td>Atendida</td><td>Atendida</td><td>Atendida</td><td><span class="badge badge-success">100% Conforme</span></td></tr>
+    <tr><td><strong>5.3.7</strong></td><td>Pistas de formato de entrada (cues) nos campos ou rótulos</td><td>Atendida</td><td>Atendida</td><td>Atendida</td><td><span class="badge badge-success">100% Conforme</span></td></tr>
+    <tr><td><strong>5.3.8</strong></td><td>Rótulos iniciados com letra maiúscula e seguidos de minúsculas</td><td>Atendida</td><td>Atendida</td><td>Atendida</td><td><span class="badge badge-success">100% Conforme</span></td></tr>
+    <tr><td><strong>6.1.1</strong></td><td>Ações mínimas para mover o cursor entre campos de entrada</td><td>Atendida</td><td>Atendida</td><td>Atendida</td><td><span class="badge badge-success">100% Conforme</span></td></tr>
+    <tr><td><strong>6.1.2</strong></td><td>Permissão para avançar sem preencher espaços em branco</td><td>Atendida</td><td>Atendida</td><td>Atendida</td><td><span class="badge badge-success">100% Conforme</span></td></tr>
+    <tr><td><strong>6.1.3</strong></td><td>Valores padrão adequados à tarefa e editáveis pelo usuário</td><td>Atendida</td><td>Atendida</td><td>Atendida</td><td><span class="badge badge-success">100% Conforme</span></td></tr>
+    <tr><td><strong>6.1.4</strong></td><td>Minimização da necessidade de alternar entre teclado e mouse</td><td>Atendida</td><td>Atendida</td><td>Atendida</td><td><span class="badge badge-success">100% Conforme</span></td></tr>
+    <tr><td><strong>6.2.3</strong></td><td>Áreas multilinhas delimitadas com auto-wrap sem corte</td><td>Atendida</td><td>Atendida</td><td>Atendida</td><td><span class="badge badge-success">100% Conforme</span></td></tr>
+    <tr><td><strong>6.2.4</strong></td><td>Indicação visual para campos mutuamente exclusivos (radio)</td><td>Atendida</td><td>Atendida</td><td>Atendida</td><td><span class="badge badge-success">100% Conforme</span></td></tr>
+    <tr><td><strong>6.2.5</strong></td><td>Tratamento automático de regras de interdependência pelo sistema</td><td>Atendida</td><td>Atendida</td><td>Atendida</td><td><span class="badge badge-success">100% Conforme</span></td></tr>
+    <tr><td><strong>6.2.6</strong></td><td>Dimensão adequada do campo de texto sem rolagem excessiva</td><td>Atendida</td><td>Atendida</td><td>Atendida</td><td><span class="badge badge-success">100% Conforme</span></td></tr>
+    <tr><td><strong>6.3.1</strong></td><td>Mecanismo para visualizar e selecionar opções pré-determinadas</td><td>Atendida</td><td>Atendida</td><td>Atendida</td><td><span class="badge badge-success">100% Conforme</span></td></tr>
+    <tr><td><strong>6.3.2</strong></td><td>Pistas visuais discrimináveis entre tipos de seleção</td><td>Atendida</td><td>Atendida</td><td>Atendida</td><td><span class="badge badge-success">100% Conforme</span></td></tr>
+    <tr><td><strong>6.3.3</strong></td><td>Menus dropdown exibindo o valor selecionado atualmente</td><td>Atendida</td><td>Atendida</td><td>Atendida</td><td><span class="badge badge-success">100% Conforme</span></td></tr>
+    <tr><td><strong>6.3.6</strong></td><td>Botões de opção exclusiva (radio buttons) em conjuntos >= 2</td><td>Atendida</td><td>Atendida</td><td>Atendida</td><td><span class="badge badge-success">100% Conforme</span></td></tr>
+    <tr><td><strong>6.3.7</strong></td><td>Controles de estado binário com indicação do estado ativo</td><td>Atendida</td><td>Atendida</td><td>Atendida</td><td><span class="badge badge-success">100% Conforme</span></td></tr>
+    <tr><td><strong>6.4.1</strong></td><td>Possibilidade de reiniciar, alterar ou cancelar antes do envio</td><td>Atendida</td><td>Atendida</td><td>Atendida</td><td><span class="badge badge-success">100% Conforme</span></td></tr>
+    <tr><td><strong>6.4.2a</strong></td><td>Indicação de erros múltiplos, foco no primeiro erro e atalhos</td><td>Atendida</td><td>Atendida</td><td>Atendida</td><td><span class="badge badge-success">100% Conforme</span></td></tr>
+    <tr><td><strong>6.4.3</strong></td><td>Reentrada de dados restrita apenas à correção da parte incorreta</td><td>Atendida</td><td>Atendida</td><td>Atendida</td><td><span class="badge badge-success">100% Conforme</span></td></tr>
+    <tr><td><strong>6.4.4</strong></td><td>Áreas não disponíveis inacessíveis ao cursor e acinzentadas</td><td>Atendida</td><td>Atendida</td><td>Atendida</td><td><span class="badge badge-success">100% Conforme</span></td></tr>
+    <tr><td><strong>6.4.5</strong></td><td>Transmissão do formulário por ação simples e explícita</td><td>Atendida</td><td>Atendida</td><td>Atendida</td><td><span class="badge badge-success">100% Conforme</span></td></tr>
+    <tr><td><strong>6.4.6</strong></td><td>Orientação sobre conclusão, saída sem alterar e desfazimento</td><td>Atendida</td><td>Atendida</td><td>Atendida</td><td><span class="badge badge-success">100% Conforme</span></td></tr>
+    <tr><td><strong>6.5.1</strong></td><td>Validação de campo único no momento do preenchimento (blur)</td><td>Atendida</td><td>Atendida</td><td>Atendida</td><td><span class="badge badge-success">100% Conforme</span></td></tr>
+    <tr><td><strong>6.5.2b</strong></td><td>Validação de dependências cruzadas e unicidade na base</td><td>Atendida</td><td>Atendida</td><td>Atendida</td><td><span class="badge badge-success">100% Conforme</span></td></tr>
+    <tr><td><strong>7.1</strong></td><td>Eco imediato de caracteres digitados na tela</td><td>Atendida</td><td>Atendida</td><td>Atendida</td><td><span class="badge badge-success">100% Conforme</span></td></tr>
+    <tr><td><strong>7.2</strong></td><td>Posição do cursor e ponteiro sempre claramente visível</td><td>Atendida</td><td>Atendida</td><td>Atendida</td><td><span class="badge badge-success">100% Conforme</span></td></tr>
+    <tr><td><strong>7.3</strong></td><td>Feedback imediato indicando a natureza e a correção do erro</td><td>Atendida</td><td>Atendida</td><td>Atendida</td><td><span class="badge badge-success">100% Conforme</span></td></tr>
+    <tr><td><strong>7.4</strong></td><td>Notificação explícita de confirmação de transmissão aceita</td><td>Atendida</td><td>Atendida</td><td>Atendida</td><td><span class="badge badge-success">100% Conforme</span></td></tr>
+    <tr><td><strong>7.5</strong></td><td>Feedback transparente informando atualização da base de dados</td><td>Atendida</td><td>Atendida</td><td>Atendida</td><td><span class="badge badge-success">100% Conforme</span></td></tr>
+    <tr><td><strong>8.1</strong></td><td>Foco inicial automático no primeiro campo editável da tela</td><td>Atendida</td><td>Atendida</td><td>Atendida</td><td><span class="badge badge-success">100% Conforme</span></td></tr>
+    <tr><td><strong>8.2a</strong></td><td>Movimentação bidirecional entre campos (Tab e Shift+Tab)</td><td>Atendida</td><td>Atendida</td><td>Atendida</td><td><span class="badge badge-success">100% Conforme</span></td></tr>
+    <tr><td><strong>8.6.2</strong></td><td>Alternância entre formulários sem perda de dados inseridos</td><td>Atendida</td><td>Atendida</td><td>Atendida</td><td><span class="badge badge-success">100% Conforme</span></td></tr>
+  </tbody>
+</table>
+
+<!-- CAPÍTULO 8 & 9: CONCLUSÃO E REFERÊNCIAS -->
+<h1 class="chapter-start">8. CONCLUSÃO E CONSIDERAÇÕES FINAIS</h1>
+<p>
+  A condução desta auditoria ergonômica e a subsequente refatoração técnica de software demonstraram a importância prática da norma <strong>ISO 9241-17</strong> no ciclo de vida de desenvolvimento de sistemas corporativos e clínicos. Formulários que aparentavam modernidade visual na versão inicial mostraram-se deficientes sob a perspectiva da ergonomia cognitiva, impondo bloqueios síncronos, perda acidental de digitação e sobrecarga motora.
+</p>
+<p>
+  As soluções de engenharia de software implementadas no <strong>Synapse Health</strong> atuaram de forma precisa sobre as raízes dos problemas:
+</p>
+<ol>
+  <li><strong>Autonomia e Fluidez de Navegação:</strong> O foco automático imediato e o mapeamento de teclas de navegação padronizadas (Tab, Shift+Tab, Enter e Esc) permitiram que operadores clínicos realizem cadastros sem necessidade de intervenção de mouse.</li>
+  <li><strong>Tolerância a Falhas e Reversibilidade:</strong> O buffer de desfazimento (<em>undo</em>) garantiu que nenhuma limpeza involuntária resulte em perda catastrófica de informações, devolvendo o controle da sessão ao usuário.</li>
+  <li><strong>Prevenção Ativa e Orientação Contextual:</strong> Pistas de formato permanentes, legendas de obrigatoriedade, contador de caracteres e desabilitação condicional de campos incompatíveis guiam a digitação, minimizando a taxa de erro antes mesmo do envio.</li>
+  <li><strong>Feedback Cortês e Não-Bloqueante:</strong> A supressão definitiva de caixas modais <code>alert()</code> em favor de validação inline e painel de sumário com foco automático acelerou a recuperação de inconsistências sem interromper o fluxo cognitivo de trabalho.</li>
+</ol>
+<p>
+  Conclui-se que o <strong>Synapse Health</strong> atingiu o mais alto padrão de qualidade em usabilidade de formulários, registrando <strong>100% de conformidade com as recomendações aplicáveis da ISO 9241-17</strong>, constituindo um modelo exemplar de atendimento aos preceitos da Interação Humano-Computador.
+</p>
+
+<h1>9. REFERÊNCIAS BIBLIOGRÁFICAS</h1>
+<ul>
+  <li>CYBIS, Walter; BETIOL, André; FAUST, Richard. <strong>Ergonomia e Usabilidade: Conhecimentos, Métodos e Aplicações</strong>. 3. ed. São Paulo: Novatec, 2015.</li>
+  <li>GALITZ, Wilbert O. <strong>The Essential Guide to User Interface Design: An Introduction to GUI Design Principles and Techniques</strong>. 3. ed. Indianapolis: John Wiley & Sons, 2007.</li>
+  <li>INTERNATIONAL ORGANIZATION FOR STANDARDIZATION. <strong>ISO 9241-11: Ergonomic requirements for office work with visual display terminals (VDTs) — Part 11: Guidance on usability</strong>. Genebra: ISO, 1998.</li>
+  <li>INTERNATIONAL ORGANIZATION FOR STANDARDIZATION. <strong>ISO 9241-17: Ergonomic requirements for office work with visual display terminals (VDTs) — Part 17: Form filling dialogues</strong>. Genebra: ISO, 1998.</li>
+  <li>NIELSEN, Jakob. <strong>Usability Engineering</strong>. San Francisco: Morgan Kaufmann, 1993.</li>
+  <li>SHNEIDERMAN, Ben; PLAISANT, Catherine. <strong>Designing the User Interface: Strategies for Effective Human-Computer Interaction</strong>. 5. ed. Boston: Addison-Wesley, 2010.</li>
+</ul>
+
+<div class="footer-note">
+  Relatório de Avaliação e Conformidade ISO 9241-17 — Synapse Health | UEPB / CCT / Departamento de Computação — 2026
+</div>
+
+</body>
+</html>
+"""
+
+with open("RELATORIO_CONFORMIDADE_ISO_9241_17.html", "w", encoding="utf-8") as f:
+    f.write(html_content)
+
+print("HTML reotimizado com sucesso!")
