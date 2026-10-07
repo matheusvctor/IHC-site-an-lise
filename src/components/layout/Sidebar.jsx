@@ -66,8 +66,8 @@ export default function Sidebar() {
               <Activity size={22} className="logo-svg" />
             </div>
             <div className="brand-info">
-              <h2>MedFlow</h2>
-              <span className="badge-ihc">Gestão Clínica</span>
+              <h2>Synapse</h2>
+              <span className="badge-ihc">Health & Care</span>
             </div>
           </div>
 

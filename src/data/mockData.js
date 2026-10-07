@@ -88,7 +88,7 @@ export const initialAgendamentos = [
     data: '2026-10-12',
     hora: '09:30',
     formato: 'Telemedicina',
-    linkTeleconsulta: 'https://meet.clinicamedflow.com.br/sala-cardio-101',
+    linkTeleconsulta: 'https://meet.synapsehealth.com.br/sala-cardio-101',
     nivelDor: 2,
     observacoes: 'Paciente relata episódios de palpitação leve durante esforço físico moderado.',
     criadoEm: '06/10/2026'
@@ -104,7 +104,7 @@ export const initialAgendamentos = [
     data: '2026-10-14',
     hora: '14:00',
     formato: 'Presencial',
-    linkTeleconsulta: 'https://meet.clinicamedflow.com.br/sala-orto-203',
+    linkTeleconsulta: 'https://meet.synapsehealth.com.br/sala-orto-203',
     nivelDor: 6,
     observacoes: 'Dor no joelho direito após entorse durante corrida no último fim de semana.',
     criadoEm: '06/10/2026'

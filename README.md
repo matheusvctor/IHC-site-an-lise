@@ -1,11 +1,11 @@
-# MedFlow — Sistema de Gestão Clínica & Telemedicina
+# Synapse Health — Ecossistema Clínico & Coordenação do Cuidado
 
 [![React](https://img.shields.io/badge/React-18.3-61dafb?logo=react&logoColor=black)](https://react.dev/)
 [![Vite](https://img.shields.io/badge/Vite-6.0-646cff?logo=vite&logoColor=white)](https://vitejs.dev/)
 [![CSS Moderno](https://img.shields.io/badge/Design-Obsidian_Glass-0ea5e9)](https://developer.mozilla.org/css)
 [![License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
 
-O **MedFlow** é uma aplicação web moderna e intuitiva voltada para a administração clínica, gestão de prontuários de pacientes, credenciamento de profissionais de saúde e agendamento de consultas presenciais e por telemedicina.
+O **Synapse Health** é uma aplicação web moderna e intuitiva voltada para a administração clínica, gestão de prontuários de pacientes, credenciamento de profissionais de saúde e agendamento de consultas presenciais e por telemedicina.
 
 Construído com foco em **ergonomia visual, alta usabilidade e clareza de dados**, o sistema proporciona uma experiência fluida para recepcionistas, profissionais de saúde e gestores de clínicas médicas.
 

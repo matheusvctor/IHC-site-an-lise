@@ -4,24 +4,24 @@ import { initialPacientes, initialMedicos, initialAgendamentos } from '../data/m
 const ClinicContext = createContext();
 
 const STORAGE_KEYS = {
-  PACIENTES: 'medflow_react_pacientes',
-  MEDICOS: 'medflow_react_medicos',
-  AGENDAMENTOS: 'medflow_react_agendamentos'
+  PACIENTES: 'synapse_health_pacientes',
+  MEDICOS: 'synapse_health_medicos',
+  AGENDAMENTOS: 'synapse_health_agendamentos'
 };
 
 export function ClinicProvider({ children }) {
   const [pacientes, setPacientes] = useState(() => {
-    const saved = localStorage.getItem(STORAGE_KEYS.PACIENTES);
+    const saved = localStorage.getItem(STORAGE_KEYS.PACIENTES) || localStorage.getItem('medflow_react_pacientes');
     return saved ? JSON.parse(saved) : initialPacientes;
   });
 
   const [medicos, setMedicos] = useState(() => {
-    const saved = localStorage.getItem(STORAGE_KEYS.MEDICOS);
+    const saved = localStorage.getItem(STORAGE_KEYS.MEDICOS) || localStorage.getItem('medflow_react_medicos');
     return saved ? JSON.parse(saved) : initialMedicos;
   });
 
   const [agendamentos, setAgendamentos] = useState(() => {
-    const saved = localStorage.getItem(STORAGE_KEYS.AGENDAMENTOS);
+    const saved = localStorage.getItem(STORAGE_KEYS.AGENDAMENTOS) || localStorage.getItem('medflow_react_agendamentos');
     return saved ? JSON.parse(saved) : initialAgendamentos;
   });
 

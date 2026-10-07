@@ -15,7 +15,7 @@ export default function AgendamentoForm() {
     data: '2026-10-12',
     hora: '09:30',
     formato: 'Presencial',
-    linkTeleconsulta: 'https://meet.clinicamedflow.com.br/sala-virtual',
+    linkTeleconsulta: 'https://meet.synapsehealth.com.br/sala-virtual',
     nivelDor: 0,
     observacoes: ''
   });
@@ -47,7 +47,7 @@ export default function AgendamentoForm() {
       data: '2026-10-12',
       hora: '09:30',
       formato: 'Presencial',
-      linkTeleconsulta: 'https://meet.clinicamedflow.com.br/sala-virtual',
+      linkTeleconsulta: 'https://meet.synapsehealth.com.br/sala-virtual',
       nivelDor: 0,
       observacoes: ''
     });
@@ -201,7 +201,7 @@ export default function AgendamentoForm() {
                   type="url"
                   id="agdLink"
                   className="form-control font-mono"
-                  placeholder="https://meet.clinicamedflow.com.br/sala"
+                  placeholder="https://meet.synapsehealth.com.br/sala"
                   value={formData.linkTeleconsulta}
                   onChange={(e) => setFormData(prev => ({ ...prev, linkTeleconsulta: e.target.value }))}
                 />

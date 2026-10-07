@@ -47,7 +47,7 @@ export default function Header() {
 
         <div className="topbar-title-block">
           <div className="topbar-breadcrumb">
-            <span className="crumb-root">MedFlow</span>
+            <span className="crumb-root">Synapse Health</span>
             <ChevronRight size={13} className="crumb-separator" />
             <span className="current-crumb">{info.crumb}</span>
           </div>
