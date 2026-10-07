@@ -264,16 +264,7 @@ html_content = f"""<!DOCTYPE html>
     border-bottom: 1px dotted #9ca3af;
   }}
 
-  .badge-tag {{
-    display: inline-block;
-    padding: 1px 3.5px;
-    border-radius: 3px;
-    font-size: 6.8pt;
-    font-weight: bold;
-    text-transform: uppercase;
-  }}
-  .badge-conforme {{ background: #dcfce7; color: #15803d; }}
-  .badge-problema {{ background: #fee2e2; color: #b91c1c; }}
+  /* Estilos neutros para conformidade ABNT */
 </style>
 </head>
 <body>
@@ -764,7 +755,7 @@ html_content = f"""<!DOCTYPE html>
         <td>Subtítulo básico; sem comandos de navegação ou teclas.</td>
         <td>Banner no topo informando Tab, Shift+Tab, Enter e Esc.</td>
         <td>5.1.4: instruções na tela para preencher e salvar</td>
-        <td><span class="badge-tag badge-conforme">Corrigido</span></td>
+        <td>Corrigido</td>
       </tr>
       <tr>
         <td>2</td>
@@ -772,7 +763,7 @@ html_content = f"""<!DOCTYPE html>
         <td>Inerte ao carregar; exigia clique manual com mouse.</td>
         <td>Foco automático direcionado ao campo "Nome Completo".</td>
         <td>8.1: cursor posicionado no primeiro campo de entrada</td>
-        <td><span class="badge-tag badge-conforme">Corrigido</span></td>
+        <td>Corrigido</td>
       </tr>
       <tr>
         <td>3</td>
@@ -780,7 +771,7 @@ html_content = f"""<!DOCTYPE html>
         <td>Asterisco exibido sem legenda de explicação.</td>
         <td>Legenda explícita: * Obrigatório. Demais opcionais.</td>
         <td>5.3.2: diferença imediatamente perceptível</td>
-        <td><span class="badge-tag badge-conforme">Corrigido</span></td>
+        <td>Corrigido</td>
       </tr>
       <tr>
         <td>4</td>
@@ -788,7 +779,7 @@ html_content = f"""<!DOCTYPE html>
         <td>Placeholder volátil que sumia ao iniciar digitação.</td>
         <td>Textos estáticos permanentes sob CPF e Telefone.</td>
         <td>5.3.7: dicas de formato nos campos; 5.2.6: limites</td>
-        <td><span class="badge-tag badge-conforme">Corrigido</span></td>
+        <td>Corrigido</td>
       </tr>
       <tr>
         <td>5</td>
@@ -796,7 +787,7 @@ html_content = f"""<!DOCTYPE html>
         <td>Pop-up <code>alert()</code> nativo bloqueando o fluxo.</td>
         <td>Validação inline no desfoque com borda vermelha.</td>
         <td>7.3: feedback indicando natureza do erro</td>
-        <td><span class="badge-tag badge-conforme">Corrigido</span></td>
+        <td>Corrigido</td>
       </tr>
       <tr>
         <td>6</td>
@@ -804,7 +795,7 @@ html_content = f"""<!DOCTYPE html>
         <td>Inexistente; usuário devia adivinhar pendências.</td>
         <td>Sumário no topo com links de foco direto no campo.</td>
         <td>6.4.2a: campos com erro indicados e foco no 1º erro</td>
-        <td><span class="badge-tag badge-conforme">Corrigido</span></td>
+        <td>Corrigido</td>
       </tr>
       <tr>
         <td>7</td>
@@ -812,7 +803,7 @@ html_content = f"""<!DOCTYPE html>
         <td>Permitia cadastros duplicados com o mesmo CPF.</td>
         <td>Validação cruzada rejeitando CPFs já cadastrados.</td>
         <td>6.5.2b: validação entre registros na base</td>
-        <td><span class="badge-tag badge-conforme">Corrigido</span></td>
+        <td>Corrigido</td>
       </tr>
       <tr>
         <td>8</td>
@@ -820,7 +811,7 @@ html_content = f"""<!DOCTYPE html>
         <td>Trocar de aba limpava os dados digitados.</td>
         <td>Rascunho mantido em <code>pacienteDraft</code> no Context.</td>
         <td>8.6.2: mover entre formulários sem perder dados</td>
-        <td><span class="badge-tag badge-conforme">Corrigido</span></td>
+        <td>Corrigido</td>
       </tr>
       <tr>
         <td>9</td>
@@ -828,7 +819,7 @@ html_content = f"""<!DOCTYPE html>
         <td>Ação de limpar imediata e irreversível.</td>
         <td>Buffer de restauração e banner "Desfazer Limpeza".</td>
         <td>6.4.1: reiniciar ou cancelar; 6.4.6: desfazer</td>
-        <td><span class="badge-tag badge-conforme">Corrigido</span></td>
+        <td>Corrigido</td>
       </tr>
       <tr>
         <td>10</td>
@@ -836,7 +827,7 @@ html_content = f"""<!DOCTYPE html>
         <td>Nenhum atalho de cancelamento configurado.</td>
         <td>Tecla Esc aciona a rotina de limpeza controlada.</td>
         <td>6.4.6: escape do formulário sem alterar dados</td>
-        <td><span class="badge-tag badge-conforme">Corrigido</span></td>
+        <td>Corrigido</td>
       </tr>
     </tbody>
   </table>
@@ -909,7 +900,7 @@ html_content = f"""<!DOCTYPE html>
         <td>Sem foco na abertura da tela.</td>
         <td>Foco automático em "Nome do Profissional".</td>
         <td>8.1: cursor no primeiro campo editável</td>
-        <td><span class="badge-tag badge-conforme">Corrigido</span></td>
+        <td>Corrigido</td>
       </tr>
       <tr>
         <td>2</td>
@@ -917,7 +908,7 @@ html_content = f"""<!DOCTYPE html>
         <td>Sem orientações de navegação ou teclas.</td>
         <td>Banner superior com atalhos e regras.</td>
         <td>5.1.4: instruções acessíveis na tela</td>
-        <td><span class="badge-tag badge-conforme">Corrigido</span></td>
+        <td>Corrigido</td>
       </tr>
       <tr>
         <td>3</td>
@@ -925,7 +916,7 @@ html_content = f"""<!DOCTYPE html>
         <td>Número puro sem menção à unidade física.</td>
         <td>Badge integrado com sufixo visual "anos".</td>
         <td>5.3.6: símbolos ou unidades junto ao campo</td>
-        <td><span class="badge-tag badge-conforme">Corrigido</span></td>
+        <td>Corrigido</td>
       </tr>
       <tr>
         <td>4</td>
@@ -933,7 +924,7 @@ html_content = f"""<!DOCTYPE html>
         <td>Sem indicação de faixa etária ou padrão CRM.</td>
         <td>Pistas estáticas: 0 a 60 anos e CRM-UF.</td>
         <td>5.3.7: dicas de formato; 5.2.6: limites</td>
-        <td><span class="badge-tag badge-conforme">Corrigido</span></td>
+        <td>Corrigido</td>
       </tr>
       <tr>
         <td>5</td>
@@ -941,7 +932,7 @@ html_content = f"""<!DOCTYPE html>
         <td>Janela <code>alert()</code> síncrona ao salvar.</td>
         <td>Validação inline com mensagem específica.</td>
         <td>7.3: feedback indicando natureza do erro</td>
-        <td><span class="badge-tag badge-conforme">Corrigido</span></td>
+        <td>Corrigido</td>
       </tr>
       <tr>
         <td>6</td>
@@ -949,7 +940,7 @@ html_content = f"""<!DOCTYPE html>
         <td>Inexistente.</td>
         <td>Painel de pendências no topo com foco direto.</td>
         <td>6.4.2a: campos com erro indicados e navegáveis</td>
-        <td><span class="badge-tag badge-conforme">Corrigido</span></td>
+        <td>Corrigido</td>
       </tr>
       <tr>
         <td>7</td>
@@ -957,7 +948,7 @@ html_content = f"""<!DOCTYPE html>
         <td>Permitia cadastrar médicos com mesmo CRM.</td>
         <td>Bloqueio de duplicidade via consulta local.</td>
         <td>6.5.2b: validação de unicidade de registros</td>
-        <td><span class="badge-tag badge-conforme">Corrigido</span></td>
+        <td>Corrigido</td>
       </tr>
       <tr>
         <td>8</td>
@@ -965,7 +956,7 @@ html_content = f"""<!DOCTYPE html>
         <td>Navegação limpava o preenchimento.</td>
         <td>Rascunho mantido em <code>medicoDraft</code> no Context.</td>
         <td>8.6.2: alternância entre telas sem perda</td>
-        <td><span class="badge-tag badge-conforme">Corrigido</span></td>
+        <td>Corrigido</td>
       </tr>
       <tr>
         <td>9</td>
@@ -973,7 +964,7 @@ html_content = f"""<!DOCTYPE html>
         <td>Limpeza definitiva e irreversível.</td>
         <td>Buffer de restauração e botão de desfazer.</td>
         <td>6.4.1: controle para recomeçar; 6.4.6: desfazer</td>
-        <td><span class="badge-tag badge-conforme">Corrigido</span></td>
+        <td>Corrigido</td>
       </tr>
       <tr>
         <td>10</td>
@@ -981,7 +972,7 @@ html_content = f"""<!DOCTYPE html>
         <td>Sem atalho de teclado configurado.</td>
         <td>Tecla Esc aciona cancelamento seguro.</td>
         <td>6.4.6: escape do formulário sem perda</td>
-        <td><span class="badge-tag badge-conforme">Corrigido</span></td>
+        <td>Corrigido</td>
       </tr>
     </tbody>
   </table>
@@ -1054,7 +1045,7 @@ html_content = f"""<!DOCTYPE html>
         <td>Inerte; exigia clique manual no seletor.</td>
         <td>Foco automático no seletor de "Paciente".</td>
         <td>8.1: cursor no primeiro campo editável</td>
-        <td><span class="badge-tag badge-conforme">Corrigido</span></td>
+        <td>Corrigido</td>
       </tr>
       <tr>
         <td>2</td>
@@ -1062,7 +1053,7 @@ html_content = f"""<!DOCTYPE html>
         <td>URL da sala habilitada em consulta presencial.</td>
         <td>URL desabilitada e cinza no Presencial; reativada na Telemedicina.</td>
         <td>6.2.4, 6.2.5, 6.4.4: tratamento automático de regras</td>
-        <td><span class="badge-tag badge-conforme">Corrigido</span></td>
+        <td>Corrigido</td>
       </tr>
       <tr>
         <td>3</td>
@@ -1070,7 +1061,7 @@ html_content = f"""<!DOCTYPE html>
         <td>Textarea sem limite e sem contador de chars.</td>
         <td>Limite de 500 chars, auto-wrap e contador dinâmico (xx / 500).</td>
         <td>6.2.3: áreas delimitadas; 6.2.6: tamanho adequado</td>
-        <td><span class="badge-tag badge-conforme">Corrigido</span></td>
+        <td>Corrigido</td>
       </tr>
       <tr>
         <td>4</td>
@@ -1078,7 +1069,7 @@ html_content = f"""<!DOCTYPE html>
         <td>Sem orientações para formato de data e hora.</td>
         <td>Pistas estáticas permanentes: formato 24h e data futura.</td>
         <td>5.3.7: dicas de formato; 5.2.6: limites</td>
-        <td><span class="badge-tag badge-conforme">Corrigido</span></td>
+        <td>Corrigido</td>
       </tr>
       <tr>
         <td>5</td>
@@ -1086,7 +1077,7 @@ html_content = f"""<!DOCTYPE html>
         <td>Disparo de pop-up <code>alert()</code> no submit.</td>
         <td>Validação inline contextual sem interromper tela.</td>
         <td>7.3: feedback indicando natureza do erro</td>
-        <td><span class="badge-tag badge-conforme">Corrigido</span></td>
+        <td>Corrigido</td>
       </tr>
       <tr>
         <td>6</td>
@@ -1094,7 +1085,7 @@ html_content = f"""<!DOCTYPE html>
         <td>Ausente.</td>
         <td>Painel no topo com links para foco direto no erro.</td>
         <td>6.4.2a: campos com erro indicados e navegáveis</td>
-        <td><span class="badge-tag badge-conforme">Corrigido</span></td>
+        <td>Corrigido</td>
       </tr>
       <tr>
         <td>7</td>
@@ -1102,7 +1093,7 @@ html_content = f"""<!DOCTYPE html>
         <td>Triagem perdida ao alternar de aba.</td>
         <td>Rascunho gravado em <code>agendamentoDraft</code> no Context.</td>
         <td>8.6.2: alternância entre telas sem perda</td>
-        <td><span class="badge-tag badge-conforme">Corrigido</span></td>
+        <td>Corrigido</td>
       </tr>
       <tr>
         <td>8</td>
@@ -1110,7 +1101,7 @@ html_content = f"""<!DOCTYPE html>
         <td>Limpeza sem opção de recuperação.</td>
         <td>Buffer de undo e botão de restauração imediata.</td>
         <td>6.4.1: reiniciar; 6.4.6: desfazer</td>
-        <td><span class="badge-tag badge-conforme">Corrigido</span></td>
+        <td>Corrigido</td>
       </tr>
       <tr>
         <td>9</td>
@@ -1118,7 +1109,7 @@ html_content = f"""<!DOCTYPE html>
         <td>Tecla Esc inoperante.</td>
         <td>Esc aciona a limpeza com proteção de undo.</td>
         <td>6.4.6: escape do formulário sem perda</td>
-        <td><span class="badge-tag badge-conforme">Corrigido</span></td>
+        <td>Corrigido</td>
       </tr>
       <tr>
         <td>10</td>
@@ -1126,7 +1117,7 @@ html_content = f"""<!DOCTYPE html>
         <td>Subtítulo básico sem orientações de fluxo.</td>
         <td>Banner instrucional com atalhos e legenda.</td>
         <td>5.1.4: instruções acessíveis na tela</td>
-        <td><span class="badge-tag badge-conforme">Corrigido</span></td>
+        <td>Corrigido</td>
       </tr>
     </tbody>
   </table>
@@ -1153,41 +1144,41 @@ html_content = f"""<!DOCTYPE html>
       </tr>
     </thead>
     <tbody>
-      <tr><td>5.1.1</td><td>Títulos claros e identificadores da finalidade</td><td>Atendida</td><td>Atendida</td><td>Atendida</td><td><span class="badge-tag badge-conforme">100% Conforme</span></td></tr>
-      <tr><td>5.1.2</td><td>Codificação visual distinta para entradas e dados</td><td>Atendida</td><td>Atendida</td><td>Atendida</td><td><span class="badge-tag badge-conforme">100% Conforme</span></td></tr>
-      <tr><td>5.1.3</td><td>Densidade de apresentação global inferior a 40%</td><td>Atendida</td><td>Atendida</td><td>Atendida</td><td><span class="badge-tag badge-conforme">100% Conforme</span></td></tr>
-      <tr><td>5.1.4</td><td>Instruções na tela ou em ajuda de fácil acesso</td><td>Atendida (1)</td><td>Atendida (2)</td><td>Atendida (10)</td><td><span class="badge-tag badge-conforme">100% Conforme</span></td></tr>
-      <tr><td>5.2.2</td><td>Agrupamento funcional e lógico dos campos</td><td>Atendida</td><td>Atendida</td><td>Atendida</td><td><span class="badge-tag badge-conforme">100% Conforme</span></td></tr>
-      <tr><td>5.2.3</td><td>Posicionamento prioritário de campos obrigatórios</td><td>Atendida</td><td>Atendida</td><td>Atendida</td><td><span class="badge-tag badge-conforme">100% Conforme</span></td></tr>
-      <tr><td>5.2.4</td><td>Alinhamento vertical e justificação de alfanuméricos</td><td>Atendida</td><td>Atendida</td><td>Atendida</td><td><span class="badge-tag badge-conforme">100% Conforme</span></td></tr>
-      <tr><td>5.2.5</td><td>Alinhamento justificado à direita para numéricos</td><td>Atendida</td><td>Atendida</td><td>Atendida</td><td><span class="badge-tag badge-conforme">100% Conforme</span></td></tr>
-      <tr><td>5.2.6</td><td>Informação sobre valores permitidos e limites</td><td>Atendida (4)</td><td>Atendida (4)</td><td>Atendida (4)</td><td><span class="badge-tag badge-conforme">100% Conforme</span></td></tr>
-      <tr><td>5.3.1</td><td>Comprimento explícito indicado em campos de tamanho fixo</td><td>Atendida (4)</td><td>Atendida (4)</td><td>Atendida (3)</td><td><span class="badge-tag badge-conforme">100% Conforme</span></td></tr>
-      <tr><td>5.3.2</td><td>Diferença entre obrigatórios e opcionais perceptível</td><td>Atendida (3)</td><td>Atendida (2)</td><td>Atendida (10)</td><td><span class="badge-tag badge-conforme">100% Conforme</span></td></tr>
-      <tr><td>5.3.3</td><td>Distinção entre campos editáveis e somente leitura</td><td>–</td><td>–</td><td>Atendida (2)</td><td><span class="badge-tag badge-conforme">100% Conforme</span></td></tr>
-      <tr><td>5.3.4</td><td>Rótulos e opções claros e sem ambiguidade</td><td>Atendida</td><td>Atendida (3)</td><td>Atendida (10)</td><td><span class="badge-tag badge-conforme">100% Conforme</span></td></tr>
-      <tr><td>5.3.5</td><td>Mesmo critério de rótulos aplicado em todo o sistema</td><td>Atendida</td><td>Atendida</td><td>Atendida</td><td><span class="badge-tag badge-conforme">100% Conforme</span></td></tr>
-      <tr><td>5.3.6</td><td>Símbolos ou unidades de medida junto aos campos</td><td>–</td><td>Atendida (3)</td><td>–</td><td><span class="badge-tag badge-conforme">100% Conforme</span></td></tr>
-      <tr><td>5.3.7</td><td>Dicas de formato de entrada (cues) nos campos</td><td>Atendida (4)</td><td>Atendida (4)</td><td>Atendida (4)</td><td><span class="badge-tag badge-conforme">100% Conforme</span></td></tr>
-      <tr><td>5.3.8</td><td>Rótulos com letra maiúscula seguida de minúsculas</td><td>Atendida</td><td>Atendida</td><td>Atendida</td><td><span class="badge-tag badge-conforme">100% Conforme</span></td></tr>
-      <tr><td>6.1.1</td><td>Ações mínimas para mover o cursor entre campos</td><td>Atendida</td><td>Atendida</td><td>Atendida</td><td><span class="badge-tag badge-conforme">100% Conforme</span></td></tr>
-      <tr><td>6.1.3</td><td>Valores padrão claros e editáveis pelo usuário</td><td>Atendida</td><td>Atendida</td><td>Atendida</td><td><span class="badge-tag badge-conforme">100% Conforme</span></td></tr>
-      <tr><td>6.2.3</td><td>Áreas multilinhas delimitadas com auto-wrap</td><td>–</td><td>–</td><td>Atendida (3)</td><td><span class="badge-tag badge-conforme">100% Conforme</span></td></tr>
-      <tr><td>6.2.4</td><td>Indicação visual para campos mutuamente exclusivos</td><td>Atendida</td><td>Atendida</td><td>Atendida (2)</td><td><span class="badge-tag badge-conforme">100% Conforme</span></td></tr>
-      <tr><td>6.2.5</td><td>Tratamento automático de regras de interdependência</td><td>–</td><td>–</td><td>Atendida (2)</td><td><span class="badge-tag badge-conforme">100% Conforme</span></td></tr>
-      <tr><td>6.2.6</td><td>Dimensão adequada do campo de texto</td><td>Atendida</td><td>Atendida</td><td>Atendida (3)</td><td><span class="badge-tag badge-conforme">100% Conforme</span></td></tr>
-      <tr><td>6.3.1</td><td>Mecanismo para visualizar e escolher opções</td><td>Atendida</td><td>Atendida</td><td>Atendida</td><td><span class="badge-tag badge-conforme">100% Conforme</span></td></tr>
-      <tr><td>6.4.1</td><td>Recomeçar, cancelar ou alterar antes do envio</td><td>Atendida (9)</td><td>Atendida (9)</td><td>Atendida (8)</td><td><span class="badge-tag badge-conforme">100% Conforme</span></td></tr>
-      <tr><td>6.4.2a</td><td>Campos com erro indicados e foco no primeiro erro</td><td>Atendida (6)</td><td>Atendida (6)</td><td>Atendida (6)</td><td><span class="badge-tag badge-conforme">100% Conforme</span></td></tr>
-      <tr><td>6.4.4</td><td>Áreas indisponíveis sem cursor e com pista visual</td><td>–</td><td>–</td><td>Atendida (2)</td><td><span class="badge-tag badge-conforme">100% Conforme</span></td></tr>
-      <tr><td>6.4.6</td><td>Informação sobre conclusão, saída e desfazer</td><td>Atendida (9, 10)</td><td>Atendida (9, 10)</td><td>Atendida (8, 9)</td><td><span class="badge-tag badge-conforme">100% Conforme</span></td></tr>
-      <tr><td>6.5.1</td><td>Validação de campo no desfoque (onBlur)</td><td>Atendida (5)</td><td>Atendida (5)</td><td>Atendida (5)</td><td><span class="badge-tag badge-conforme">100% Conforme</span></td></tr>
-      <tr><td>6.5.2b</td><td>Validação de dependências cruzadas e unicidade</td><td>Atendida (7)</td><td>Atendida (7)</td><td>–</td><td><span class="badge-tag badge-conforme">100% Conforme</span></td></tr>
-      <tr><td>7.3</td><td>Aviso indicando a natureza e a correção do erro</td><td>Atendida (5)</td><td>Atendida (5)</td><td>Atendida (5)</td><td><span class="badge-tag badge-conforme">100% Conforme</span></td></tr>
-      <tr><td>7.4 / 7.5</td><td>Confirmação explícita de atualização da base</td><td>Atendida</td><td>Atendida</td><td>Atendida</td><td><span class="badge-tag badge-conforme">100% Conforme</span></td></tr>
-      <tr><td>8.1</td><td>Cursor no primeiro campo a preencher (auto-foco)</td><td>Atendida (2)</td><td>Atendida (1)</td><td>Atendida (1)</td><td><span class="badge-tag badge-conforme">100% Conforme</span></td></tr>
-      <tr><td>8.2a</td><td>Movimentação bidirecional entre campos (Tab/Shift+Tab)</td><td>Atendida (1)</td><td>Atendida (2)</td><td>Atendida (10)</td><td><span class="badge-tag badge-conforme">100% Conforme</span></td></tr>
-      <tr><td>8.6.2</td><td>Mover entre formulários sem perder o que foi digitado</td><td>Atendida (8)</td><td>Atendida (8)</td><td>Atendida (7)</td><td><span class="badge-tag badge-conforme">100% Conforme</span></td></tr>
+      <tr><td>5.1.1</td><td>Títulos claros e identificadores da finalidade</td><td>Atendida</td><td>Atendida</td><td>Atendida</td><td>100% Conforme</td></tr>
+      <tr><td>5.1.2</td><td>Codificação visual distinta para entradas e dados</td><td>Atendida</td><td>Atendida</td><td>Atendida</td><td>100% Conforme</td></tr>
+      <tr><td>5.1.3</td><td>Densidade de apresentação global inferior a 40%</td><td>Atendida</td><td>Atendida</td><td>Atendida</td><td>100% Conforme</td></tr>
+      <tr><td>5.1.4</td><td>Instruções na tela ou em ajuda de fácil acesso</td><td>Atendida (1)</td><td>Atendida (2)</td><td>Atendida (10)</td><td>100% Conforme</td></tr>
+      <tr><td>5.2.2</td><td>Agrupamento funcional e lógico dos campos</td><td>Atendida</td><td>Atendida</td><td>Atendida</td><td>100% Conforme</td></tr>
+      <tr><td>5.2.3</td><td>Posicionamento prioritário de campos obrigatórios</td><td>Atendida</td><td>Atendida</td><td>Atendida</td><td>100% Conforme</td></tr>
+      <tr><td>5.2.4</td><td>Alinhamento vertical e justificação de alfanuméricos</td><td>Atendida</td><td>Atendida</td><td>Atendida</td><td>100% Conforme</td></tr>
+      <tr><td>5.2.5</td><td>Alinhamento justificado à direita para numéricos</td><td>Atendida</td><td>Atendida</td><td>Atendida</td><td>100% Conforme</td></tr>
+      <tr><td>5.2.6</td><td>Informação sobre valores permitidos e limites</td><td>Atendida (4)</td><td>Atendida (4)</td><td>Atendida (4)</td><td>100% Conforme</td></tr>
+      <tr><td>5.3.1</td><td>Comprimento explícito indicado em campos de tamanho fixo</td><td>Atendida (4)</td><td>Atendida (4)</td><td>Atendida (3)</td><td>100% Conforme</td></tr>
+      <tr><td>5.3.2</td><td>Diferença entre obrigatórios e opcionais perceptível</td><td>Atendida (3)</td><td>Atendida (2)</td><td>Atendida (10)</td><td>100% Conforme</td></tr>
+      <tr><td>5.3.3</td><td>Distinção entre campos editáveis e somente leitura</td><td>–</td><td>–</td><td>Atendida (2)</td><td>100% Conforme</td></tr>
+      <tr><td>5.3.4</td><td>Rótulos e opções claros e sem ambiguidade</td><td>Atendida</td><td>Atendida (3)</td><td>Atendida (10)</td><td>100% Conforme</td></tr>
+      <tr><td>5.3.5</td><td>Mesmo critério de rótulos aplicado em todo o sistema</td><td>Atendida</td><td>Atendida</td><td>Atendida</td><td>100% Conforme</td></tr>
+      <tr><td>5.3.6</td><td>Símbolos ou unidades de medida junto aos campos</td><td>–</td><td>Atendida (3)</td><td>–</td><td>100% Conforme</td></tr>
+      <tr><td>5.3.7</td><td>Dicas de formato de entrada (cues) nos campos</td><td>Atendida (4)</td><td>Atendida (4)</td><td>Atendida (4)</td><td>100% Conforme</td></tr>
+      <tr><td>5.3.8</td><td>Rótulos com letra maiúscula seguida de minúsculas</td><td>Atendida</td><td>Atendida</td><td>Atendida</td><td>100% Conforme</td></tr>
+      <tr><td>6.1.1</td><td>Ações mínimas para mover o cursor entre campos</td><td>Atendida</td><td>Atendida</td><td>Atendida</td><td>100% Conforme</td></tr>
+      <tr><td>6.1.3</td><td>Valores padrão claros e editáveis pelo usuário</td><td>Atendida</td><td>Atendida</td><td>Atendida</td><td>100% Conforme</td></tr>
+      <tr><td>6.2.3</td><td>Áreas multilinhas delimitadas com auto-wrap</td><td>–</td><td>–</td><td>Atendida (3)</td><td>100% Conforme</td></tr>
+      <tr><td>6.2.4</td><td>Indicação visual para campos mutuamente exclusivos</td><td>Atendida</td><td>Atendida</td><td>Atendida (2)</td><td>100% Conforme</td></tr>
+      <tr><td>6.2.5</td><td>Tratamento automático de regras de interdependência</td><td>–</td><td>–</td><td>Atendida (2)</td><td>100% Conforme</td></tr>
+      <tr><td>6.2.6</td><td>Dimensão adequada do campo de texto</td><td>Atendida</td><td>Atendida</td><td>Atendida (3)</td><td>100% Conforme</td></tr>
+      <tr><td>6.3.1</td><td>Mecanismo para visualizar e escolher opções</td><td>Atendida</td><td>Atendida</td><td>Atendida</td><td>100% Conforme</td></tr>
+      <tr><td>6.4.1</td><td>Recomeçar, cancelar ou alterar antes do envio</td><td>Atendida (9)</td><td>Atendida (9)</td><td>Atendida (8)</td><td>100% Conforme</td></tr>
+      <tr><td>6.4.2a</td><td>Campos com erro indicados e foco no primeiro erro</td><td>Atendida (6)</td><td>Atendida (6)</td><td>Atendida (6)</td><td>100% Conforme</td></tr>
+      <tr><td>6.4.4</td><td>Áreas indisponíveis sem cursor e com pista visual</td><td>–</td><td>–</td><td>Atendida (2)</td><td>100% Conforme</td></tr>
+      <tr><td>6.4.6</td><td>Informação sobre conclusão, saída e desfazer</td><td>Atendida (9, 10)</td><td>Atendida (9, 10)</td><td>Atendida (8, 9)</td><td>100% Conforme</td></tr>
+      <tr><td>6.5.1</td><td>Validação de campo no desfoque (onBlur)</td><td>Atendida (5)</td><td>Atendida (5)</td><td>Atendida (5)</td><td>100% Conforme</td></tr>
+      <tr><td>6.5.2b</td><td>Validação de dependências cruzadas e unicidade</td><td>Atendida (7)</td><td>Atendida (7)</td><td>–</td><td>100% Conforme</td></tr>
+      <tr><td>7.3</td><td>Aviso indicando a natureza e a correção do erro</td><td>Atendida (5)</td><td>Atendida (5)</td><td>Atendida (5)</td><td>100% Conforme</td></tr>
+      <tr><td>7.4 / 7.5</td><td>Confirmação explícita de atualização da base</td><td>Atendida</td><td>Atendida</td><td>Atendida</td><td>100% Conforme</td></tr>
+      <tr><td>8.1</td><td>Cursor no primeiro campo a preencher (auto-foco)</td><td>Atendida (2)</td><td>Atendida (1)</td><td>Atendida (1)</td><td>100% Conforme</td></tr>
+      <tr><td>8.2a</td><td>Movimentação bidirecional entre campos (Tab/Shift+Tab)</td><td>Atendida (1)</td><td>Atendida (2)</td><td>Atendida (10)</td><td>100% Conforme</td></tr>
+      <tr><td>8.6.2</td><td>Mover entre formulários sem perder o que foi digitado</td><td>Atendida (8)</td><td>Atendida (8)</td><td>Atendida (7)</td><td>100% Conforme</td></tr>
     </tbody>
   </table>
   <div class="quadro-fonte">Fonte: Autoria própria (2026), com base em INTERNATIONAL ORGANIZATION FOR STANDARDIZATION (1998).</div>
