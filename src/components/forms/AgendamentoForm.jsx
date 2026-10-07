@@ -12,7 +12,9 @@ export default function AgendamentoForm() {
   const [formData, setFormData] = useState({
     pacienteId: '',
     medicoId: '',
+    data: '2026-10-12',
     hora: '09:30',
+    formato: 'Presencial',
     linkTeleconsulta: 'https://meet.clinicamedflow.com.br/sala-virtual',
     nivelDor: 0,
     observacoes: ''
@@ -29,7 +31,7 @@ export default function AgendamentoForm() {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    if (!formData.pacienteId || !formData.medicoId || !formData.hora || !formData.observacoes.trim()) {
+    if (!formData.pacienteId || !formData.medicoId || !formData.data || !formData.hora || !formData.observacoes.trim()) {
       alert('Por favor, preencha todos os campos obrigatórios marcados com (*).');
       return;
     }
@@ -42,7 +44,9 @@ export default function AgendamentoForm() {
     setFormData({
       pacienteId: '',
       medicoId: '',
+      data: '2026-10-12',
       hora: '09:30',
+      formato: 'Presencial',
       linkTeleconsulta: 'https://meet.clinicamedflow.com.br/sala-virtual',
       nivelDor: 0,
       observacoes: ''
@@ -132,7 +136,22 @@ export default function AgendamentoForm() {
             </div>
 
             <div className="form-grid-2">
-              {/* Campo 3: Horário (time) */}
+              {/* Campo 3: Data da Consulta (date) */}
+              <div className="form-group">
+                <label htmlFor="agdData" className="form-label">
+                  Data da Consulta <span className="required">*</span>
+                </label>
+                <input
+                  type="date"
+                  id="agdData"
+                  className="form-control"
+                  value={formData.data}
+                  onChange={(e) => setFormData(prev => ({ ...prev, data: e.target.value }))}
+                  required
+                />
+              </div>
+
+              {/* Campo 4: Horário (time) */}
               <div className="form-group">
                 <label htmlFor="agdHora" className="form-label">
                   Horário da Consulta <span className="required">*</span>
@@ -146,8 +165,34 @@ export default function AgendamentoForm() {
                   required
                 />
               </div>
+            </div>
 
-              {/* Campo 4: Link (url) */}
+            <div className="form-grid-2">
+              {/* Campo 5: Formato do Atendimento (radio) */}
+              <div className="form-group">
+                <label className="form-label">
+                  Formato do Atendimento <span className="required">*</span>
+                </label>
+                <div className="radio-group-modern">
+                  {['Presencial', 'Telemedicina'].map((fmt) => (
+                    <label
+                      key={fmt}
+                      className={`radio-card ${formData.formato === fmt ? 'selected' : ''}`}
+                    >
+                      <input
+                        type="radio"
+                        name="agdFormato"
+                        value={fmt}
+                        checked={formData.formato === fmt}
+                        onChange={(e) => setFormData(prev => ({ ...prev, formato: e.target.value }))}
+                      />
+                      <span>{fmt}</span>
+                    </label>
+                  ))}
+                </div>
+              </div>
+
+              {/* Campo 6: Link (url) */}
               <div className="form-group">
                 <label htmlFor="agdLink" className="form-label">
                   Link da Sala Virtual (Telemedicina)
@@ -163,7 +208,7 @@ export default function AgendamentoForm() {
               </div>
             </div>
 
-            {/* Campo 5: Escala de Dor (range) */}
+            {/* Campo 7: Escala de Dor (range) */}
             <div className="form-group mt-2">
               <label htmlFor="agdNivelDor" className="form-label">
                 Nível de Dor Relatado (Escala EVA 0 a 10)
@@ -187,7 +232,7 @@ export default function AgendamentoForm() {
               </div>
             </div>
 
-            {/* Campo 6: Queixa Principal (textarea) */}
+            {/* Campo 8: Queixa Principal (textarea) */}
             <div className="form-group mt-3">
               <label htmlFor="agdObservacoes" className="form-label">
                 Queixa Principal e Sintomas <span className="required">*</span>

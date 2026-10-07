@@ -16,8 +16,10 @@ export default function MedicoForm() {
     registro: '',
     especialidade: '',
     experiencia: 5,
+    turno: 'Manhã',
     corAgenda: '#2563eb',
-    documento: ''
+    documento: '',
+    telemedicina: true
   });
 
   const [fileName, setFileName] = useState('');
@@ -69,8 +71,10 @@ export default function MedicoForm() {
       registro: '',
       especialidade: '',
       experiencia: 5,
+      turno: 'Manhã',
       corAgenda: '#2563eb',
-      documento: ''
+      documento: '',
+      telemedicina: true
     });
     setFileName('');
   };
@@ -169,7 +173,31 @@ export default function MedicoForm() {
             </div>
 
             <div className="form-grid-2">
-              {/* Campo 5: Cor na Agenda (color) */}
+              {/* Campo 5: Turno de Atendimento (radio) */}
+              <div className="form-group">
+                <label className="form-label">
+                  Turno de Atendimento <span className="required">*</span>
+                </label>
+                <div className="radio-group-modern">
+                  {['Manhã', 'Tarde', 'Noite', 'Integral'].map((t) => (
+                    <label
+                      key={t}
+                      className={`radio-card ${formData.turno === t ? 'selected' : ''}`}
+                    >
+                      <input
+                        type="radio"
+                        name="medTurno"
+                        value={t}
+                        checked={formData.turno === t}
+                        onChange={(e) => setFormData(prev => ({ ...prev, turno: e.target.value }))}
+                      />
+                      <span>{t}</span>
+                    </label>
+                  ))}
+                </div>
+              </div>
+
+              {/* Campo 6: Cor na Agenda (color) */}
               <div className="form-group">
                 <label htmlFor="medCorAgenda" className="form-label">
                   Cor na Agenda
@@ -187,8 +215,10 @@ export default function MedicoForm() {
                   </div>
                 </div>
               </div>
+            </div>
 
-              {/* Campo 6: Comprovante / RQE (file) */}
+            <div className="form-grid-2">
+              {/* Campo 7: Comprovante / RQE (file) */}
               <div className="form-group">
                 <label htmlFor="medDocumento" className="form-label">
                   Comprovante / Diploma (RQE)
@@ -211,6 +241,27 @@ export default function MedicoForm() {
                       </span>
                     </div>
                   </label>
+                </div>
+              </div>
+
+              {/* Campo 8: Telemedicina Habilitada (checkbox switch) */}
+              <div className="form-group flex-center-vertical">
+                <label className="form-label">
+                  Atendimento por Telemedicina
+                </label>
+                <div className="toggle-container-modern">
+                  <label className="switch">
+                    <input
+                      type="checkbox"
+                      id="medTelemedicina"
+                      checked={formData.telemedicina}
+                      onChange={(e) => setFormData(prev => ({ ...prev, telemedicina: e.target.checked }))}
+                    />
+                    <span className="slider round"></span>
+                  </label>
+                  <div className="toggle-text-block">
+                    <strong>{formData.telemedicina ? 'Habilitado para Teleconsulta' : 'Apenas Presencial'}</strong>
+                  </div>
                 </div>
               </div>
             </div>

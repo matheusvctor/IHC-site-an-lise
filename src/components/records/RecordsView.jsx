@@ -34,6 +34,7 @@ export default function RecordsView() {
 
   const filteredPacientes = pacientes.filter(p =>
     p.nome.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    (p.cpf && p.cpf.includes(searchTerm)) ||
     p.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
     p.telefone.includes(searchTerm)
   );
@@ -41,12 +42,15 @@ export default function RecordsView() {
   const filteredMedicos = medicos.filter(m =>
     m.nome.toLowerCase().includes(searchTerm.toLowerCase()) ||
     m.registro.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    m.especialidade.toLowerCase().includes(searchTerm.toLowerCase())
+    m.especialidade.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    (m.turno && m.turno.toLowerCase().includes(searchTerm.toLowerCase()))
   );
 
   const filteredAgendamentos = agendamentos.filter(a =>
     a.pacienteNome.toLowerCase().includes(searchTerm.toLowerCase()) ||
     a.medicoNome.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    (a.data && a.data.includes(searchTerm)) ||
+    (a.formato && a.formato.toLowerCase().includes(searchTerm.toLowerCase())) ||
     a.hora.includes(searchTerm)
   );
 
@@ -135,7 +139,7 @@ export default function RecordsView() {
                     <th>Paciente</th>
                     <th>Nascimento</th>
                     <th>Contato (Telefone / E-mail)</th>
-                    <th>Sexo</th>
+                    <th>Sexo & Sangue</th>
                     <th>Plano / Convênio</th>
                     <th className="text-right">Ações</th>
                   </tr>
@@ -171,7 +175,9 @@ export default function RecordsView() {
                             </div>
                             <div className="user-name-block">
                               <span className="font-bold text-slate-900">{p.nome}</span>
-                              <span className="text-xs text-slate-500 font-mono">ID: {p.id}</span>
+                              <span className="text-xs text-slate-500 font-mono">
+                                {p.cpf ? `CPF: ${p.cpf}` : `ID: ${p.id}`}
+                              </span>
                             </div>
                           </div>
                         </td>
@@ -183,9 +189,16 @@ export default function RecordsView() {
                           </div>
                         </td>
                         <td>
-                          <span className="badge-tag badge-purple">
-                            {p.sexo}
-                          </span>
+                          <div className="flex items-center gap-1.5 flex-wrap">
+                            <span className="badge-tag badge-purple">
+                              {p.sexo}
+                            </span>
+                            {p.tipoSanguineo && (
+                              <span className="badge-tag badge-red font-bold">
+                                {p.tipoSanguineo}
+                              </span>
+                            )}
+                          </div>
                         </td>
                         <td>
                           <span className={`badge-tag ${p.temConvenio ? 'badge-green' : 'badge-yellow'}`}>
@@ -236,9 +249,9 @@ export default function RecordsView() {
                     <th>Profissional</th>
                     <th>CRM / Registro</th>
                     <th>Especialidade</th>
-                    <th>Experiência</th>
+                    <th>Turno & Exp.</th>
                     <th>Cor Agenda</th>
-                    <th>Comprovante</th>
+                    <th>Modalidade & Anexo</th>
                     <th className="text-right">Ações</th>
                   </tr>
                 </thead>
@@ -286,7 +299,12 @@ export default function RecordsView() {
                             {m.especialidade}
                           </span>
                         </td>
-                        <td>{m.experiencia} anos</td>
+                        <td>
+                          <div>
+                            <span className="font-semibold text-slate-800 text-xs block">{m.turno || 'Integral'}</span>
+                            <span className="text-xs text-slate-500">{m.experiencia} anos exp.</span>
+                          </div>
+                        </td>
                         <td>
                           <div className="flex items-center gap-1.5">
                             <span className="color-dot" style={{ backgroundColor: m.corAgenda }}></span>
@@ -294,9 +312,16 @@ export default function RecordsView() {
                           </div>
                         </td>
                         <td>
-                          <span className="badge-tag badge-gray">
-                            {m.documento || 'Sem anexo'}
-                          </span>
+                          <div className="flex flex-col gap-1">
+                            <span className="badge-tag badge-gray text-xs truncate max-w-[130px]" title={m.documento}>
+                              {m.documento || 'Sem anexo'}
+                            </span>
+                            {m.telemedicina ? (
+                              <span className="badge-tag badge-green text-xs w-fit">Telemedicina ON</span>
+                            ) : (
+                              <span className="badge-tag badge-gray text-xs w-fit">Presencial</span>
+                            )}
+                          </div>
                         </td>
                         <td className="text-right">
                           <div className="actions-cell">
@@ -339,10 +364,10 @@ export default function RecordsView() {
               <table className="data-table">
                 <thead>
                   <tr>
-                    <th>Horário</th>
+                    <th>Data & Horário</th>
                     <th>Paciente</th>
                     <th>Profissional</th>
-                    <th>Teleconsulta (URL)</th>
+                    <th>Formato & Sala</th>
                     <th>Dor (EVA)</th>
                     <th className="text-right">Ações</th>
                   </tr>
@@ -372,7 +397,10 @@ export default function RecordsView() {
                     filteredAgendamentos.map(a => (
                       <tr key={a.id}>
                         <td>
-                          <strong className="text-slate-900 font-mono text-base">{a.hora}</strong>
+                          <div className="flex flex-col">
+                            <strong className="text-slate-900 font-mono text-sm">{formatDateBR(a.data)}</strong>
+                            <span className="text-xs text-slate-500 font-mono">{a.hora}</span>
+                          </div>
                         </td>
                         <td>
                           <strong className="text-slate-800">{a.pacienteNome}</strong>
@@ -387,15 +415,24 @@ export default function RecordsView() {
                           </div>
                         </td>
                         <td>
-                          <a
-                            href={a.linkTeleconsulta}
-                            target="_blank"
-                            rel="noopener noreferrer"
-                            className="inline-flex items-center gap-1 text-xs text-blue-600 hover:underline font-mono"
-                          >
-                            <Video size={13} />
-                            <span>Acessar Sala</span>
-                          </a>
+                          <div className="flex flex-col gap-1">
+                            <span className={`badge-tag ${a.formato === 'Telemedicina' ? 'badge-blue' : 'badge-green'} w-fit`}>
+                              {a.formato || 'Presencial'}
+                            </span>
+                            {a.formato === 'Telemedicina' ? (
+                              <a
+                                href={a.linkTeleconsulta}
+                                target="_blank"
+                                rel="noopener noreferrer"
+                                className="inline-flex items-center gap-1 text-xs text-blue-600 hover:underline font-mono"
+                              >
+                                <Video size={13} />
+                                <span>Sala Virtual</span>
+                              </a>
+                            ) : (
+                              <span className="text-xs text-slate-400">Consultório Local</span>
+                            )}
+                          </div>
                         </td>
                         <td>
                           <span className="font-bold text-slate-800 font-mono">

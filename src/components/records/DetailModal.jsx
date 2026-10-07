@@ -19,9 +19,11 @@ export default function DetailModal() {
     IconComponent = User;
     rows = [
       { label: 'Nome Completo', value: data.nome },
+      { label: 'CPF', value: <code className="code-badge">{data.cpf || '-'}</code> },
       { label: 'Data de Nascimento', value: formatDateBR(data.dataNasc) },
       { label: 'Telefone Celular', value: <span className="font-mono">{data.telefone}</span> },
       { label: 'E-mail', value: data.email },
+      { label: 'Tipo Sanguíneo', value: <span className="badge-tag badge-red font-bold">{data.tipoSanguineo || 'O+'}</span> },
       { label: 'Sexo Biológico', value: <span className="badge-tag badge-purple">{data.sexo}</span> },
       {
         label: 'Plano / Convênio',
@@ -41,6 +43,15 @@ export default function DetailModal() {
       { label: 'Registro de Conselho', value: <code className="code-badge">{data.registro}</code> },
       { label: 'Especialidade', value: <span className="badge-tag badge-blue">{data.especialidade}</span> },
       { label: 'Experiência', value: `${data.experiencia} anos` },
+      { label: 'Turno de Atendimento', value: <span className="badge-tag badge-purple">{data.turno || 'Integral'}</span> },
+      {
+        label: 'Telemedicina',
+        value: (
+          <span className={`badge-tag ${data.telemedicina ? 'badge-green' : 'badge-gray'}`}>
+            {data.telemedicina ? 'Habilitado para Teleconsulta' : 'Apenas Presencial'}
+          </span>
+        )
+      },
       {
         label: 'Cor na Agenda',
         value: (
@@ -59,7 +70,16 @@ export default function DetailModal() {
     rows = [
       { label: 'Paciente', value: <strong>{data.pacienteNome}</strong> },
       { label: 'Especialista', value: `${data.medicoNome} (${data.especialidade})` },
+      { label: 'Data da Consulta', value: <strong className="font-mono">{formatDateBR(data.data)}</strong> },
       { label: 'Horário', value: <strong className="font-mono text-base">{data.hora}</strong> },
+      {
+        label: 'Formato',
+        value: (
+          <span className={`badge-tag ${data.formato === 'Telemedicina' ? 'badge-blue' : 'badge-green'}`}>
+            {data.formato || 'Presencial'}
+          </span>
+        )
+      },
       {
         label: 'Sala Virtual',
         value: (

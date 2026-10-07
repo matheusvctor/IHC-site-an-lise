@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useClinic } from '../../context/ClinicContext';
-import { formatTelefone } from '../../utils/formatters';
+import { formatCPF, formatTelefone } from '../../utils/formatters';
 import {
   Save,
   RotateCcw,
@@ -12,12 +12,18 @@ export default function PacienteForm() {
 
   const [formData, setFormData] = useState({
     nome: '',
+    cpf: '',
     dataNasc: '',
     telefone: '',
     email: '',
+    tipoSanguineo: 'O+',
     sexo: 'Feminino',
     temConvenio: false
   });
+
+  const handleCpfChange = (e) => {
+    setFormData(prev => ({ ...prev, cpf: formatCPF(e.target.value) }));
+  };
 
   const handleTelChange = (e) => {
     setFormData(prev => ({ ...prev, telefone: formatTelefone(e.target.value) }));
@@ -26,7 +32,7 @@ export default function PacienteForm() {
   const handleSubmit = (e) => {
     e.preventDefault();
 
-    if (!formData.nome.trim() || !formData.dataNasc || !formData.telefone.trim() || !formData.email.trim()) {
+    if (!formData.nome.trim() || !formData.cpf.trim() || !formData.dataNasc || !formData.telefone.trim() || !formData.email.trim()) {
       alert('Por favor, preencha todos os campos obrigatórios marcados com (*).');
       return;
     }
@@ -38,13 +44,17 @@ export default function PacienteForm() {
   const handleReset = () => {
     setFormData({
       nome: '',
+      cpf: '',
       dataNasc: '',
       telefone: '',
       email: '',
+      tipoSanguineo: 'O+',
       sexo: 'Feminino',
       temConvenio: false
     });
   };
+
+  const tiposSanguineos = ['A+', 'A-', 'B+', 'B-', 'AB+', 'AB-', 'O+', 'O-'];
 
   return (
     <div className="tab-pane active">
@@ -83,7 +93,26 @@ export default function PacienteForm() {
                 />
               </div>
 
-              {/* Campo 2: Data de Nascimento (date) */}
+              {/* Campo 2: CPF (text com máscara) */}
+              <div className="form-group">
+                <label htmlFor="pacCpf" className="form-label">
+                  CPF <span className="required">*</span>
+                </label>
+                <input
+                  type="text"
+                  id="pacCpf"
+                  className="form-control font-mono"
+                  placeholder="000.000.000-00"
+                  maxLength={14}
+                  value={formData.cpf}
+                  onChange={handleCpfChange}
+                  required
+                />
+              </div>
+            </div>
+
+            <div className="form-grid-2">
+              {/* Campo 3: Data de Nascimento (date) */}
               <div className="form-group">
                 <label htmlFor="pacDataNasc" className="form-label">
                   Data de Nascimento <span className="required">*</span>
@@ -97,10 +126,8 @@ export default function PacienteForm() {
                   required
                 />
               </div>
-            </div>
 
-            <div className="form-grid-2">
-              {/* Campo 3: Telefone (tel) */}
+              {/* Campo 4: Telefone (tel) */}
               <div className="form-group">
                 <label htmlFor="pacTelefone" className="form-label">
                   Telefone / WhatsApp <span className="required">*</span>
@@ -116,8 +143,10 @@ export default function PacienteForm() {
                   required
                 />
               </div>
+            </div>
 
-              {/* Campo 4: E-mail (email) */}
+            <div className="form-grid-2">
+              {/* Campo 5: E-mail (email) */}
               <div className="form-group">
                 <label htmlFor="pacEmail" className="form-label">
                   E-mail <span className="required">*</span>
@@ -132,10 +161,27 @@ export default function PacienteForm() {
                   required
                 />
               </div>
+
+              {/* Campo 6: Tipo Sanguíneo (select) */}
+              <div className="form-group">
+                <label htmlFor="pacTipoSanguineo" className="form-label">
+                  Tipo Sanguíneo
+                </label>
+                <select
+                  id="pacTipoSanguineo"
+                  className="form-control font-semibold"
+                  value={formData.tipoSanguineo}
+                  onChange={(e) => setFormData(prev => ({ ...prev, tipoSanguineo: e.target.value }))}
+                >
+                  {tiposSanguineos.map(tipo => (
+                    <option key={tipo} value={tipo}>{tipo}</option>
+                  ))}
+                </select>
+              </div>
             </div>
 
             <div className="form-grid-2">
-              {/* Campo 5: Sexo Biológico (radio) */}
+              {/* Campo 7: Sexo Biológico (radio) */}
               <div className="form-group">
                 <label className="form-label">
                   Sexo Biológico <span className="required">*</span>
@@ -159,7 +205,7 @@ export default function PacienteForm() {
                 </div>
               </div>
 
-              {/* Campo 6: Convênio (checkbox switch) */}
+              {/* Campo 8: Convênio (checkbox switch) */}
               <div className="form-group flex-center-vertical">
                 <label className="form-label">
                   Plano de Saúde

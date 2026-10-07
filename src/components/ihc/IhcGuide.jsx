@@ -15,22 +15,35 @@ import {
 
 export default function IhcGuide() {
   const camposInventory = [
+    // Formulário 1: Paciente (8 campos)
     { num: 1, form: '1. Paciente', campo: 'Nome Completo', tipo: 'type="text"', tag: 'text', icon: '🔤', desc: 'Entrada textual livre para identificação civil.' },
-    { num: 2, form: '1. Paciente', campo: 'Data de Nascimento', tipo: 'type="date"', tag: 'date', icon: '📅', desc: 'Seletor de calendário nativo para datação precisa.' },
-    { num: 3, form: '1. Paciente', campo: 'Telefone Celular', tipo: 'type="tel"', tag: 'tel', icon: '📱', desc: 'Teclado telefônico numérico com máscara.' },
-    { num: 4, form: '1. Paciente', campo: 'E-mail do Paciente', tipo: 'type="email"', tag: 'email', icon: '✉️', desc: 'Validação sintática automática de endereço eletrônico.' },
-    { num: 5, form: '1. Paciente', campo: 'Sexo Biológico', tipo: 'type="radio"', tag: 'radio', icon: '🔘', desc: 'Grupo de opções exclusivas (Feminino/Masculino/Outro).' },
-    { num: 6, form: '1. Paciente', campo: 'Possui Convênio?', tipo: 'type="checkbox" (switch)', tag: 'checkbox', icon: '🎚️', desc: 'Alternância booleana com chave deslizante moderna.' },
-    { num: 7, form: '2. Médico', campo: 'Nome e CRM', tipo: 'type="text"', tag: 'text', icon: '🔤', desc: 'Registro formal com máscara de conselho regional.' },
-    { num: 8, form: '2. Médico', campo: 'Especialidade Médica', tipo: '<select> dropdown', tag: 'select', icon: '🔽', desc: 'Lista suspensa de opções pré-definidas padronizadas.' },
-    { num: 9, form: '2. Médico', campo: 'Tempo de Experiência', tipo: 'type="number"', tag: 'number', icon: '🔢', desc: 'Controle numérico incremental com limites (min=0, max=60).' },
-    { num: 10, form: '2. Médico', campo: 'Cor na Agenda', tipo: 'type="color"', tag: 'color', icon: '🎨', desc: 'Seletor nativo de cor hexadecimal (color picker).' },
-    { num: 11, form: '2. Médico', campo: 'Comprovante / Diploma', tipo: 'type="file"', tag: 'file', icon: '📎', desc: 'Controle de upload de arquivos com dropzone estilizada.' },
-    { num: 12, form: '3. Agendamento', campo: 'Vínculo do Paciente', tipo: '<select> dinâmico', tag: 'select', icon: '👥', desc: 'Menu suspenso alimentado dinamicamente pelos dados salvos.' },
-    { num: 13, form: '3. Agendamento', campo: 'Horário da Consulta', tipo: 'type="time"', tag: 'time', icon: '⏰', desc: 'Seletor de tempo nativo no formato HH:mm.' },
-    { num: 14, form: '3. Agendamento', campo: 'Link da Teleconsulta', tipo: 'type="url"', tag: 'url', icon: '🔗', desc: 'Entrada com validação estrita de protocolo de link web.' },
-    { num: 15, form: '3. Agendamento', campo: 'Nível de Dor (EVA)', tipo: 'type="range"', tag: 'range', icon: '🎚️', desc: 'Slider analógico de 0 a 10 com badge semafórico reativo.' },
-    { num: 16, form: '3. Agendamento', campo: 'Queixa Principal', tipo: '<textarea>', tag: 'textarea', icon: '📝', desc: 'Área de texto livre multilinha para descrição sintomática.' }
+    { num: 2, form: '1. Paciente', campo: 'CPF do Paciente', tipo: 'type="text" (máscara)', tag: 'text', icon: '🪪', desc: 'Identificador fiscal único nacional com máscara de entrada.' },
+    { num: 3, form: '1. Paciente', campo: 'Data de Nascimento', tipo: 'type="date"', tag: 'date', icon: '📅', desc: 'Seletor de calendário nativo para datação cronológica precisa.' },
+    { num: 4, form: '1. Paciente', campo: 'Telefone Celular', tipo: 'type="tel"', tag: 'tel', icon: '📱', desc: 'Teclado telefônico numérico com máscara de DDD e dígitos.' },
+    { num: 5, form: '1. Paciente', campo: 'E-mail do Paciente', tipo: 'type="email"', tag: 'email', icon: '✉️', desc: 'Validação sintática automática de endereço eletrônico.' },
+    { num: 6, form: '1. Paciente', campo: 'Tipo Sanguíneo', tipo: '<select> dropdown', tag: 'select', icon: '🩸', desc: 'Lista suspensa de fenótipos sanguíneos padronizados.' },
+    { num: 7, form: '1. Paciente', campo: 'Sexo Biológico', tipo: 'type="radio"', tag: 'radio', icon: '🔘', desc: 'Grupo de opções exclusivas (Feminino/Masculino/Outro).' },
+    { num: 8, form: '1. Paciente', campo: 'Plano de Saúde', tipo: 'type="checkbox" (switch)', tag: 'checkbox', icon: '🎚️', desc: 'Alternância booleana com chave deslizante moderna.' },
+
+    // Formulário 2: Médico / Especialista (8 campos)
+    { num: 9, form: '2. Médico', campo: 'Nome do Especialista', tipo: 'type="text"', tag: 'text', icon: '🔤', desc: 'Identificação formal do profissional de saúde.' },
+    { num: 10, form: '2. Médico', campo: 'Registro CRM/UF', tipo: 'type="text"', tag: 'text', icon: '📜', desc: 'Código de inscrição no conselho regional médico.' },
+    { num: 11, form: '2. Médico', campo: 'Especialidade Médica', tipo: '<select> dropdown', tag: 'select', icon: '🔽', desc: 'Lista suspensa de especialidades médicas reconhecidas.' },
+    { num: 12, form: '2. Médico', campo: 'Tempo de Experiência', tipo: 'type="number"', tag: 'number', icon: '🔢', desc: 'Controle numérico com limites restritos (min=0, max=60).' },
+    { num: 13, form: '2. Médico', campo: 'Turno de Atendimento', tipo: 'type="radio"', tag: 'radio', icon: '☀️', desc: 'Opções mutuamente exclusivas (Manhã/Tarde/Noite/Integral).' },
+    { num: 14, form: '2. Médico', campo: 'Cor na Agenda', tipo: 'type="color"', tag: 'color', icon: '🎨', desc: 'Seletor nativo de cor hexadecimal (color picker) para calendário.' },
+    { num: 15, form: '2. Médico', campo: 'Comprovante / RQE', tipo: 'type="file"', tag: 'file', icon: '📎', desc: 'Upload de arquivo documental com dropzone estilizada.' },
+    { num: 16, form: '2. Médico', campo: 'Atende Telemedicina', tipo: 'type="checkbox" (switch)', tag: 'checkbox', icon: '💻', desc: 'Chave deslizante booleana de disponibilidade para teleconsulta.' },
+
+    // Formulário 3: Agendamento & Triagem (8 campos)
+    { num: 17, form: '3. Agendamento', campo: 'Vínculo do Paciente', tipo: '<select> dinâmico', tag: 'select', icon: '👥', desc: 'Menu suspenso alimentado dinamicamente pelos pacientes salvos.' },
+    { num: 18, form: '3. Agendamento', campo: 'Especialista Designado', tipo: '<select> dinâmico', tag: 'select', icon: '🩺', desc: 'Seleção do médico responsável sincronizada com o banco.' },
+    { num: 19, form: '3. Agendamento', campo: 'Data da Consulta', tipo: 'type="date"', tag: 'date', icon: '🗓️', desc: 'Seletor de calendário nativo para agendamento do atendimento.' },
+    { num: 20, form: '3. Agendamento', campo: 'Horário da Consulta', tipo: 'type="time"', tag: 'time', icon: '⏰', desc: 'Seletor de tempo nativo no formato HH:mm.' },
+    { num: 21, form: '3. Agendamento', campo: 'Formato da Consulta', tipo: 'type="radio"', tag: 'radio', icon: '🏥', desc: 'Opção exclusiva entre atendimento Presencial ou Telemedicina.' },
+    { num: 22, form: '3. Agendamento', campo: 'Link da Teleconsulta', tipo: 'type="url"', tag: 'url', icon: '🔗', desc: 'Entrada com validação estrita de protocolo de sala web.' },
+    { num: 23, form: '3. Agendamento', campo: 'Nível de Dor (EVA)', tipo: 'type="range"', tag: 'range', icon: '🎚️', desc: 'Slider analógico de 0 a 10 com badge semafórico reativo.' },
+    { num: 24, form: '3. Agendamento', campo: 'Queixa Principal', tipo: '<textarea>', tag: 'textarea', icon: '📝', desc: 'Área de texto livre multilinha para histórico sintomático.' }
   ];
 
   return (
@@ -49,7 +62,7 @@ export default function IhcGuide() {
           </div>
           <p>
             Demonstração técnica de atendimento estrito aos requisitos do enunciado: <strong>no mínimo 3 cadastros</strong>,{' '}
-            <strong>no mínimo 15 campos de preenchimento ao todo</strong> (implementados 16) e <strong>máxima variabilidade de controles</strong> (14 tipos distintos em 16 campos) para atingir a nota máxima.
+            <strong>no mínimo 15 campos de preenchimento ao todo</strong> (implementados 24 campos, 8 em cada formulário) e <strong>máxima variabilidade de controles</strong> (14 tipos distintos) para garantir nota máxima.
           </p>
         </div>
 
@@ -65,10 +78,10 @@ export default function IhcGuide() {
                 <strong>3 Cadastros no Mínimo:</strong> 1. Paciente • 2. Especialista • 3. Agendamento & Triagem.
               </li>
               <li>
-                <strong>15 Campos de Preenchimento (Ao Todo):</strong> Implementados <strong>16 campos</strong> distribuídos de forma equilibrada (6 + 5 + 5).
+                <strong>15 Campos de Preenchimento (Ao Todo):</strong> Implementados <strong>24 campos</strong> distribuídos de forma equilibrada e simétrica (8 + 8 + 8).
               </li>
               <li>
-                <strong>Máxima Variabilidade de Tipos (Critério de Nota Máxima):</strong> Quase nenhum tipo se repete! <strong>14 tipos HTML5 distintos</strong> distribuídos nos 16 campos.
+                <strong>Máxima Variabilidade de Tipos (Critério de Nota Máxima):</strong> <strong>14 tipos HTML5 distintos</strong> distribuídos nos 24 campos.
               </li>
               <li>
                 <strong>Software Funcional:</strong> Aplicação React 18 moderna, com persistência local, busca e validações.
@@ -103,11 +116,11 @@ export default function IhcGuide() {
           </div>
         </div>
 
-        {/* Tabela de Mapeamento dos 16 Campos */}
+        {/* Tabela de Mapeamento dos 24 Campos */}
         <div className="mb-6">
           <div className="section-title-simple">
             <FileText size={18} className="text-blue-600" />
-            <h3>Inventário dos 16 Campos e Seus Respectivos Tipos HTML5</h3>
+            <h3>Inventário dos 24 Campos e Seus Respectivos Tipos HTML5</h3>
           </div>
           <div className="table-responsive border border-slate-200 rounded-lg overflow-hidden">
             <table className="data-table">
