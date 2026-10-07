@@ -9,6 +9,39 @@ const STORAGE_KEYS = {
   AGENDAMENTOS: 'synapse_health_agendamentos'
 };
 
+export const DEFAULT_PACIENTE_FORM = {
+  nome: '',
+  cpf: '',
+  dataNasc: '',
+  telefone: '',
+  email: '',
+  tipoSanguineo: 'O+',
+  sexo: 'Feminino',
+  temConvenio: false
+};
+
+export const DEFAULT_MEDICO_FORM = {
+  nome: '',
+  registro: '',
+  especialidade: '',
+  experiencia: 5,
+  turno: 'Manhã',
+  corAgenda: '#2563eb',
+  documento: '',
+  telemedicina: true
+};
+
+export const DEFAULT_AGENDAMENTO_FORM = {
+  pacienteId: '',
+  medicoId: '',
+  data: '',
+  hora: '09:30',
+  formato: 'Presencial',
+  linkTeleconsulta: 'https://meet.synapsehealth.com.br/sala-virtual',
+  nivelDor: 0,
+  observacoes: ''
+};
+
 export function ClinicProvider({ children }) {
   const [pacientes, setPacientes] = useState(() => {
     const saved = localStorage.getItem(STORAGE_KEYS.PACIENTES) || localStorage.getItem('medflow_react_pacientes');
@@ -25,11 +58,32 @@ export function ClinicProvider({ children }) {
     return saved ? JSON.parse(saved) : initialAgendamentos;
   });
 
+  // Drafts para preservação entre abas (ISO 9241-17, Cláusula 8.6.2)
+  const [pacienteDraft, setPacienteDraft] = useState(DEFAULT_PACIENTE_FORM);
+  const [pacienteUndo, setPacienteUndo] = useState(null);
+
+  const [medicoDraft, setMedicoDraft] = useState(DEFAULT_MEDICO_FORM);
+  const [medicoUndo, setMedicoUndo] = useState(null);
+
+  const [agendamentoDraft, setAgendamentoDraft] = useState(DEFAULT_AGENDAMENTO_FORM);
+  const [agendamentoUndo, setAgendamentoUndo] = useState(null);
+
   const [activeTab, setActiveTab] = useState('dashboard');
   const [activeSubtab, setActiveSubtab] = useState('pacientes');
   const [toasts, setToasts] = useState([]);
   const [selectedDetail, setSelectedDetail] = useState(null);
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
+
+  // Verificação de unicidade em banco (ISO 9241-17, Cláusula 6.5.2b)
+  const isCpfUnique = (cpf, excludeId = null) => {
+    if (!cpf) return true;
+    return !pacientes.some(p => p.cpf === cpf && p.id !== excludeId);
+  };
+
+  const isCrmUnique = (crm, excludeId = null) => {
+    if (!crm) return true;
+    return !medicos.some(m => m.registro && m.registro.toLowerCase().trim() === crm.toLowerCase().trim() && m.id !== excludeId);
+  };
 
   // Sync state to localStorage
   useEffect(() => {
@@ -153,7 +207,21 @@ export function ClinicProvider({ children }) {
         deleteMedico,
         deleteAgendamento,
         loadDemoData,
-        resetAllData
+        resetAllData,
+        pacienteDraft,
+        setPacienteDraft,
+        pacienteUndo,
+        setPacienteUndo,
+        medicoDraft,
+        setMedicoDraft,
+        medicoUndo,
+        setMedicoUndo,
+        agendamentoDraft,
+        setAgendamentoDraft,
+        agendamentoUndo,
+        setAgendamentoUndo,
+        isCpfUnique,
+        isCrmUnique
       }}
     >
       {children}

@@ -1756,6 +1756,217 @@ input:checked + .slider:before {
 }
 
 /* ==========================================================================
+   CONFORMIDADE ERGONÔMICA ISO 9241-17 (FEEDBACK, VALIDAÇÃO & CONTROLE)
+   ========================================================================== */
+.form-instruction-banner {
+  background: #f8fafc;
+  border: 1px solid var(--border-light);
+  border-left: 4px solid var(--primary);
+  border-radius: var(--radius-md);
+  padding: 0.9rem 1.15rem;
+  margin-bottom: 1.5rem;
+  display: flex;
+  align-items: flex-start;
+  gap: 0.85rem;
+  font-size: 0.825rem;
+  color: #334155;
+  line-height: 1.45;
+}
+
+.instruction-icon {
+  color: var(--primary);
+  flex-shrink: 0;
+  margin-top: 2px;
+}
+
+.instruction-content strong {
+  color: var(--text-main);
+}
+
+.instruction-legend {
+  display: flex;
+  align-items: center;
+  gap: 1.25rem;
+  margin-top: 0.4rem;
+  font-size: 0.775rem;
+  color: var(--text-muted);
+}
+
+.error-summary-banner {
+  background: #fef2f2;
+  border: 1.5px solid #fecaca;
+  border-radius: var(--radius-md);
+  padding: 1rem 1.25rem;
+  margin-bottom: 1.5rem;
+  animation: slideDownFade 0.2s ease-out;
+}
+
+@keyframes slideDownFade {
+  from { opacity: 0; transform: translateY(-6px); }
+  to { opacity: 1; transform: translateY(0); }
+}
+
+.error-summary-header {
+  display: flex;
+  align-items: center;
+  gap: 0.55rem;
+  color: #991b1b;
+  font-size: 0.9rem;
+  font-weight: 700;
+  margin-bottom: 0.5rem;
+}
+
+.error-summary-list {
+  list-style: none;
+  padding: 0;
+  margin: 0;
+  display: flex;
+  flex-direction: column;
+  gap: 0.35rem;
+}
+
+.error-summary-link {
+  background: none;
+  border: none;
+  padding: 0;
+  color: #b91c1c;
+  font-size: 0.825rem;
+  text-decoration: underline;
+  cursor: pointer;
+  text-align: left;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.4rem;
+  font-weight: 500;
+}
+
+.error-summary-link:hover {
+  color: #7f1d1d;
+  font-weight: 600;
+}
+
+.field-error-msg {
+  display: flex;
+  align-items: center;
+  gap: 0.35rem;
+  color: #dc2626;
+  font-size: 0.75rem;
+  font-weight: 600;
+  margin-top: 0.35rem;
+  animation: fadeIn 0.15s ease;
+}
+
+.field-cue-text {
+  font-size: 0.74rem;
+  color: #64748b;
+  margin-top: 0.3rem;
+  line-height: 1.3;
+}
+
+.form-control.is-invalid {
+  border-color: #ef4444 !important;
+  background-color: #fffafb !important;
+  box-shadow: 0 0 0 3px rgba(239, 68, 68, 0.12) !important;
+}
+
+.form-control:disabled,
+.form-control[disabled] {
+  background-color: #f1f5f9 !important;
+  color: #94a3b8 !important;
+  cursor: not-allowed !important;
+  border-color: #e2e8f0 !important;
+}
+
+.undo-banner {
+  background: #fffbeb;
+  border: 1px solid #fde68a;
+  border-radius: var(--radius-md);
+  padding: 0.75rem 1.15rem;
+  margin-bottom: 1.35rem;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  gap: 1rem;
+  animation: fadeIn 0.2s ease;
+}
+
+.undo-banner-left {
+  display: flex;
+  align-items: center;
+  gap: 0.6rem;
+  font-size: 0.835rem;
+  color: #92400e;
+  font-weight: 500;
+}
+
+.undo-banner-btn {
+  background: #ffffff;
+  border: 1px solid #d97706;
+  color: #b45309;
+  font-size: 0.775rem;
+  font-weight: 700;
+  padding: 0.35rem 0.75rem;
+  border-radius: var(--radius-sm);
+  cursor: pointer;
+  display: inline-flex;
+  align-items: center;
+  gap: 0.35rem;
+  transition: all 0.15s;
+}
+
+.undo-banner-btn:hover {
+  background: #fef3c7;
+  color: #78350f;
+}
+
+.input-suffix-wrapper {
+  position: relative;
+  display: flex;
+  align-items: center;
+  width: 100%;
+}
+
+.input-suffix-wrapper .form-control {
+  padding-right: 4rem;
+}
+
+.suffix-badge {
+  position: absolute;
+  right: 12px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  color: #64748b;
+  pointer-events: none;
+  background: #f1f5f9;
+  padding: 2px 7px;
+  border-radius: 4px;
+}
+
+.textarea-footer {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 0.3rem;
+}
+
+.char-counter {
+  font-size: 0.74rem;
+  font-family: 'JetBrains Mono', monospace;
+  color: #64748b;
+  font-weight: 500;
+}
+
+.char-counter.limit-near {
+  color: #d97706;
+  font-weight: 700;
+}
+
+.char-counter.limit-reached {
+  color: #dc2626;
+  font-weight: 700;
+}
+
+/* ==========================================================================
    BANCO DE REGISTROS & TABELAS SAAS
    ========================================================================== */
 .records-container {
