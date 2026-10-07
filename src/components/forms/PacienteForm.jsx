@@ -4,12 +4,7 @@ import { formatTelefone } from '../../utils/formatters';
 import {
   Save,
   RotateCcw,
-  User,
-  Calendar,
-  Phone,
-  Mail,
-  ShieldCheck,
-  CheckCircle2
+  User
 } from 'lucide-react';
 
 export default function PacienteForm() {
@@ -54,33 +49,25 @@ export default function PacienteForm() {
   return (
     <div className="tab-pane active">
       <div className="form-container">
-        {/* Cabeçalho do Formulário */}
+        {/* Cabeçalho Limpo */}
         <div className="form-header">
-          <div className="form-header-badge">
-            <span className="badge-dot"></span>
-            <span>Cadastro 01 de 03 • 6 Campos (6 Tipos Distintos)</span>
-          </div>
-          <h2>Ficha Cadastral do Paciente</h2>
-          <p>
-            Registro de prontuário inicial com foco em alta variabilidade de controles HTML5:
-            campos dos tipos <code>text</code>, <code>date</code>, <code>tel</code>, <code>email</code>, <code>radio</code> e <code>checkbox</code>.
-          </p>
+          <h2>Cadastro de Paciente</h2>
+          <p>Preencha os dados do paciente para abertura de prontuário.</p>
         </div>
 
         <form onSubmit={handleSubmit} noValidate>
           <div className="form-section-card">
             <div className="form-section-title">
               <div className="section-icon-box bg-blue-subtle text-blue-600">
-                <User size={20} />
+                <User size={18} />
               </div>
               <div className="section-title-text">
-                <h3>Dados Pessoais e Identificação do Paciente</h3>
-                <span>Preencha os canais de contato e parâmetros básicos do prontuário</span>
+                <h3>Identificação e Contato</h3>
               </div>
             </div>
 
             <div className="form-grid-2">
-              {/* Campo 1: Nome Completo (type="text") */}
+              {/* Campo 1: Nome Completo (text) */}
               <div className="form-group">
                 <label htmlFor="pacNome" className="form-label">
                   Nome Completo <span className="required">*</span>
@@ -89,15 +76,14 @@ export default function PacienteForm() {
                   type="text"
                   id="pacNome"
                   className="form-control"
-                  placeholder="Ex: Camila Ferreira Bastos"
+                  placeholder="Nome do paciente"
                   value={formData.nome}
                   onChange={(e) => setFormData(prev => ({ ...prev, nome: e.target.value }))}
                   required
                 />
-                <small className="form-help">Nome civil completo conforme documento de identificação.</small>
               </div>
 
-              {/* Campo 2: Data de Nascimento (type="date") */}
+              {/* Campo 2: Data de Nascimento (date) */}
               <div className="form-group">
                 <label htmlFor="pacDataNasc" className="form-label">
                   Data de Nascimento <span className="required">*</span>
@@ -110,49 +96,46 @@ export default function PacienteForm() {
                   onChange={(e) => setFormData(prev => ({ ...prev, dataNasc: e.target.value }))}
                   required
                 />
-                <small className="form-help">Utilizado para cálculo da faixa etária no prontuário.</small>
               </div>
             </div>
 
             <div className="form-grid-2">
-              {/* Campo 3: Telefone Celular (type="tel") */}
+              {/* Campo 3: Telefone (tel) */}
               <div className="form-group">
                 <label htmlFor="pacTelefone" className="form-label">
-                  Telefone Celular (WhatsApp) <span className="required">*</span>
+                  Telefone / WhatsApp <span className="required">*</span>
                 </label>
                 <input
                   type="tel"
                   id="pacTelefone"
                   className="form-control font-mono"
-                  placeholder="(11) 98765-4321"
+                  placeholder="(11) 90000-0000"
                   maxLength={15}
                   value={formData.telefone}
                   onChange={handleTelChange}
                   required
                 />
-                <small className="form-help">Canal prioritário para envio de lembretes e confirmações.</small>
               </div>
 
-              {/* Campo 4: E-mail (type="email") */}
+              {/* Campo 4: E-mail (email) */}
               <div className="form-group">
                 <label htmlFor="pacEmail" className="form-label">
-                  E-mail do Paciente <span className="required">*</span>
+                  E-mail <span className="required">*</span>
                 </label>
                 <input
                   type="email"
                   id="pacEmail"
                   className="form-control"
-                  placeholder="paciente@exemplo.com"
+                  placeholder="paciente@email.com"
                   value={formData.email}
                   onChange={(e) => setFormData(prev => ({ ...prev, email: e.target.value }))}
                   required
                 />
-                <small className="form-help">Endereço eletrônico para recebimento de receitas e laudos.</small>
               </div>
             </div>
 
             <div className="form-grid-2">
-              {/* Campo 5: Sexo Biológico (type="radio") */}
+              {/* Campo 5: Sexo Biológico (radio) */}
               <div className="form-group">
                 <label className="form-label">
                   Sexo Biológico <span className="required">*</span>
@@ -174,13 +157,12 @@ export default function PacienteForm() {
                     </label>
                   ))}
                 </div>
-                <small className="form-help">Definição para adequação dos parâmetros laboratoriais.</small>
               </div>
 
-              {/* Campo 6: Possui Convênio? (type="checkbox" Switch) */}
+              {/* Campo 6: Convênio (checkbox switch) */}
               <div className="form-group flex-center-vertical">
                 <label className="form-label">
-                  Possui Convênio Médico / Plano de Saúde?
+                  Plano de Saúde
                 </label>
                 <div className="toggle-container-modern">
                   <label className="switch">
@@ -194,10 +176,8 @@ export default function PacienteForm() {
                   </label>
                   <div className="toggle-text-block">
                     <strong>{formData.temConvenio ? 'Convênio Ativo' : 'Atendimento Particular'}</strong>
-                    <span>{formData.temConvenio ? 'Cobertura via operadora de saúde' : 'Faturamento particular na recepção'}</span>
                   </div>
                 </div>
-                <small className="form-help">Alternador booleano para modalidade de faturamento.</small>
               </div>
             </div>
           </div>
@@ -205,12 +185,12 @@ export default function PacienteForm() {
           {/* Barra de Ações */}
           <div className="form-actions-bar">
             <button type="submit" className="btn-primary">
-              <Save size={18} />
+              <Save size={17} />
               <span>Salvar Paciente</span>
             </button>
             <button type="button" onClick={handleReset} className="btn-secondary">
-              <RotateCcw size={16} />
-              <span>Limpar Formulário</span>
+              <RotateCcw size={15} />
+              <span>Limpar</span>
             </button>
           </div>
         </form>

@@ -4,11 +4,8 @@ import {
   Save,
   RotateCcw,
   Stethoscope,
-  Award,
-  Palette,
   Upload,
-  FileCheck,
-  CheckCircle2
+  FileCheck
 } from 'lucide-react';
 
 export default function MedicoForm() {
@@ -83,31 +80,23 @@ export default function MedicoForm() {
       <div className="form-container">
         {/* Cabeçalho */}
         <div className="form-header">
-          <div className="form-header-badge">
-            <span className="badge-dot"></span>
-            <span>Cadastro 02 de 03 • 5 Campos (Variabilidade Máxima)</span>
-          </div>
-          <h2>Cadastro de Profissional de Saúde</h2>
-          <p>
-            Credenciamento clínico demonstrando variabilidade de controles:
-            campos dos tipos <code>text</code>, <code>select</code>, <code>number</code>, <code>color</code> e <code>file</code>.
-          </p>
+          <h2>Cadastro de Especialista</h2>
+          <p>Credenciamento de profissionais de saúde e parametrização de agenda.</p>
         </div>
 
         <form onSubmit={handleSubmit} noValidate>
           <div className="form-section-card">
             <div className="form-section-title">
               <div className="section-icon-box bg-emerald-subtle text-emerald-600">
-                <Stethoscope size={20} />
+                <Stethoscope size={18} />
               </div>
               <div className="section-title-text">
-                <h3>Credenciamento, Especialidade & Visual da Agenda</h3>
-                <span>Registro no conselho profissional, área de atuação e parâmetros visuais</span>
+                <h3>Dados Profissionais & Especialidade</h3>
               </div>
             </div>
 
             <div className="form-grid-2">
-              {/* Campo 1: Nome Completo (type="text") */}
+              {/* Campo 1: Nome (text) */}
               <div className="form-group">
                 <label htmlFor="medNome" className="form-label">
                   Nome do Profissional <span className="required">*</span>
@@ -121,10 +110,9 @@ export default function MedicoForm() {
                   onChange={(e) => setFormData(prev => ({ ...prev, nome: e.target.value }))}
                   required
                 />
-                <small className="form-help">Nome de apresentação na escala e nos laudos.</small>
               </div>
 
-              {/* Campo 2: CRM / Registro (type="text" com máscara/padrão) */}
+              {/* Campo 2: CRM (text) */}
               <div className="form-group">
                 <label htmlFor="medRegistro" className="form-label">
                   Registro Profissional (CRM/UF) <span className="required">*</span>
@@ -133,20 +121,19 @@ export default function MedicoForm() {
                   type="text"
                   id="medRegistro"
                   className="form-control font-mono"
-                  placeholder="Ex: CRM-SP 148920"
+                  placeholder="CRM-SP 123456"
                   value={formData.registro}
                   onChange={(e) => setFormData(prev => ({ ...prev, registro: e.target.value }))}
                   required
                 />
-                <small className="form-help">Inscrição ativa no conselho regional correspondente.</small>
               </div>
             </div>
 
             <div className="form-grid-2">
-              {/* Campo 3: Especialidade Médica (tag <select>) */}
+              {/* Campo 3: Especialidade (select) */}
               <div className="form-group">
                 <label htmlFor="medEspecialidade" className="form-label">
-                  Especialidade Médica Principal <span className="required">*</span>
+                  Especialidade Médica <span className="required">*</span>
                 </label>
                 <select
                   id="medEspecialidade"
@@ -155,18 +142,17 @@ export default function MedicoForm() {
                   onChange={(e) => setFormData(prev => ({ ...prev, especialidade: e.target.value }))}
                   required
                 >
-                  <option value="">Selecione a especialidade médica...</option>
+                  <option value="">Selecione...</option>
                   {especialidades.map(esp => (
                     <option key={esp} value={esp}>{esp}</option>
                   ))}
                 </select>
-                <small className="form-help">Menu suspenso de seleção de área de atuação clínica.</small>
               </div>
 
-              {/* Campo 4: Anos de Experiência (type="number") */}
+              {/* Campo 4: Experiência (number) */}
               <div className="form-group">
                 <label htmlFor="medExperiencia" className="form-label">
-                  Tempo de Experiência (em anos) <span className="required">*</span>
+                  Tempo de Experiência (anos) <span className="required">*</span>
                 </label>
                 <input
                   type="number"
@@ -176,18 +162,17 @@ export default function MedicoForm() {
                   max="60"
                   step="1"
                   value={formData.experiencia}
-                  onChange={(e) => setFormData(prev => ({ ...prev, experiencia: e.target.value }))}
+                  onChange={(e) => setFormData(prev => ({ ...prev, experiencia: parseInt(e.target.value) || 0 }))}
                   required
                 />
-                <small className="form-help">Controle numérico com incremento e limites (min=0 e max=60).</small>
               </div>
             </div>
 
             <div className="form-grid-2">
-              {/* Campo 5: Cor de Identificação na Agenda (type="color") */}
+              {/* Campo 5: Cor na Agenda (color) */}
               <div className="form-group">
                 <label htmlFor="medCorAgenda" className="form-label">
-                  Cor de Identificação na Agenda
+                  Cor na Agenda
                 </label>
                 <div className="color-picker-box">
                   <input
@@ -199,16 +184,14 @@ export default function MedicoForm() {
                   />
                   <div className="color-info-text">
                     <span className="font-mono text-sm font-semibold">{formData.corAgenda}</span>
-                    <span className="text-xs text-slate-500">Seletor de cor nativo HTML5</span>
                   </div>
                 </div>
-                <small className="form-help">Paleta visual para diferenciação dos horários no calendário.</small>
               </div>
 
-              {/* Campo 6: Comprovante de Registro / Diploma (type="file") */}
+              {/* Campo 6: Comprovante / RQE (file) */}
               <div className="form-group">
                 <label htmlFor="medDocumento" className="form-label">
-                  Comprovante de Registro / Diploma (RQE)
+                  Comprovante / Diploma (RQE)
                 </label>
                 <div className="file-dropzone">
                   <input
@@ -220,20 +203,15 @@ export default function MedicoForm() {
                   />
                   <label htmlFor="medDocumento" className={`file-dropzone-label ${fileName ? 'has-file' : ''}`}>
                     <div className="file-icon-box">
-                      {fileName ? <FileCheck size={20} className="text-emerald-600" /> : <Upload size={20} />}
+                      {fileName ? <FileCheck size={18} className="text-emerald-600" /> : <Upload size={18} />}
                     </div>
                     <div className="file-text-box">
                       <span className="file-title">
-                        {fileName ? fileName : 'Clique para anexar arquivo'}
+                        {fileName ? fileName : 'Anexar documento (PDF ou imagem)'}
                       </span>
-                      <span className="file-subtitle">Controle de upload (PDF, JPG, PNG até 10MB)</span>
                     </div>
-                    {fileName && (
-                      <span className="file-selected-badge">Anexado</span>
-                    )}
                   </label>
                 </div>
-                <small className="form-help">Envio de arquivo comprobatório de titulação.</small>
               </div>
             </div>
           </div>
@@ -241,12 +219,12 @@ export default function MedicoForm() {
           {/* Barra de Ações */}
           <div className="form-actions-bar">
             <button type="submit" className="btn-primary">
-              <Save size={18} />
+              <Save size={17} />
               <span>Salvar Especialista</span>
             </button>
             <button type="button" onClick={handleReset} className="btn-secondary">
-              <RotateCcw size={16} />
-              <span>Limpar Formulário</span>
+              <RotateCcw size={15} />
+              <span>Limpar</span>
             </button>
           </div>
         </form>

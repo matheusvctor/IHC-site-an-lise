@@ -3,13 +3,7 @@ import { useClinic } from '../../context/ClinicContext';
 import {
   Save,
   RotateCcw,
-  CalendarCheck,
-  UserCheck,
-  Clock,
-  Link,
-  Activity,
-  FileText,
-  Video
+  CalendarCheck
 } from 'lucide-react';
 
 export default function AgendamentoForm() {
@@ -25,11 +19,11 @@ export default function AgendamentoForm() {
   });
 
   const getPainBadgeInfo = (val) => {
-    if (val === 0) return { text: 'Nível 0 • Ausência de dor', className: 'pain-0', emoji: '🟢' };
-    if (val <= 3) return { text: `Nível ${val} • Dor leve e tolerável`, className: 'pain-0', emoji: '🟢' };
-    if (val <= 6) return { text: `Nível ${val} • Dor moderada (interfere na rotina)`, className: 'pain-1', emoji: '🟡' };
-    if (val <= 8) return { text: `Nível ${val} • Dor intensa e incapacitante`, className: 'pain-2', emoji: '🟠' };
-    return { text: `Nível ${val} • Dor extrema / Emergencial`, className: 'pain-2', emoji: '🔴' };
+    if (val === 0) return { text: 'Nível 0 • Sem dor', className: 'pain-0', emoji: '🟢' };
+    if (val <= 3) return { text: `Nível ${val} • Leve`, className: 'pain-0', emoji: '🟢' };
+    if (val <= 6) return { text: `Nível ${val} • Moderada`, className: 'pain-1', emoji: '🟡' };
+    if (val <= 8) return { text: `Nível ${val} • Intensa`, className: 'pain-2', emoji: '🟠' };
+    return { text: `Nível ${val} • Extrema`, className: 'pain-2', emoji: '🔴' };
   };
 
   const handleSubmit = (e) => {
@@ -62,34 +56,26 @@ export default function AgendamentoForm() {
       <div className="form-container">
         {/* Cabeçalho */}
         <div className="form-header">
-          <div className="form-header-badge">
-            <span className="badge-dot"></span>
-            <span>Cadastro 03 de 03 • 5 Campos (Variabilidade Máxima)</span>
-          </div>
-          <h2>Agendamento de Consulta & Triagem</h2>
-          <p>
-            Marcação de atendimento demonstrando variabilidade de controles:
-            campos dos tipos <code>select</code>, <code>time</code>, <code>url</code>, <code>range</code> e <code>textarea</code>.
-          </p>
+          <h2>Agendamento de Consulta</h2>
+          <p>Marque o atendimento e registre a triagem preliminar do paciente.</p>
         </div>
 
         <form onSubmit={handleSubmit} noValidate>
           <div className="form-section-card">
             <div className="form-section-title">
               <div className="section-icon-box bg-purple-subtle text-purple-600">
-                <CalendarCheck size={20} />
+                <CalendarCheck size={18} />
               </div>
               <div className="section-title-text">
-                <h3>Vínculo de Atendimento, Horário e Triagem Sintomática</h3>
-                <span>Selecione os participantes, defina o horário, link virtual, dor relatada e queixa</span>
+                <h3>Dados do Agendamento & Triagem</h3>
               </div>
             </div>
 
             <div className="form-grid-2">
-              {/* Campo 1: Paciente e Médico (tag <select>) */}
+              {/* Campo 1: Paciente (select) */}
               <div className="form-group">
                 <label htmlFor="agdPaciente" className="form-label">
-                  Paciente Cadastrado <span className="required">*</span>
+                  Paciente <span className="required">*</span>
                 </label>
                 <select
                   id="agdPaciente"
@@ -98,28 +84,27 @@ export default function AgendamentoForm() {
                   onChange={(e) => setFormData(prev => ({ ...prev, pacienteId: e.target.value }))}
                   required
                 >
-                  <option value="">Selecione o paciente cadastrado...</option>
+                  <option value="">Selecione o paciente...</option>
                   {pacientes.map(p => (
                     <option key={p.id} value={p.id}>
-                      {p.nome} (Tel: {p.telefone})
+                      {p.nome}
                     </option>
                   ))}
                 </select>
-                {pacientes.length === 0 ? (
+                {pacientes.length === 0 && (
                   <small className="form-help text-amber-600">
                     Nenhum paciente cadastrado.{' '}
                     <button type="button" onClick={() => setActiveTab('cad-paciente')} className="underline font-semibold">
-                      Cadastrar paciente agora
+                      Cadastrar agora
                     </button>.
                   </small>
-                ) : (
-                  <small className="form-help">Seleção dinâmica via menu suspenso.</small>
                 )}
               </div>
 
+              {/* Campo 2: Médico (select) */}
               <div className="form-group">
                 <label htmlFor="agdMedico" className="form-label">
-                  Profissional de Saúde Responsável <span className="required">*</span>
+                  Profissional de Saúde <span className="required">*</span>
                 </label>
                 <select
                   id="agdMedico"
@@ -128,31 +113,29 @@ export default function AgendamentoForm() {
                   onChange={(e) => setFormData(prev => ({ ...prev, medicoId: e.target.value }))}
                   required
                 >
-                  <option value="">Selecione o profissional...</option>
+                  <option value="">Selecione o médico...</option>
                   {medicos.map(m => (
                     <option key={m.id} value={m.id}>
                       {m.nome} — {m.especialidade}
                     </option>
                   ))}
                 </select>
-                {medicos.length === 0 ? (
+                {medicos.length === 0 && (
                   <small className="form-help text-amber-600">
                     Nenhum médico cadastrado.{' '}
                     <button type="button" onClick={() => setActiveTab('cad-medico')} className="underline font-semibold">
-                      Cadastrar profissional agora
+                      Cadastrar agora
                     </button>.
                   </small>
-                ) : (
-                  <small className="form-help">Especialista que conduzirá a consulta.</small>
                 )}
               </div>
             </div>
 
             <div className="form-grid-2">
-              {/* Campo 2: Horário da Consulta (type="time") */}
+              {/* Campo 3: Horário (time) */}
               <div className="form-group">
                 <label htmlFor="agdHora" className="form-label">
-                  Horário de Início do Atendimento <span className="required">*</span>
+                  Horário da Consulta <span className="required">*</span>
                 </label>
                 <input
                   type="time"
@@ -162,10 +145,9 @@ export default function AgendamentoForm() {
                   onChange={(e) => setFormData(prev => ({ ...prev, hora: e.target.value }))}
                   required
                 />
-                <small className="form-help">Controle de horário nativo HTML5 (HH:mm).</small>
               </div>
 
-              {/* Campo 3: Link da Sala Virtual (type="url") */}
+              {/* Campo 4: Link (url) */}
               <div className="form-group">
                 <label htmlFor="agdLink" className="form-label">
                   Link da Sala Virtual (Telemedicina)
@@ -178,14 +160,13 @@ export default function AgendamentoForm() {
                   value={formData.linkTeleconsulta}
                   onChange={(e) => setFormData(prev => ({ ...prev, linkTeleconsulta: e.target.value }))}
                 />
-                <small className="form-help">Controle de validação de URL com protocolo web (https://).</small>
               </div>
             </div>
 
-            {/* Campo 4: Escala de Dor EVA (type="range") */}
+            {/* Campo 5: Escala de Dor (range) */}
             <div className="form-group mt-2">
               <label htmlFor="agdNivelDor" className="form-label">
-                Escala Analógica de Dor Relatada (EVA 0 a 10)
+                Nível de Dor Relatado (Escala EVA 0 a 10)
               </label>
               <div className="pain-scale-box">
                 <input
@@ -204,36 +185,34 @@ export default function AgendamentoForm() {
                   </span>
                 </div>
               </div>
-              <small className="form-help">Controle deslizante (range slider) com feedback visual reativo de severidade.</small>
             </div>
 
-            {/* Campo 5: Queixa Principal e Sintomas (tag <textarea>) */}
+            {/* Campo 6: Queixa Principal (textarea) */}
             <div className="form-group mt-3">
               <label htmlFor="agdObservacoes" className="form-label">
-                Queixa Principal e Sintomas do Paciente <span className="required">*</span>
+                Queixa Principal e Sintomas <span className="required">*</span>
               </label>
               <textarea
                 id="agdObservacoes"
                 rows="3"
                 className="form-control"
-                placeholder="Descreva detalhadamente as queixas relatadas pelo paciente, tempo de evolução e sintomas..."
+                placeholder="Descreva brevemente os sintomas relatados pelo paciente..."
                 value={formData.observacoes}
                 onChange={(e) => setFormData(prev => ({ ...prev, observacoes: e.target.value }))}
                 required
               />
-              <small className="form-help">Controle de texto em múltiplas linhas (textarea) para anotações clínicas.</small>
             </div>
           </div>
 
           {/* Barra de Ações */}
           <div className="form-actions-bar">
             <button type="submit" className="btn-primary">
-              <Save size={18} />
+              <Save size={17} />
               <span>Confirmar Agendamento</span>
             </button>
             <button type="button" onClick={handleReset} className="btn-secondary">
-              <RotateCcw size={16} />
-              <span>Limpar Formulário</span>
+              <RotateCcw size={15} />
+              <span>Limpar</span>
             </button>
           </div>
         </form>

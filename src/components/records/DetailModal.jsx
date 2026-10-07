@@ -1,7 +1,7 @@
 import React from 'react';
 import { useClinic } from '../../context/ClinicContext';
 import { formatDateBR } from '../../utils/formatters';
-import { X, FileText, User, Stethoscope, Calendar, Video, CheckCircle2 } from 'lucide-react';
+import { X, FileText, User, Stethoscope, Calendar } from 'lucide-react';
 
 export default function DetailModal() {
   const { selectedDetail, setSelectedDetail } = useClinic();
@@ -10,42 +10,39 @@ export default function DetailModal() {
 
   const { type, data } = selectedDetail;
 
-  let title = 'Ficha Completa do Registro';
-  let badgeText = 'Registro Local';
+  let title = 'Ficha do Registro';
   let IconComponent = FileText;
   let rows = [];
 
   if (type === 'paciente') {
-    title = `Ficha do Paciente: ${data.nome}`;
-    badgeText = 'Cadastro 01 • Paciente (6 Campos)';
+    title = `Paciente: ${data.nome}`;
     IconComponent = User;
     rows = [
-      { label: 'Nome Completo (text)', value: data.nome },
-      { label: 'Data de Nascimento (date)', value: formatDateBR(data.dataNasc) },
-      { label: 'Telefone Celular (tel)', value: <span className="font-mono">{data.telefone}</span> },
-      { label: 'E-mail de Contato (email)', value: data.email },
-      { label: 'Sexo Biológico (radio)', value: <span className="badge-tag badge-purple">{data.sexo}</span> },
+      { label: 'Nome Completo', value: data.nome },
+      { label: 'Data de Nascimento', value: formatDateBR(data.dataNasc) },
+      { label: 'Telefone Celular', value: <span className="font-mono">{data.telefone}</span> },
+      { label: 'E-mail', value: data.email },
+      { label: 'Sexo Biológico', value: <span className="badge-tag badge-purple">{data.sexo}</span> },
       {
-        label: 'Plano / Convênio (checkbox)',
+        label: 'Plano / Convênio',
         value: (
           <span className={`badge-tag ${data.temConvenio ? 'badge-green' : 'badge-yellow'}`}>
-            {data.temConvenio ? 'Convênio Ativo' : 'Atendimento Particular'}
+            {data.temConvenio ? 'Convênio Ativo' : 'Particular'}
           </span>
         )
       },
       { label: 'Data do Cadastro', value: data.criadoEm || '-' }
     ];
   } else if (type === 'medico') {
-    title = `Ficha do Profissional: ${data.nome}`;
-    badgeText = 'Cadastro 02 • Especialista (5 Campos)';
+    title = `Especialista: ${data.nome}`;
     IconComponent = Stethoscope;
     rows = [
-      { label: 'Nome do Especialista (text)', value: data.nome },
-      { label: 'Registro de Conselho (text)', value: <code className="code-badge">{data.registro}</code> },
-      { label: 'Especialidade Médica (select)', value: <span className="badge-tag badge-blue">{data.especialidade}</span> },
-      { label: 'Experiência Clínica (number)', value: `${data.experiencia} anos` },
+      { label: 'Nome do Especialista', value: data.nome },
+      { label: 'Registro de Conselho', value: <code className="code-badge">{data.registro}</code> },
+      { label: 'Especialidade', value: <span className="badge-tag badge-blue">{data.especialidade}</span> },
+      { label: 'Experiência', value: `${data.experiencia} anos` },
       {
-        label: 'Cor na Agenda (color)',
+        label: 'Cor na Agenda',
         value: (
           <div className="flex items-center gap-2">
             <span className="color-dot" style={{ backgroundColor: data.corAgenda }}></span>
@@ -53,19 +50,18 @@ export default function DetailModal() {
           </div>
         )
       },
-      { label: 'Comprovante / RQE (file)', value: data.documento || 'Sem anexo' },
+      { label: 'Comprovante / RQE', value: data.documento || 'Sem anexo' },
       { label: 'Data de Cadastro', value: data.criadoEm || '-' }
     ];
   } else if (type === 'agendamento') {
-    title = `Ficha do Agendamento: #${data.id}`;
-    badgeText = 'Cadastro 03 • Consulta & Triagem (5 Campos)';
+    title = `Consulta #${data.id}`;
     IconComponent = Calendar;
     rows = [
-      { label: 'Paciente (select)', value: <strong>{data.pacienteNome}</strong> },
-      { label: 'Profissional Responsável (select)', value: `${data.medicoNome} (${data.especialidade})` },
-      { label: 'Horário de Início (time)', value: <strong className="font-mono text-base">{data.hora}</strong> },
+      { label: 'Paciente', value: <strong>{data.pacienteNome}</strong> },
+      { label: 'Especialista', value: `${data.medicoNome} (${data.especialidade})` },
+      { label: 'Horário', value: <strong className="font-mono text-base">{data.hora}</strong> },
       {
-        label: 'Sala Virtual (url)',
+        label: 'Sala Virtual',
         value: (
           <a
             href={data.linkTeleconsulta}
@@ -77,8 +73,8 @@ export default function DetailModal() {
           </a>
         )
       },
-      { label: 'Nível de Dor EVA (range)', value: <strong className="font-mono">{data.nivelDor} / 10</strong> },
-      { label: 'Queixa Principal (textarea)', value: data.observacoes },
+      { label: 'Dor Relatada', value: <strong className="font-mono">{data.nivelDor} / 10</strong> },
+      { label: 'Queixa Principal', value: data.observacoes },
       { label: 'Data de Registro', value: data.criadoEm || '-' }
     ];
   }
@@ -92,7 +88,6 @@ export default function DetailModal() {
               <IconComponent size={20} className="text-blue-600" />
             </div>
             <div>
-              <span className="modal-badge-subtitle">{badgeText}</span>
               <h3>{title}</h3>
             </div>
           </div>
@@ -118,7 +113,7 @@ export default function DetailModal() {
 
         <div className="modal-footer">
           <button onClick={() => setSelectedDetail(null)} className="btn-primary">
-            <span>Fechar Visualização</span>
+            <span>Fechar</span>
           </button>
         </div>
       </div>
