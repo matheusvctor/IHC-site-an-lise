@@ -14,22 +14,23 @@ import {
 } from 'lucide-react';
 
 export default function IhcGuide() {
-  const fieldSummary = [
-    { type: 'type="text"', count: 11, examples: 'Nome (Pac.), Nome Social, CPF, Contato emergência, Endereço, Carteirinha, Nome (Méd.), CRM, Subespecialidade, Pressão arterial' },
-    { type: 'type="email"', count: 2, examples: 'E-mail do Paciente, E-mail Institucional do Médico' },
-    { type: 'type="tel"', count: 3, examples: 'Telefone Celular, Telefone de Emergência, Telefone Profissional/Ramal' },
-    { type: 'type="number"', count: 5, examples: 'Experiência clínica (anos), Valor consulta (R$), Duração estimada (min), Temperatura (°C)' },
-    { type: 'type="date"', count: 2, examples: 'Data de nascimento do paciente, Data do agendamento' },
-    { type: 'type="time"', count: 1, examples: 'Horário de início da consulta' },
-    { type: '<select> dropdown', count: 9, examples: 'Estado civil, Tipo sanguíneo, Titulação, UF conselho, Especialidade, Paciente dinâmico, Médico dinâmico, Consultório, Manchester, Forma pagamento' },
-    { type: 'type="radio"', count: 4, examples: 'Sexo biológico (3 opções), Turno de atendimento (4 opções), Modalidade consulta (4 opções), Formato presencial/online (2 opções)' },
-    { type: 'type="checkbox" (switch)', count: 2, examples: 'Possui convênio médico (Toggle), Habilitado para telemedicina (Toggle)' },
-    { type: 'type="checkbox" (grupo)', count: 2, examples: 'Condições prévias e alergias (5 itens), Dias da semana presenciais (6 itens)' },
-    { type: 'type="checkbox" simples', count: 1, examples: 'Enviar confirmação e lembretes por SMS/WhatsApp' },
-    { type: 'type="range" slider', count: 2, examples: 'Disponibilidade de plantão (1 a 5), Escala de dor EVA (0 a 10)' },
-    { type: 'type="color" picker', count: 1, examples: 'Cor de identificação na agenda médica' },
-    { type: 'type="file" upload', count: 3, examples: 'Documento com foto (RG/CNH), Comprovante do CRM/RQE, Encaminhamento / Exame prévio' },
-    { type: '<textarea> multilinha', count: 3, examples: 'Observações do prontuário, Mini-biografia do profissional, Queixa clínica e sintomas' }
+  const camposInventory = [
+    { num: 1, form: '1. Paciente', campo: 'Nome Completo', tipo: 'type="text"', tag: 'text', icon: '🔤', desc: 'Entrada textual livre para identificação civil.' },
+    { num: 2, form: '1. Paciente', campo: 'Data de Nascimento', tipo: 'type="date"', tag: 'date', icon: '📅', desc: 'Seletor de calendário nativo para datação precisa.' },
+    { num: 3, form: '1. Paciente', campo: 'Telefone Celular', tipo: 'type="tel"', tag: 'tel', icon: '📱', desc: 'Teclado telefônico numérico com máscara.' },
+    { num: 4, form: '1. Paciente', campo: 'E-mail do Paciente', tipo: 'type="email"', tag: 'email', icon: '✉️', desc: 'Validação sintática automática de endereço eletrônico.' },
+    { num: 5, form: '1. Paciente', campo: 'Sexo Biológico', tipo: 'type="radio"', tag: 'radio', icon: '🔘', desc: 'Grupo de opções exclusivas (Feminino/Masculino/Outro).' },
+    { num: 6, form: '1. Paciente', campo: 'Possui Convênio?', tipo: 'type="checkbox" (switch)', tag: 'checkbox', icon: '🎚️', desc: 'Alternância booleana com chave deslizante moderna.' },
+    { num: 7, form: '2. Médico', campo: 'Nome e CRM', tipo: 'type="text"', tag: 'text', icon: '🔤', desc: 'Registro formal com máscara de conselho regional.' },
+    { num: 8, form: '2. Médico', campo: 'Especialidade Médica', tipo: '<select> dropdown', tag: 'select', icon: '🔽', desc: 'Lista suspensa de opções pré-definidas padronizadas.' },
+    { num: 9, form: '2. Médico', campo: 'Tempo de Experiência', tipo: 'type="number"', tag: 'number', icon: '🔢', desc: 'Controle numérico incremental com limites (min=0, max=60).' },
+    { num: 10, form: '2. Médico', campo: 'Cor na Agenda', tipo: 'type="color"', tag: 'color', icon: '🎨', desc: 'Seletor nativo de cor hexadecimal (color picker).' },
+    { num: 11, form: '2. Médico', campo: 'Comprovante / Diploma', tipo: 'type="file"', tag: 'file', icon: '📎', desc: 'Controle de upload de arquivos com dropzone estilizada.' },
+    { num: 12, form: '3. Agendamento', campo: 'Vínculo do Paciente', tipo: '<select> dinâmico', tag: 'select', icon: '👥', desc: 'Menu suspenso alimentado dinamicamente pelos dados salvos.' },
+    { num: 13, form: '3. Agendamento', campo: 'Horário da Consulta', tipo: 'type="time"', tag: 'time', icon: '⏰', desc: 'Seletor de tempo nativo no formato HH:mm.' },
+    { num: 14, form: '3. Agendamento', campo: 'Link da Teleconsulta', tipo: 'type="url"', tag: 'url', icon: '🔗', desc: 'Entrada com validação estrita de protocolo de link web.' },
+    { num: 15, form: '3. Agendamento', campo: 'Nível de Dor (EVA)', tipo: 'type="range"', tag: 'range', icon: '🎚️', desc: 'Slider analógico de 0 a 10 com badge semafórico reativo.' },
+    { num: 16, form: '3. Agendamento', campo: 'Queixa Principal', tipo: '<textarea>', tag: 'textarea', icon: '📝', desc: 'Área de texto livre multilinha para descrição sintomática.' }
   ];
 
   return (
@@ -47,7 +48,8 @@ export default function IhcGuide() {
             </div>
           </div>
           <p>
-            Inventário técnico de conformidade demonstrando o atendimento rigoroso de <strong>no mínimo 15 campos em CADA UM dos 3 formulários</strong> e a alta diversidade de controles HTML5 (critério de nota máxima).
+            Demonstração técnica de atendimento estrito aos requisitos do enunciado: <strong>no mínimo 3 cadastros</strong>,{' '}
+            <strong>no mínimo 15 campos de preenchimento ao todo</strong> (implementados 16) e <strong>máxima variabilidade de controles</strong> (14 tipos distintos em 16 campos) para atingir a nota máxima.
           </p>
         </div>
 
@@ -60,16 +62,16 @@ export default function IhcGuide() {
             </h4>
             <ul className="space-y-2.5 text-sm text-slate-600">
               <li>
-                <strong>3 Cadastros Independentes:</strong> Pacientes (17 campos), Especialistas (17 campos) e Agendamentos (16 campos).
+                <strong>3 Cadastros no Mínimo:</strong> 1. Paciente • 2. Especialista • 3. Agendamento & Triagem.
               </li>
               <li>
-                <strong>Mínimo de 15 Campos por Formulário:</strong> Cada tela supera individualmente a exigência mínima de 15 campos.
+                <strong>15 Campos de Preenchimento (Ao Todo):</strong> Implementados <strong>16 campos</strong> distribuídos de forma equilibrada (6 + 5 + 5).
               </li>
               <li>
-                <strong>Total de 50 Campos no Sistema:</strong> Riqueza e complexidade completas para uma análise ergonômica aprofundada.
+                <strong>Máxima Variabilidade de Tipos (Critério de Nota Máxima):</strong> Quase nenhum tipo se repete! <strong>14 tipos HTML5 distintos</strong> distribuídos nos 16 campos.
               </li>
               <li>
-                <strong>14 Tipos Distintos de Controles HTML5:</strong> Garantia da nota máxima no critério de variabilidade do enunciado.
+                <strong>Software Funcional:</strong> Aplicação React 18 moderna, com persistência local, busca e validações.
               </li>
             </ul>
           </div>
@@ -80,46 +82,52 @@ export default function IhcGuide() {
               Variabilidade de Controles (14 Tipos Distintos)
             </h4>
             <div className="tag-cloud">
-              <span className="type-pill">text (11)</span>
-              <span className="type-pill">email (2)</span>
-              <span className="type-pill">tel (3)</span>
-              <span className="type-pill">number (5)</span>
-              <span className="type-pill">date (2)</span>
-              <span className="type-pill">time (1)</span>
-              <span className="type-pill">&lt;select&gt; (9)</span>
-              <span className="type-pill">radio (4 grupos)</span>
-              <span className="type-pill">checkbox switch (2)</span>
-              <span className="type-pill">checkbox múltiplo (2 grupos)</span>
-              <span className="type-pill">checkbox simples (1)</span>
-              <span className="type-pill">range slider (2)</span>
-              <span className="type-pill">color picker (1)</span>
-              <span className="type-pill">file upload (3)</span>
-              <span className="type-pill">&lt;textarea&gt; (3)</span>
+              <span className="type-pill">text</span>
+              <span className="type-pill">date</span>
+              <span className="type-pill">tel</span>
+              <span className="type-pill">email</span>
+              <span className="type-pill">radio</span>
+              <span className="type-pill">checkbox (switch)</span>
+              <span className="type-pill">&lt;select&gt;</span>
+              <span className="type-pill">number</span>
+              <span className="type-pill">color</span>
+              <span className="type-pill">file</span>
+              <span className="type-pill">time</span>
+              <span className="type-pill">url</span>
+              <span className="type-pill">range (slider)</span>
+              <span className="type-pill">&lt;textarea&gt;</span>
             </div>
+            <p className="text-xs text-slate-500 mt-3">
+              * Atendendo à regra do professor: quanto maior a variabilidade de tipos de campos, maior a possibilidade de nota máxima.
+            </p>
           </div>
         </div>
 
-        {/* Tabela de Mapeamento dos 50 Campos */}
+        {/* Tabela de Mapeamento dos 16 Campos */}
         <div className="mb-6">
           <div className="section-title-simple">
             <FileText size={18} className="text-blue-600" />
-            <h3>Inventário dos 50 Campos de Preenchimento</h3>
+            <h3>Inventário dos 16 Campos e Seus Respectivos Tipos HTML5</h3>
           </div>
           <div className="table-responsive border border-slate-200 rounded-lg overflow-hidden">
             <table className="data-table">
               <thead>
                 <tr>
-                  <th>Tipo de Controle HTML</th>
-                  <th>Quantidade</th>
-                  <th>Exemplos de Campos no MedFlow</th>
+                  <th>#</th>
+                  <th>Formulário</th>
+                  <th>Campo de Preenchimento</th>
+                  <th>Tipo de Controle HTML5</th>
+                  <th>Finalidade Ergonômica</th>
                 </tr>
               </thead>
               <tbody>
-                {fieldSummary.map((f, i) => (
-                  <tr key={i}>
-                    <td><code className="code-badge">{f.type}</code></td>
-                    <td><strong>{f.count}</strong></td>
-                    <td>{f.examples}</td>
+                {camposInventory.map((f) => (
+                  <tr key={f.num}>
+                    <td><strong>{f.num}</strong></td>
+                    <td><span className="badge-tag badge-blue">{f.form}</span></td>
+                    <td><strong>{f.campo}</strong></td>
+                    <td><code className="code-badge">{f.tipo}</code></td>
+                    <td className="text-slate-600 text-sm">{f.desc}</td>
                   </tr>
                 ))}
               </tbody>
@@ -136,7 +144,7 @@ export default function IhcGuide() {
             </h3>
           </div>
           <p className="text-sm text-emerald-800 mb-4">
-            Com todos os formulários implementados contendo 15+ campos reais, o sistema está preparado para a fase seguinte:
+            Com os 3 formulários ajustados em 16 campos totais e alta variabilidade de controles, o sistema está pronto para a etapa seguinte da atividade:
           </p>
 
           <div className="steps-grid">

@@ -10,18 +10,18 @@ const TITULOS_ABAS = {
   },
   'cad-paciente': {
     titulo: 'Cadastro de Paciente',
-    subtitulo: 'Abertura de prontuário, identificação civil, contatos e cobertura de saúde',
-    crumb: 'Novo Paciente (17 campos)'
+    subtitulo: 'Abertura de prontuário (6 campos: text, date, tel, email, radio, switch)',
+    crumb: 'Novo Paciente'
   },
   'cad-medico': {
     titulo: 'Cadastro de Profissional de Saúde',
-    subtitulo: 'Credenciamento profissional, parametrização de agenda e qualificações',
-    crumb: 'Novo Especialista (17 campos)'
+    subtitulo: 'Credenciamento clínico (5 campos: text, select, number, color, file)',
+    crumb: 'Novo Especialista'
   },
   'cad-agendamento': {
     titulo: 'Agendamento & Triagem Clínica',
-    subtitulo: 'Marcação com classificação Manchester e escala analógica de dor (EVA)',
-    crumb: 'Nova Consulta (16 campos)'
+    subtitulo: 'Marcação de consulta (5 campos: select, time, url, range, textarea)',
+    crumb: 'Nova Consulta'
   },
   'registros': {
     titulo: 'Banco de Registros Cadastrados',
@@ -30,7 +30,7 @@ const TITULOS_ABAS = {
   },
   'ihc-info': {
     titulo: 'Mapeamento IHC • ISO 9241-17',
-    subtitulo: 'Inventário completo dos 50 campos de entrada e diretrizes para avaliação ergonômica',
+    subtitulo: 'Inventário completo dos 16 campos e 14 tipos de controles HTML5 distintos',
     crumb: 'Norma ISO 9241-17'
   }
 };
@@ -71,7 +71,7 @@ export default function Header() {
             <span className="pulse-dot"></span>
             <span className="pulse-ring"></span>
           </span>
-          <span className="status-text">Online • ISO 9241-17</span>
+          <span className="status-text">Online • 14 Tipos HTML5</span>
         </div>
 
         {/* Contador Rápido de Registros */}

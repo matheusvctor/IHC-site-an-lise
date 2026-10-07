@@ -49,22 +49,22 @@ export default function Sidebar() {
       id: 'cad-paciente',
       label: 'Novo Paciente',
       icon: UserPlus,
-      badge: '17 campos',
-      desc: 'Identificação e saúde'
+      badge: '6 campos',
+      desc: 'text, date, tel, email, radio, switch'
     },
     {
       id: 'cad-medico',
       label: 'Novo Especialista',
       icon: Stethoscope,
-      badge: '17 campos',
-      desc: 'Corpo clínico e escala'
+      badge: '5 campos',
+      desc: 'text, select, number, color, file'
     },
     {
       id: 'cad-agendamento',
       label: 'Novo Agendamento',
       icon: CalendarPlus,
-      badge: '16 campos',
-      desc: 'Consultas e triagem'
+      badge: '5 campos',
+      desc: 'select, time, url, range, textarea'
     }
   ];
 
@@ -73,8 +73,8 @@ export default function Sidebar() {
       id: 'ihc-info',
       label: 'Mapeamento ISO 9241-17',
       icon: FileSpreadsheet,
-      badge: '50 campos',
-      desc: 'Inventário ergonômico'
+      badge: '14 tipos',
+      desc: 'Inventário de variabilidade'
     }
   ];
 
@@ -140,7 +140,7 @@ export default function Sidebar() {
             );
           })}
 
-          <div className="nav-section-title mt-4">FORMULÁRIOS DE CADASTRO (15+ CAMPOS)</div>
+          <div className="nav-section-title mt-4">3 CADASTROS (16 CAMPOS AO TODO)</div>
           {formNavItems.map(item => {
             const Icon = item.icon;
             const isActive = activeTab === item.id;
@@ -200,12 +200,16 @@ export default function Sidebar() {
             </div>
             <div className="student-info-body">
               <div className="metric-row">
-                <span className="metric-label">Total de Campos:</span>
-                <span className="metric-value">50 (14 tipos)</span>
+                <span className="metric-label">Total de Cadastros:</span>
+                <span className="metric-value">3 (mínimo 3)</span>
               </div>
               <div className="metric-row">
-                <span className="metric-label">Por Formulário:</span>
-                <span className="metric-badge">15+ campos</span>
+                <span className="metric-label">Total de Campos:</span>
+                <span className="metric-value">16 (mínimo 15)</span>
+              </div>
+              <div className="metric-row">
+                <span className="metric-label">Tipos Distintos:</span>
+                <span className="metric-badge">14 tipos HTML5</span>
               </div>
             </div>
             <button

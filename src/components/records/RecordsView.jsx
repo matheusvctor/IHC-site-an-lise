@@ -1,6 +1,6 @@
 import React, { useState } from 'react';
 import { useClinic } from '../../context/ClinicContext';
-import { formatDateBR, getPriorityBadgeColor } from '../../utils/formatters';
+import { formatDateBR } from '../../utils/formatters';
 import {
   Search,
   Eye,
@@ -11,10 +11,9 @@ import {
   Users,
   Calendar,
   AlertCircle,
-  FileText,
-  Filter,
-  CheckCircle2,
-  X
+  Video,
+  X,
+  FileCheck
 } from 'lucide-react';
 
 export default function RecordsView() {
@@ -35,8 +34,8 @@ export default function RecordsView() {
 
   const filteredPacientes = pacientes.filter(p =>
     p.nome.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    p.cpf.includes(searchTerm) ||
-    p.email.toLowerCase().includes(searchTerm.toLowerCase())
+    p.email.toLowerCase().includes(searchTerm.toLowerCase()) ||
+    p.telefone.includes(searchTerm)
   );
 
   const filteredMedicos = medicos.filter(m =>
@@ -48,10 +47,9 @@ export default function RecordsView() {
   const filteredAgendamentos = agendamentos.filter(a =>
     a.pacienteNome.toLowerCase().includes(searchTerm.toLowerCase()) ||
     a.medicoNome.toLowerCase().includes(searchTerm.toLowerCase()) ||
-    a.data.includes(searchTerm)
+    a.hora.includes(searchTerm)
   );
 
-  // Helper para obter iniciais elegantes
   const getInitials = (name) => {
     if (!name) return '??';
     const parts = name.replace(/^(Dr\.|Dra\.)\s*/i, '').trim().split(' ');
@@ -65,10 +63,10 @@ export default function RecordsView() {
         {/* Cabeçalho da Lista */}
         <div className="records-header">
           <div className="records-title-group">
-            <div className="records-badge">
-              <Database size={13} />
-              <span>Memória LocalStorage</span>
-            </div>
+            <span className="form-header-badge">
+              <span className="badge-dot"></span>
+              Banco Local • Sincronizado com Formulários
+            </span>
             <h2>Banco de Registros Cadastrados</h2>
             <p>Gerencie dados clínicos armazenados localmente com busca instantânea e filtros por categoria.</p>
           </div>
@@ -79,7 +77,7 @@ export default function RecordsView() {
               <Search size={16} className="search-icon" />
               <input
                 type="text"
-                placeholder="Buscar por nome, documento ou especialidade..."
+                placeholder="Buscar por nome, CRM ou contato..."
                 value={searchTerm}
                 onChange={(e) => setSearchTerm(e.target.value)}
                 className="search-input"
@@ -135,10 +133,9 @@ export default function RecordsView() {
                 <thead>
                   <tr>
                     <th>Paciente</th>
-                    <th>CPF</th>
                     <th>Nascimento</th>
-                    <th>Contato</th>
-                    <th>Tipo Sang.</th>
+                    <th>Contato (Telefone / E-mail)</th>
+                    <th>Sexo</th>
                     <th>Plano / Convênio</th>
                     <th className="text-right">Ações</th>
                   </tr>
@@ -146,7 +143,7 @@ export default function RecordsView() {
                 <tbody>
                   {filteredPacientes.length === 0 ? (
                     <tr>
-                      <td colSpan="7" className="empty-state">
+                      <td colSpan="6" className="empty-state">
                         <div className="empty-state-box">
                           <AlertCircle size={38} className="text-slate-300 mx-auto mb-2" />
                           <p className="font-semibold text-slate-700">Nenhum paciente localizado</p>
@@ -174,21 +171,20 @@ export default function RecordsView() {
                             </div>
                             <div className="user-name-block">
                               <span className="font-bold text-slate-900">{p.nome}</span>
-                              <span className="text-xs text-slate-500">{p.nomeSocial ? `(${p.nomeSocial}) • ` : ''}{p.sexo}</span>
+                              <span className="text-xs text-slate-500 font-mono">ID: {p.id}</span>
                             </div>
                           </div>
                         </td>
-                        <td><code className="code-badge">{p.cpf}</code></td>
                         <td>{formatDateBR(p.dataNasc)}</td>
                         <td>
                           <div className="contact-cell">
-                            <span className="font-medium text-slate-800">{p.telefone}</span>
+                            <span className="font-medium text-slate-800 font-mono">{p.telefone}</span>
                             <span className="text-xs text-slate-500">{p.email}</span>
                           </div>
                         </td>
                         <td>
-                          <span className="badge-tag badge-purple font-mono">
-                            {p.tipoSanguineo || 'N/I'}
+                          <span className="badge-tag badge-purple">
+                            {p.sexo}
                           </span>
                         </td>
                         <td>
@@ -241,8 +237,8 @@ export default function RecordsView() {
                     <th>CRM / Registro</th>
                     <th>Especialidade</th>
                     <th>Experiência</th>
-                    <th>Disponibilidade</th>
-                    <th>Valor Consulta</th>
+                    <th>Cor Agenda</th>
+                    <th>Comprovante</th>
                     <th className="text-right">Ações</th>
                   </tr>
                 </thead>
@@ -280,10 +276,7 @@ export default function RecordsView() {
                             </div>
                             <div className="user-name-block">
                               <span className="font-bold text-slate-900">{m.nome}</span>
-                              <div className="flex items-center gap-1.5 mt-0.5">
-                                <span className="color-dot" style={{ backgroundColor: m.corAgenda }}></span>
-                                <span className="text-xs text-slate-500 font-mono">{m.corAgenda}</span>
-                              </div>
+                              <span className="text-xs text-slate-500 font-mono">ID: {m.id}</span>
                             </div>
                           </div>
                         </td>
@@ -293,14 +286,17 @@ export default function RecordsView() {
                             {m.especialidade}
                           </span>
                         </td>
-                        <td>{typeof m.experiencia === 'number' ? `${m.experiencia} anos` : m.experiencia}</td>
+                        <td>{m.experiencia} anos</td>
                         <td>
-                          <span className="badge-tag badge-gray">
-                            {m.disponibilidade}
-                          </span>
+                          <div className="flex items-center gap-1.5">
+                            <span className="color-dot" style={{ backgroundColor: m.corAgenda }}></span>
+                            <span className="text-xs text-slate-500 font-mono">{m.corAgenda}</span>
+                          </div>
                         </td>
                         <td>
-                          <strong className="text-slate-900 font-mono">R$ {m.valorConsulta}</strong>
+                          <span className="badge-tag badge-gray">
+                            {m.documento || 'Sem anexo'}
+                          </span>
                         </td>
                         <td className="text-right">
                           <div className="actions-cell">
@@ -343,24 +339,23 @@ export default function RecordsView() {
               <table className="data-table">
                 <thead>
                   <tr>
-                    <th>Data & Horário</th>
+                    <th>Horário</th>
                     <th>Paciente</th>
                     <th>Profissional</th>
-                    <th>Modalidade</th>
+                    <th>Teleconsulta (URL)</th>
                     <th>Dor (EVA)</th>
-                    <th>Triagem Manchester</th>
                     <th className="text-right">Ações</th>
                   </tr>
                 </thead>
                 <tbody>
                   {filteredAgendamentos.length === 0 ? (
                     <tr>
-                      <td colSpan="7" className="empty-state">
+                      <td colSpan="6" className="empty-state">
                         <div className="empty-state-box">
                           <AlertCircle size={38} className="text-slate-300 mx-auto mb-2" />
                           <p className="font-semibold text-slate-700">Nenhum agendamento agendado</p>
                           <span className="text-sm text-slate-500">
-                            {searchTerm ? 'Nenhum resultado com esse filtro.' : 'Agende a primeira consulta selecionando paciente e médico.'}
+                            {searchTerm ? 'Nenhum resultado com esse filtro.' : 'Agende a primeira consulta vinculando paciente e médico.'}
                           </span>
                           {!searchTerm && (
                             <button
@@ -377,10 +372,7 @@ export default function RecordsView() {
                     filteredAgendamentos.map(a => (
                       <tr key={a.id}>
                         <td>
-                          <div className="datetime-cell">
-                            <strong className="text-slate-900">{formatDateBR(a.data)}</strong>
-                            <span className="text-xs text-slate-500 font-mono">às {a.hora}</span>
-                          </div>
+                          <strong className="text-slate-900 font-mono text-base">{a.hora}</strong>
                         </td>
                         <td>
                           <strong className="text-slate-800">{a.pacienteNome}</strong>
@@ -395,18 +387,19 @@ export default function RecordsView() {
                           </div>
                         </td>
                         <td>
-                          <span className="badge-tag badge-blue font-medium">
-                            {a.tipo}
-                          </span>
+                          <a
+                            href={a.linkTeleconsulta}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            className="inline-flex items-center gap-1 text-xs text-blue-600 hover:underline font-mono"
+                          >
+                            <Video size={13} />
+                            <span>Acessar Sala</span>
+                          </a>
                         </td>
                         <td>
                           <span className="font-bold text-slate-800 font-mono">
                             {a.nivelDor} / 10
-                          </span>
-                        </td>
-                        <td>
-                          <span className={`badge-tag ${getPriorityBadgeColor(a.prioridade)}`}>
-                            {a.prioridade}
                           </span>
                         </td>
                         <td className="text-right">
