@@ -1,71 +1,107 @@
-# MedFlow - Sistema de Gestão Clínica (React)
-> Trabalho Prático da Disciplina de **Interação Humano-Computador (IHC)**  
-> Avaliação Ergonômica de Diálogos por Preenchimento de Formulários (**ISO 9241-17**)
+# MedFlow — Sistema de Gestão Clínica & Telemedicina
+
+[![React](https://img.shields.io/badge/React-18.3-61dafb?logo=react&logoColor=black)](https://react.dev/)
+[![Vite](https://img.shields.io/badge/Vite-6.0-646cff?logo=vite&logoColor=white)](https://vitejs.dev/)
+[![CSS Moderno](https://img.shields.io/badge/Design-Obsidian_Glass-0ea5e9)](https://developer.mozilla.org/css)
+[![License](https://img.shields.io/badge/License-MIT-blue.svg)](LICENSE)
+
+O **MedFlow** é uma aplicação web moderna e intuitiva voltada para a administração clínica, gestão de prontuários de pacientes, credenciamento de profissionais de saúde e agendamento de consultas presenciais e por telemedicina.
+
+Construído com foco em **ergonomia visual, alta usabilidade e clareza de dados**, o sistema proporciona uma experiência fluida para recepcionistas, profissionais de saúde e gestores de clínicas médicas.
 
 ---
 
-## 📌 1. Visão Geral do Projeto
+## 🌟 Principais Funcionalidades
 
-Este software foi desenvolvido em **React 18 + Vite** para atender com rigor às diretrizes do enunciado de IHC:
-- **No mínimo 3 cadastros independentes:** Paciente, Especialista e Agendamento & Triagem.
-- **No mínimo 15 campos de preenchimento ao todo:** Total de **16 campos** distribuídos de forma equilibrada (6 + 5 + 5).
-- **Máxima variabilidade de controles HTML5 (Critério de nota máxima):** Distribuímos **14 tipos distintos de controles** nos 16 campos, evitando repetição para demonstrar domínio completo de componentes de entrada.
+### 1. 👥 Gestão de Pacientes
+- Cadastro completo de identificação civil com máscaras automáticas (CPF e Telefone/WhatsApp).
+- Registro de data de nascimento, e-mail e sexo biológico.
+- Informações clínicas essenciais como **Tipo Sanguíneo** e modalidade de atendimento (Plano de Saúde vs. Atendimento Particular).
 
----
+### 2. 🩺 Credenciamento de Especialistas
+- Cadastro formal de médicos e especialistas com registro profissional (CRM/UF).
+- Seleção de especialidade médica e tempo de experiência profissional.
+- Parametrização de agenda: definição de turno de atendimento (Manhã, Tarde, Noite, Integral) e cor temática personalizada.
+- Anexo de documentos comprobatórios (diplomas, certificados e RQE) e ativação de disponibilidade para telemedicina.
 
-## 🎯 2. Conformidade com os Requisitos do Enunciado
+### 3. 📅 Agendamento & Triagem Clínica
+- Associação dinâmica e intuitiva entre pacientes e especialistas cadastrados.
+- Agendamento com seleção precisa de data e horário.
+- Suporte a consultas **Presenciais** e **Telemedicina** (com link direto para sala virtual).
+- Triagem preliminar de dor baseada na **Escala Visual Analógica (EVA de 0 a 10)** com indicadores semafóricos reativos.
+- Registro detalhado da queixa principal e histórico sintomático do paciente.
 
-| Requisito do Enunciado | Exigência Mínima | Implementado no MedFlow React | Situação |
-| :--- | :--- | :--- | :---: |
-| **Quantidade de Cadastros** | No mínimo 3 cadastros diferentes | **3 cadastros completos:**<br>1. Paciente (6 campos)<br>2. Profissional de Saúde (5 campos)<br>3. Agendamento & Triagem (5 campos) | ✅ **100% Atendido** |
-| **Campos de Preenchimento** | No mínimo 15 campos (ao todo) | **16 campos totais** (supera a meta mínima de 15 campos) | ✅ **100% Atendido** |
-| **Variabilidade dos Tipos de Campos** | Alta variabilidade para nota máxima | **14 tipos distintos de controles:**<br>`text`, `date`, `tel`, `email`, `radio`, `checkbox` (switch), `select`, `number`, `color`, `file`, `time`, `url`, `range`, `textarea` | 🏆 **Nota Máxima Garantida** |
-| **Produto Desenvolvido** | Software funcional pelo grupo | Aplicação React modular com persistência em `localStorage`, CRUD, busca, filtros e design responsivo moderno | ✅ **100% Funcional** |
-
----
-
-## 📝 3. Inventário Detalhado dos 16 Campos e Seus Tipos HTML5
-
-### 👤 Cadastro #1: Paciente (6 Campos • 6 Tipos Distintos)
-1. **Nome Completo** — `type="text"` (Texto livre para nome civil)
-2. **Data de Nascimento** — `type="date"` (Seletor de calendário nativo)
-3. **Telefone Celular (WhatsApp)** — `type="tel"` (Máscara telefônica)
-4. **E-mail do Paciente** — `type="email"` (Validação de formato de e-mail)
-5. **Sexo Biológico** — `type="radio"` (Opções exclusivas Feminino/Masculino/Outro)
-6. **Possui Convênio?** — `type="checkbox"` (Switch deslizante moderno)
+### 4. 🗄️ Central de Registros & Busca Rápida
+- Painel centralizado com abas de navegação rápida para Pacientes, Especialistas e Consultas.
+- Busca instantânea inteligente por nome, CPF, CRM, especialidade, contato ou data.
+- Fichas cadastrais completas exibidas em modais com layout estruturado.
+- Persistência de dados local segura (`localStorage`) com suporte a restauração e limpeza de dados.
 
 ---
 
-### 🩺 Cadastro #2: Profissional de Saúde (5 Campos • 5 Tipos Distintos)
-7. **Nome e CRM** — `type="text"` (Registro no conselho regional)
-8. **Especialidade Médica** — `<select>` (Menu dropdown suspenso)
-9. **Tempo de Experiência (anos)** — `type="number"` (Controle numérico incremental)
-10. **Cor de Identificação na Agenda** — `type="color"` (Color picker nativo HTML5)
-11. **Comprovante de Registro / Diploma** — `type="file"` (Dropzone de upload de arquivos)
+## 🛠️ Tecnologias Utilizadas
+
+- **React 18:** Arquitetura baseada em componentes funcionais e hooks modernos.
+- **Vite:** Ferramenta de build de alta performance com Hot Module Replacement (HMR).
+- **Lucide React:** Biblioteca de ícones vetoriais modernos e consistentes.
+- **Context API:** Gerenciamento de estado global reativo para sincronização em tempo real entre módulos.
+- **CSS3 Design System:** Tema escuro Obsidian na navegação lateral, acabamentos em glassmorphism, tipografia JetBrains Mono / Inter e responsividade completa para desktop, tablets e smartphones.
 
 ---
 
-### 📅 Cadastro #3: Agendamento & Consulta (5 Campos • 5 Tipos Distintos)
-12. **Vínculo do Paciente / Médico** — `<select>` (Dropdown dinâmico com os registros salvos)
-13. **Horário de Início da Consulta** — `type="time"` (Seletor nativo de horário HH:mm)
-14. **Link da Sala Virtual (Telemedicina)** — `type="url"` (Validação de protocolo web https://)
-15. **Escala Analógica de Dor (EVA 0 a 10)** — `type="range"` (Slider reativo com cores e severidade)
-16. **Queixa Principal e Sintomas** — `<textarea>` (Área de texto livre em múltiplas linhas)
+## 📂 Estrutura do Projeto
 
----
-
-## 🚀 4. Como Executar o Projeto
-
-No terminal do projeto (`c:\Users\zero\Downloads\IHC TRABALHO`):
-
-```bash
-# Iniciar o servidor de desenvolvimento:
-npm run dev
+```text
+├── src/
+│   ├── assets/              # Assets estáticos
+│   ├── components/
+│   │   ├── dashboard/       # Métricas gerais e atalhos rápidos
+│   │   ├── forms/           # Formulários de Paciente, Especialista e Agendamento
+│   │   ├── layout/          # Sidebar, Topbar, Toasts e estrutura da aplicação
+│   │   └── records/         # Listagens tabulares e modal de ficha detalhada
+│   ├── context/             # ClinicContext (provedor de estado global)
+│   ├── data/                # Dados mockados e dados iniciais
+│   ├── utils/               # Formatadores (CPF, Telefone, Datas)
+│   ├── App.jsx              # Componente raiz com navegação de abas
+│   ├── main.jsx             # Ponto de entrada da aplicação
+│   └── index.css            # Sistema de estilos e design tokens
+├── index.html               # Documento base HTML5
+├── package.json             # Dependências e scripts npm
+└── vite.config.js           # Configurações do Vite
 ```
 
-Abra o navegador no endereço exibido (geralmente `http://localhost:3000` ou `http://localhost:5173`).
+---
 
-Para gerar o build de produção:
+## 🚀 Como Executar o Projeto
+
+### Pré-requisitos
+Certifique-se de ter o [Node.js](https://nodejs.org/) (versão 18 ou superior) e o **npm** instalados.
+
+### 1. Clonar o repositório
+```bash
+git clone https://github.com/matheusvctor/IHC-site-an-lise.git
+cd IHC-site-an-lise
+```
+
+### 2. Instalar as dependências
+```bash
+npm install
+```
+
+### 3. Iniciar o servidor de desenvolvimento
+```bash
+npm run dev
+```
+Abra o navegador no endereço exibido no terminal (geralmente `http://localhost:5173` ou `http://localhost:3000`).
+
+### 4. Gerar build de produção
 ```bash
 npm run build
 ```
+Os arquivos otimizados para produção serão gerados no diretório `dist/`.
+
+---
+
+## 📄 Licença
+
+Este projeto está sob a licença [MIT](LICENSE).
